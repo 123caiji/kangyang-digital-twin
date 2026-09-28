@@ -87,6 +87,52 @@ node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 AI健康管家使用 OpenAI 兼容 API，通过上面的环境变量配置 `LLM_API_URL` / `LLM_API_KEY` / `LLM_MODEL`。
 密钥只从环境变量读取，`server/routes/ai.js` 中不再内置任何默认值。
 
+## 部署
+
+线上环境：<http://152.136.36.198> （腾讯云 CVM · OpenCloudOS 9.6 · 2C2G）
+
+| 项 | 位置 / 配置 |
+|---|---|
+| 项目目录 | `/opt/kangyang-twin` |
+| 前端静态产物 | `/opt/kangyang-twin/dist`（nginx 直接托管） |
+| 后端进程 | pm2 `kangyang-api` → `node server/index.js`（端口 3001） |
+| nginx 配置 | `/etc/nginx/conf.d/kangyang.conf`（80 端口，`/api` 反代到 127.0.0.1:3001） |
+| 环境变量 | `/opt/kangyang-twin/server/.env`（权限 600，不入 git） |
+| 部署备份 | `/opt/kangyang-backups/deploy-<时间戳>.tar.gz` |
+
+前端进程与 nginx 均已配置开机自启（`pm2-root` + `nginx` 的 systemd 服务均 enabled）。
+
+### 重新发布
+
+```bash
+# 本地构建
+npm run build
+
+# 上传（凭据从环境变量读取，不落盘）
+export DEPLOY_HOST=152.136.36.198 DEPLOY_PORT=22 DEPLOY_USER=root DEPLOY_PASSWORD='<密码>'
+python scripts/deploy.py put ./dist /opt/kangyang-twin/dist          # 前端
+python scripts/deploy.py putfile ./server/routes/ai.js \
+       /opt/kangyang-twin/server/routes/ai.js                        # 后端单个文件
+
+# 服务器上重启
+python scripts/deploy.py exec "pm2 restart kangyang-api"
+```
+
+> ⚠️ Git Bash 下必须加 `MSYS_NO_PATHCONV=1`，否则 `/opt/...` 会被转换成 Windows 路径。
+> 脚本已内置该检测，路径异常时会直接报错退出而不是建出一串垃圾目录。
+>
+> ⚠️ 上传前端时建议先传到 `dist-new` 再 `mv` 替换，避免上传中途站点处于半成品状态。
+> 数据库 `server/data/` 与上传目录 `server/uploads/` **不要覆盖**，那是线上数据。
+
+### 服务器运维命令
+
+```bash
+pm2 status                 # 进程状态
+pm2 logs kangyang-api      # 实时日志
+pm2 restart kangyang-api   # 重启后端
+nginx -t && systemctl reload nginx
+```
+
 ## 目录结构
 
 ```
