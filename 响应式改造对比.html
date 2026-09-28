@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>康养数字孪生平台 · 响应式改造前后对比</title>
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --card: #ffffff;
+        --ink: #1c1f23;
+        --ink-2: #5a6472;
+        --ink-3: #8b95a3;
+        --line: #e4e7ec;
+        --brand: #d9661f;
+        --brand-soft: #fdf2e9;
+        --ok: #1a9c5b;
+        --ok-soft: #eaf7f0;
+        --warn: #b7791f;
+        --warn-soft: #fdf6e7;
+        --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.06);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        padding: 32px 20px 72px;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .wrap { max-width: 1180px; margin: 0 auto; }
+
+      header { margin-bottom: 28px; }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        background: var(--brand-soft);
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+      }
+
+      h1 { margin: 12px 0 8px; font-size: 26px; letter-spacing: -0.2px; }
+
+      .lede { margin: 0; color: var(--ink-2); max-width: 760px; }
+      .lede b { color: var(--ink); }
+
+      h2 {
+        margin: 40px 0 14px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      h2::before {
+        content: "";
+        width: 4px;
+        height: 16px;
+        border-radius: 2px;
+        background: var(--brand);
+      }
+
+      .grid-kpi {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+      }
+
+      .kpi {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .kpi .label { font-size: 12px; color: var(--ink-3); letter-spacing: 0.3px; }
+      .kpi .row { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
+      .kpi .before { color: var(--ink-3); text-decoration: line-through; font-size: 15px; }
+      .kpi .arrow { color: var(--ink-3); font-size: 12px; }
+      .kpi .after { font-size: 24px; font-weight: 700; color: var(--ok); font-variant-numeric: tabular-nums; }
+      .kpi .delta { font-size: 12px; color: var(--ok); background: var(--ok-soft); padding: 1px 6px; border-radius: 4px; }
+      .kpi .delta.flat { color: var(--ink-2); background: #eff1f4; }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+      th { background: #fafbfc; font-size: 12px; color: var(--ink-3); font-weight: 600; }
+      td { font-variant-numeric: tabular-nums; }
+      tr:last-child td { border-bottom: none; }
+      .good { color: var(--ok); font-weight: 600; }
+      .same { color: var(--ink-3); }
+
+      .picker { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 18px; }
+
+      .chip {
+        padding: 6px 13px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--ink-2);
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .chip:hover { border-color: #cfd5de; }
+      .chip[aria-pressed="true"] {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+
+      @media (max-width: 860px) {
+        .compare { grid-template-columns: 1fr; }
+      }
+
+      .pane {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .pane-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--line);
+        background: #fafbfc;
+      }
+
+      .pane-title { font-size: 13px; font-weight: 600; }
+      .pane-tag {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: #eff1f4;
+        color: var(--ink-2);
+      }
+      .pane-tag.bad { background: var(--warn-soft); color: var(--warn); }
+      .pane-tag.ok { background: var(--ok-soft); color: var(--ok); }
+
+      .shot {
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+        background:
+          linear-gradient(45deg, #eef0f3 25%, transparent 25%) 0 0 / 16px 16px,
+          linear-gradient(45deg, transparent 75%, #eef0f3 75%) 0 0 / 16px 16px,
+          #f8f9fb;
+        min-height: 240px;
+      }
+
+      .shot img {
+        display: block;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        box-shadow: 0 4px 16px rgba(16, 24, 40, 0.1);
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* 手机宽度截图按真实视野呈现，避免被放大失真 */
+      .shot.mobile img { max-width: 375px; }
+      .shot.tablet img { max-width: 520px; }
+      .shot.desktop img { max-width: 100%; }
+
+      .note {
+        padding: 11px 14px;
+        font-size: 12.5px;
+        color: var(--ink-2);
+        border-top: 1px solid var(--line);
+        background: #fcfcfd;
+      }
+
+      .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+      .badge {
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        color: var(--ink-2);
+      }
+      .badge.ok { background: var(--ok-soft); border-color: #c7ecd8; color: var(--ok); }
+
+      .note-block {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border: 1px solid #f0e2c8;
+        border-left: 3px solid var(--warn);
+        border-radius: 8px;
+        background: var(--warn-soft);
+        font-size: 12.5px;
+        line-height: 1.75;
+        color: #6b5320;
+      }
+
+      footer {
+        margin-top: 48px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        font-size: 12.5px;
+        color: var(--ink-3);
+      }
+
+      code {
+        background: #eff1f4;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <span class="eyebrow">前端改造实测 · P0–P6 全部完成</span>
+        <h1>康养数字孪生平台 · 响应式改造前后对比</h1>
+        <p class="lede">
+          改造前，前端只适配桌面横屏：375px 手机上侧边栏固定占掉 <b>58.7%</b> 视口宽度、图表实际可用宽度仅 <b>89px</b>、
+          全局禁用了纵向滚动导致长页面被直接裁掉、3D 孪生大屏的数据面板糊满整屏看不到模型。
+          本次改造补齐了完整移动端形态（<b>抽屉导航 / 图标栏 / 文档流重构 / 宽表转卡片 / 3D 手势与虚拟控制 / 44px 触控标准</b>），
+          并保持 <b>1024px 与 1440px 桌面端逐项零回归</b>。以下为真实浏览器实测截图与指标。
+        </p>
+        <div class="badge-row">
+          <span class="badge ok">实测样本 9 页 × 4 视口 = 36 组</span>
+          <span class="badge ok">采集失败 0</span>
+          <span class="badge">浏览器：本机 Edge（无头）</span>
+          <span class="badge">数据源：.audit/before + .audit/after</span>
+        </div>
+      </header>
+
+      <h2>关键指标（375px 手机）</h2>
+      <div class="grid-kpi">
+        <div class="kpi">
+          <div class="label">侧边栏占用宽度</div>
+          <div class="row">
+            <span class="before">220px 常驻</span><span class="arrow">→</span>
+            <span class="after">抽屉</span><span class="delta">-100%</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label">图表实际可用宽度</div>
+          <div class="row">
+            <span class="before">89px</span><span class="arrow">→</span>
+            <span class="after">343px</span><span class="delta">+285%</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label">交互元素 &lt; 44px 总数</div>
+          <div class="row">
+            <span class="before">104</span><span class="arrow">→</span>
+            <span class="after">24</span><span class="delta">-77%</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="label">滚到底仍够不到的内容（375px）</div>
+          <div class="row">
+            <span class="before">架构依赖内层滚动</span><span class="arrow">→</span>
+            <span class="after">0px</span><span class="delta">全可达</span>
+          </div>
+        </div>
+      </div>
+
+      <h2>全视口指标对比</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>视口</th>
+            <th>触控目标 &lt; 44px 总数</th>
+            <th>真实横向溢出元素</th>
+            <th>滚到底够不到的内容</th>
+            <th>侧栏形态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>375px 手机</td>
+            <td>104 → <span class="good">24</span></td>
+            <td class="good">0</td>
+            <td class="good">0px</td>
+            <td class="good">220px 常驻 → 抽屉</td>
+          </tr>
+          <tr>
+            <td>768px 平板</td>
+            <td>104 → <span class="good">36</span></td>
+            <td class="good">0</td>
+            <td class="good">0px</td>
+            <td class="good">220px 常驻 → 64px 图标栏</td>
+          </tr>
+          <tr>
+            <td>1024px 桌面</td>
+            <td>107 → <span class="same">107</span></td>
+            <td class="good">0</td>
+            <td class="good">0px</td>
+            <td class="same">不变</td>
+          </tr>
+          <tr>
+            <td>1440px 桌面</td>
+            <td>107 → <span class="same">107</span></td>
+            <td class="good">0</td>
+            <td class="good">0px</td>
+            <td class="same">不变（零回归）</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note-block">
+        <b>口径说明（避免误读）：</b>
+        ① 「触控目标 &lt; 44px」与「侧栏宽度」两项在改造前后定义完全一致，可直接对比。
+        ② 「真实横向溢出」在改造过程中细化过判据——位于可横向滚动祖先内、或被祖先 <code>overflow-x:hidden</code> 裁剪
+        （如 el-table 表头由 JS 同步滚动）的元素不再计入，因此只列改造后的值。
+        ③ 「滚到底够不到的内容」用同一页面内 A/B 测出：先滚到底测一次，再把可滚动容器锁成
+        <code>overflow:hidden</code> 再测一次；差值为 0 说明内容全部可达。
+        ④ 下表注释中的「横向溢出」为各视口实测值，非改造前旧口径数字。
+      </div>
+
+      <h2>逐页对比</h2>
+      <div class="picker" id="pagePicker" role="group" aria-label="选择页面"></div>
+      <div class="picker" id="vpPicker" role="group" aria-label="选择视口"></div>
+      <div class="compare">
+        <div class="pane">
+          <div class="pane-head">
+            <span class="pane-title">改造前</span>
+            <span class="pane-tag bad" id="beforeTag">—</span>
+          </div>
+          <div class="shot" id="beforeShot"><img id="beforeImg" alt="改造前截图" /></div>
+          <div class="note" id="beforeNote">—</div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">
+            <span class="pane-title">改造后</span>
+            <span class="pane-tag ok" id="afterTag">—</span>
+          </div>
+          <div class="shot" id="afterShot"><img id="afterImg" alt="改造后截图" /></div>
+          <div class="note" id="afterNote">—</div>
+        </div>
+      </div>
+
+      <h2>下一步范围</h2>
+      <table>
+        <thead>
+          <tr><th>优先级</th><th>项目</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>中</td><td>ECharts 按需引入</td><td>当前 <code>echarts</code> 全量引入（<code>vendor-echarts</code> 1.48MB / gzip 479KB）。已按路由懒加载，仅进入图表页时才下载；进一步可按需注册图表类型继续压缩</td></tr>
+          <tr><td>低</td><td>图表窄屏交互</td><td>窄屏已是单列全宽 + 坐标轴抽稀；可再补「点击图表放大查看」的全屏模式</td></tr>
+          <tr><td>低</td><td>移除未使用依赖</td><td><code>package.json</code> 中的 <code>xlsx</code> 未被任何源码引用（Excel 导入导出走后端 exceljs），可移除</td></tr>
+        </tbody>
+      </table>
+
+      <footer>
+        截图与指标由 <code>scripts/responsive-audit.mjs</code> 通过无头 Edge 实采生成；
+        样式语言守卫见 <code>scripts/check-styles.mjs</code>；
+        完整方案见 <code>docs/前端响应式与交互改造方案.md</code>。
+      </footer>
+    </div>
+
+    <script>
+      // 名字与脚手架产出文件名一致
+      const PAGES = [
+        { key: 'charts-ops', label: '健康监测', vps: [375, 768, 1440] },
+        { key: 'data-manage', label: '数据管理', vps: [375, 768, 1440] },
+        { key: 'user-manage', label: '用户管理', vps: [375, 768, 1440] },
+        { key: 'style-settings', label: '样式设置', vps: [375, 768, 1440] },
+        { key: 'predict', label: '健康预测', vps: [375, 768, 1440] },
+        { key: 'db-settings', label: '数据库设置', vps: [375, 768, 1440] },
+        { key: 'dashboard', label: '3D 大屏（待改造）', vps: [375, 1440] },
+        { key: 'charts-analysis', label: '护理分析', vps: [375, 1440] },
+        { key: 'charts-advanced', label: '空间关系', vps: [375, 1440] }
+      ]
+
+      const RESULTS = {"before":{"tag":"before","rows":[{"w":375,"page":"/dashboard","sidebar":0,"tap":16,"overflow":0},{"w":375,"page":"/charts/ops","sidebar":220,"tap":1,"overflow":1},{"w":375,"page":"/charts/analysis","sidebar":220,"tap":1,"overflow":0},{"w":375,"page":"/charts/advanced","sidebar":220,"tap":1,"overflow":0},{"w":375,"page":"/data","sidebar":220,"tap":31,"overflow":18},{"w":375,"page":"/users","sidebar":220,"tap":8,"overflow":11},{"w":375,"page":"/style","sidebar":220,"tap":14,"overflow":2},{"w":375,"page":"/db","sidebar":220,"tap":5,"overflow":9},{"w":375,"page":"/predict","sidebar":220,"tap":27,"overflow":5},{"w":768,"page":"/dashboard","sidebar":0,"tap":16,"overflow":0},{"w":768,"page":"/charts/ops","sidebar":220,"tap":1,"overflow":0},{"w":768,"page":"/charts/analysis","sidebar":220,"tap":1,"overflow":0},{"w":768,"page":"/charts/advanced","sidebar":220,"tap":1,"overflow":0},{"w":768,"page":"/data","sidebar":220,"tap":31,"overflow":18},{"w":768,"page":"/users","sidebar":220,"tap":8,"overflow":11},{"w":768,"page":"/style","sidebar":220,"tap":14,"overflow":0},{"w":768,"page":"/db","sidebar":220,"tap":5,"overflow":9},{"w":768,"page":"/predict","sidebar":220,"tap":27,"overflow":5},{"w":1024,"page":"/dashboard","sidebar":0,"tap":16,"overflow":0},{"w":1024,"page":"/charts/ops","sidebar":220,"tap":4,"overflow":0},{"w":1024,"page":"/charts/analysis","sidebar":220,"tap":1,"overflow":0},{"w":1024,"page":"/charts/advanced","sidebar":220,"tap":1,"overflow":0},{"w":1024,"page":"/data","sidebar":220,"tap":31,"overflow":18},{"w":1024,"page":"/users","sidebar":220,"tap":8,"overflow":11},{"w":1024,"page":"/style","sidebar":220,"tap":14,"overflow":0},{"w":1024,"page":"/db","sidebar":220,"tap":5,"overflow":9},{"w":1024,"page":"/predict","sidebar":220,"tap":27,"overflow":0},{"w":1440,"page":"/dashboard","sidebar":0,"tap":16,"overflow":0},{"w":1440,"page":"/charts/ops","sidebar":220,"tap":4,"overflow":0},{"w":1440,"page":"/charts/analysis","sidebar":220,"tap":1,"overflow":0},{"w":1440,"page":"/charts/advanced","sidebar":220,"tap":1,"overflow":0},{"w":1440,"page":"/data","sidebar":220,"tap":31,"overflow":18},{"w":1440,"page":"/users","sidebar":220,"tap":8,"overflow":0},{"w":1440,"page":"/style","sidebar":220,"tap":14,"overflow":0},{"w":1440,"page":"/db","sidebar":220,"tap":5,"overflow":0},{"w":1440,"page":"/predict","sidebar":220,"tap":27,"overflow":0}]},"after":{"tag":"after","rows":[{"w":375,"page":"/dashboard","sidebar":0,"tap":15,"overflow":0,"unreachable":0},{"w":375,"page":"/charts/ops","sidebar":0,"tap":0,"overflow":0,"unreachable":0},{"w":375,"page":"/charts/analysis","sidebar":0,"tap":0,"overflow":0,"unreachable":0},{"w":375,"page":"/charts/advanced","sidebar":0,"tap":0,"overflow":0,"unreachable":0},{"w":375,"page":"/data","sidebar":0,"tap":2,"overflow":0,"unreachable":0},{"w":375,"page":"/users","sidebar":0,"tap":0,"overflow":0,"unreachable":0},{"w":375,"page":"/style","sidebar":0,"tap":5,"overflow":0,"unreachable":0},{"w":375,"page":"/db","sidebar":0,"tap":0,"overflow":0,"unreachable":0},{"w":375,"page":"/predict","sidebar":0,"tap":2,"overflow":0,"unreachable":0},{"w":768,"page":"/dashboard","sidebar":0,"tap":10,"overflow":0,"unreachable":0},{"w":768,"page":"/charts/ops","sidebar":64,"tap":1,"overflow":0,"unreachable":0},{"w":768,"page":"/charts/analysis","sidebar":64,"tap":1,"overflow":0,"unreachable":0},{"w":768,"page":"/charts/advanced","sidebar":64,"tap":1,"overflow":0,"unreachable":0},{"w":768,"page":"/data","sidebar":64,"tap":4,"overflow":0,"unreachable":0},{"w":768,"page":"/users","sidebar":64,"tap":1,"overflow":0,"unreachable":0},{"w":768,"page":"/style","sidebar":64,"tap":7,"overflow":0,"unreachable":0},{"w":768,"page":"/db","sidebar":64,"tap":1,"overflow":0,"unreachable":0},{"w":768,"page":"/predict","sidebar":64,"tap":10,"overflow":0,"unreachable":0},{"w":1024,"page":"/dashboard","sidebar":0,"tap":16,"overflow":0,"unreachable":0},{"w":1024,"page":"/charts/ops","sidebar":220,"tap":4,"overflow":0,"unreachable":0},{"w":1024,"page":"/charts/analysis","sidebar":220,"tap":1,"overflow":0,"unreachable":0},{"w":1024,"page":"/charts/advanced","sidebar":220,"tap":1,"overflow":0,"unreachable":0},{"w":1024,"page":"/data","sidebar":220,"tap":31,"overflow":0,"unreachable":0},{"w":1024,"page":"/users","sidebar":220,"tap":8,"overflow":0,"unreachable":0},{"w":1024,"page":"/style","sidebar":220,"tap":14,"overflow":0,"unreachable":0},{"w":1024,"page":"/db","sidebar":220,"tap":5,"overflow":0,"unreachable":0},{"w":1024,"page":"/predict","sidebar":220,"tap":27,"overflow":0,"unreachable":0},{"w":1440,"page":"/dashboard","sidebar":0,"tap":16,"overflow":0,"unreachable":0},{"w":1440,"page":"/charts/ops","sidebar":220,"tap":4,"overflow":0,"unreachable":0},{"w":1440,"page":"/charts/analysis","sidebar":220,"tap":1,"overflow":0,"unreachable":0},{"w":1440,"page":"/charts/advanced","sidebar":220,"tap":1,"overflow":0,"unreachable":0},{"w":1440,"page":"/data","sidebar":220,"tap":31,"overflow":0,"unreachable":0},{"w":1440,"page":"/users","sidebar":220,"tap":8,"overflow":0,"unreachable":0},{"w":1440,"page":"/style","sidebar":220,"tap":14,"overflow":0,"unreachable":0},{"w":1440,"page":"/db","sidebar":220,"tap":5,"overflow":0,"unreachable":0},{"w":1440,"page":"/predict","sidebar":220,"tap":27,"overflow":0,"unreachable":0}]}}
+
+      const state = { page: 'charts-ops', vp: 375 }
+
+      const $ = (id) => document.getElementById(id)
+
+      const ROUTE_OF = {
+        'charts-ops': '/charts/ops',
+        'data-manage': '/data',
+        'user-manage': '/users',
+        'style-settings': '/style',
+        'predict': '/predict',
+        'db-settings': '/db',
+        'dashboard': '/dashboard',
+        'charts-analysis': '/charts/analysis',
+        'charts-advanced': '/charts/advanced'
+      }
+
+      /** RESULTS[key] = { tag, rows }；tag 决定截图目录 */
+      function rowsOf(key) {
+        return (RESULTS[key] && RESULTS[key].rows) || []
+      }
+
+      function imageDir(key) {
+        return (RESULTS[key] && RESULTS[key].tag) || key
+      }
+
+      function metrics(key, pageKey, vp) {
+        return rowsOf(key).find((r) => r.w === vp && r.page === ROUTE_OF[pageKey])
+      }
+
+      function describe(key, pageKey, vp) {
+        const m = metrics(key, pageKey, vp)
+        if (!m) return '—'
+        const parts = []
+        if (m.sidebar) parts.push('侧栏 ' + m.sidebar + 'px')
+        if (m.tap !== undefined) parts.push('触控&lt;44px ' + m.tap + ' 个')
+        parts.push(m.overflow ? '横向溢出 ' + m.overflow + ' 个' : '横向溢出 0 个')
+        // 旧基线报告无此指标，缺失时不显示，避免误导
+        if (m.unreachable !== undefined) {
+          parts.push(m.unreachable === 0 ? '内容全可达' : '有内容够不到')
+        }
+        return parts.join(' · ')
+      }
+
+      function render() {
+        const page = PAGES.find((p) => p.key === state.page)
+        const vp = state.vp
+        const viewportLabel = vp + '×' + (vp === 375 ? 812 : vp === 768 ? 1024 : 900)
+        const shotClass = 'shot ' + (vp < 768 ? 'mobile' : vp < 1024 ? 'tablet' : 'desktop')
+
+        // dataKey 用于取数，el 用于定位 DOM，两者分开避免混淆
+        const panes = [
+          { dataKey: 'before', el: 'before', label: '改造前截图' },
+          { dataKey: 'after', el: 'after', label: '改造后截图' }
+        ]
+
+        for (const pane of panes) {
+          const img = $(pane.el + 'Img')
+          img.src = './.audit/' + imageDir(pane.dataKey) + '/' + vp + '/' + state.page + '.png'
+          img.alt = pane.label + ' ' + page.label + ' @' + viewportLabel
+          $(pane.el + 'Shot').className = shotClass
+          $(pane.el + 'Tag').textContent = viewportLabel
+          $(pane.el + 'Note').innerHTML = describe(pane.dataKey, state.page, vp)
+        }
+      }
+
+      function chip(label, active, onClick) {
+        const b = document.createElement('button')
+        b.className = 'chip'
+        b.type = 'button'
+        b.textContent = label
+        b.setAttribute('aria-pressed', String(active))
+        b.addEventListener('click', onClick)
+        return b
+      }
+
+      function renderPickers() {
+        const pageWrap = $('pagePicker')
+        pageWrap.innerHTML = ''
+        PAGES.forEach((p) => {
+          pageWrap.appendChild(
+            chip(p.label, p.key === state.page, () => {
+              state.page = p.key
+              if (!p.vps.includes(state.vp)) state.vp = p.vps[0]
+              renderPickers()
+              render()
+            })
+          )
+        })
+
+        const vpWrap = $('vpPicker')
+        vpWrap.innerHTML = ''
+        PAGES.find((p) => p.key === state.page).vps.forEach((v) => {
+          vpWrap.appendChild(
+            chip(v + 'px', v === state.vp, () => {
+              state.vp = v
+              renderPickers()
+              render()
+            })
+          )
+        })
+      }
+
+      renderPickers()
+      render()
+    </script>
+  </body>
+</html>

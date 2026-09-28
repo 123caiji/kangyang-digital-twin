@@ -1,33 +1,46 @@
 <template>
   <div class="layout">
-    <aside class="sider glass-panel">
-      <div class="sider-brand">
-        <div class="mark"></div>
-        <div>
-          <div class="title">康养孪生</div>
-          <div class="sub">Kangyang Twin</div>
-        </div>
-      </div>
-      <el-menu :key="route.path" :default-active="route.path" class="menu" @select="onMenuSelect">
-        <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
-          <el-icon><component :is="item.icon" /></el-icon>
-          <span>{{ item.title }}</span>
-        </el-menu-item>
-      </el-menu>
-      <div class="sider-user">
-        <div>{{ userStore.user?.username }} · {{ roleLabel }}</div>
-        <el-button link type="primary" @click="logout">退出</el-button>
-      </div>
+    <!-- 桌面 / 平板：常驻侧栏（平板收成 64px 图标栏） -->
+    <aside v-if="!isMobile" class="sider glass-panel" :class="{ 'is-rail': isTablet }">
+      <SideNav :collapsed="isTablet" @navigate="onNavigate" />
     </aside>
+
+    <!-- 手机：侧栏转为抽屉，遮罩点击 / Esc 关闭（均由 el-drawer 内建） -->
+    <el-drawer
+      v-if="isMobile"
+      v-model="drawerOpen"
+      direction="ltr"
+      size="268px"
+      :with-header="false"
+      :z-index="1999"
+      class="nav-drawer"
+      aria-label="导航菜单"
+    >
+      <SideNav @navigate="onNavigate" />
+    </el-drawer>
+
     <section class="main">
       <header class="topbar glass-panel">
-        <div class="page-title">{{ route.meta.title || themeStore.settings.headerTitle }}</div>
+        <div class="topbar-left">
+          <button
+            v-if="isMobile"
+            type="button"
+            class="hamburger"
+            aria-label="打开导航菜单"
+            :aria-expanded="drawerOpen"
+            @click="drawerOpen = true"
+          >
+            <el-icon><Menu /></el-icon>
+          </button>
+          <div class="page-title">{{ route.meta.title || themeStore.settings.headerTitle }}</div>
+        </div>
         <div class="actions">
           <span class="time">{{ now }}</span>
           <el-tag size="small" effect="dark" type="success">在线</el-tag>
         </div>
       </header>
-      <main class="content">
+
+      <main class="content" :class="{ 'is-scroll': !isDesktop }">
         <router-view v-slot="{ Component, route: childRoute }">
           <component :is="Component" :key="childRoute.fullPath" />
         </router-view>
@@ -37,47 +50,29 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/stores/user'
+import SideNav from '@/components/SideNav.vue'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 import { useThemeStore } from '@/stores/theme'
 
 const route = useRoute()
-const router = useRouter()
-const userStore = useUserStore()
 const themeStore = useThemeStore()
+const { isMobile, isTablet, isDesktop } = useBreakpoint()
+
+const drawerOpen = ref(false)
 const now = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
 let timer
 
-const allMenus = [
-  { path: '/dashboard', title: '康养孪生大屏', icon: 'Monitor', perm: 'dashboard' },
-  { path: '/charts/ops', title: '健康监测', icon: 'DataLine', perm: 'charts' },
-  { path: '/charts/analysis', title: '护理分析', icon: 'PieChart', perm: 'charts' },
-  { path: '/charts/advanced', title: '空间关系', icon: 'Share', perm: 'charts' },
-  { path: '/data', title: '数据管理', icon: 'Grid', perm: 'data' },
-  { path: '/users', title: '用户管理', icon: 'User', perm: 'users' },
-  { path: '/style', title: '样式设置', icon: 'Brush', perm: 'settings' },
-  { path: '/db', title: '数据库设置', icon: 'Coin', perm: 'db' },
-  { path: '/predict', title: '健康预测', icon: 'MagicStick', perm: 'predict' }
-]
-
-const menus = computed(() => allMenus.filter((m) => userStore.hasPerm(m.perm)))
-const roleLabel = computed(() => ({ admin: '管理员', editor: '编辑员', viewer: '访客' }[userStore.role] || userStore.role))
-
-function logout() {
-  userStore.logout()
-  router.push('/login')
+function onNavigate() {
+  drawerOpen.value = false
 }
 
-function onMenuSelect(path) {
-  if (!path || path === route.path) return
-  // 先释放可能残留的焦点/指针，再跳转，避免菜单点击被卡住
-  if (document.activeElement && document.activeElement.blur) {
-    document.activeElement.blur()
-  }
-  router.push(path).catch(() => {})
-}
+// 从手机宽度切回桌面时，确保抽屉状态不残留
+watch(isMobile, (v) => {
+  if (!v) drawerOpen.value = false
+})
 
 onMounted(async () => {
   await themeStore.load()
@@ -98,57 +93,16 @@ onUnmounted(() => clearInterval(timer))
 }
 
 .sider {
-  width: 220px;
+  width: #{$sider-width};
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
   border-right: 1px solid var(--sc-border);
   border-radius: 0;
-}
+  transition: width var(--dur-base) var(--ease-standard);
+  overflow: hidden;
 
-.sider-brand {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 18px 16px;
-  border-bottom: 1px solid rgba(255, 140, 66, 0.2);
-
-  .mark {
-    width: 34px;
-    height: 34px;
-    border: 2px solid var(--sc-primary);
-    background: linear-gradient(135deg, var(--sc-primary), transparent 60%);
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  &.is-rail {
+    width: #{$sider-rail};
   }
-
-  .title {
-    color: var(--sc-primary);
-    font-weight: 700;
-    letter-spacing: 2px;
-  }
-  .sub {
-    font-size: 11px;
-    color: var(--sc-muted);
-  }
-}
-
-.menu {
-  flex: 1;
-  overflow: auto;
-  padding: 8px 0;
-  pointer-events: auto;
-  position: relative;
-  z-index: 5;
-}
-
-.sider-user {
-  padding: 12px 16px;
-  border-top: 1px solid rgba(255, 140, 66, 0.2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: var(--sc-muted);
 }
 
 .main {
@@ -159,25 +113,62 @@ onUnmounted(() => clearInterval(timer))
 }
 
 .topbar {
-  height: 52px;
+  height: #{$topbar-height};
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 0 18px;
   border-bottom: 1px solid var(--sc-border);
   border-radius: 0;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  flex-shrink: 0;
+  margin-left: -8px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--sc-primary);
+  font-size: 20px;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-standard);
+
+  &:hover,
+  &:active {
+    background: rgba(255, 140, 66, 0.14);
+  }
 }
 
 .page-title {
   font-size: 16px;
   letter-spacing: 2px;
   color: var(--sc-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .actions {
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-shrink: 0;
+
   .time {
     color: var(--sc-muted);
     font-variant-numeric: tabular-nums;
@@ -188,5 +179,51 @@ onUnmounted(() => clearInterval(timer))
   flex: 1;
   min-height: 0;
   overflow: hidden;
+
+  /* 窄屏：内容区接管纵向滚动，避免长页面被直接裁掉 */
+  &.is-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@include mobile {
+  .topbar {
+    padding: 0 10px;
+  }
+
+  .page-title {
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  /* 时间在中窄屏让位给标题 */
+  .time {
+    display: none;
+  }
+}
+</style>
+
+<!-- 抽屉内容渲染在 body 上（teleport），需非 scoped 样式 -->
+<style lang="scss">
+/* 抽屉层级由 :z-index="1999" 控制，此处只负责视觉皮肤 */
+.nav-drawer {
+  background: var(--sc-bg) !important;
+  border-right: 1px solid var(--sc-border);
+
+  .el-drawer__body {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .el-drawer__header {
+    display: none;
+  }
+
+  .side-nav {
+    height: 100%;
+    background: var(--sc-panel);
+  }
 }
 </style>

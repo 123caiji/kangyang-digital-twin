@@ -1,0 +1,2842 @@
+{
+  "tag": "before",
+  "base": "http://127.0.0.1:5173",
+  "at": "2026-09-28T14:18:22.114Z",
+  "results": [
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/dashboard",
+      "name": "dashboard",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 16,
+      "smallTapSample": [
+        {
+          "sel": "button.active",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "a.link.active",
+          "w": 58,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 300,
+        "h": 150,
+        "ctxOk": true
+      },
+      "chartCount": 2,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "div.toolbar-right",
+          "over": 77,
+          "under": 0,
+          "w": 135,
+          "text": "暂停实时模拟IoT上报刷新数据"
+        }
+      ],
+      "overflowCount": 1,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 89,
+        "h": 272,
+        "ctxOk": false
+      },
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 89,
+        "h": 312,
+        "ctxOk": false
+      },
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 89,
+        "h": 332,
+        "ctxOk": false
+      },
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/data",
+      "name": "data-manage",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "colgroup",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "tr",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "colgroup",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "9吴月华女761051特级critical202"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "8孙明远男731042三级attention20"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 1598,
+          "under": 0,
+          "w": 1720,
+          "text": "7周桂兰女681041二级stable2025-"
+        }
+      ],
+      "overflowCount": 18,
+      "smallTapTargets": 31,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-7395-12.el-select__input",
+          "w": 45,
+          "h": 24
+        },
+        {
+          "sel": "input#el-id-7395-13.el-input__inner",
+          "w": 45,
+          "h": 30
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--success",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "div.el-upload.el-upload--text",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/users",
+      "name": "user-manage",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "colgroup",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "tr",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "colgroup",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "2editor13800000002editor"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 928,
+          "under": 0,
+          "w": 1050,
+          "text": "1admin13800000001adminda"
+        }
+      ],
+      "overflowCount": 11,
+      "smallTapTargets": 8,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/style",
+      "name": "style-settings",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "div.form.glass-panel",
+          "over": 169,
+          "under": 0,
+          "w": 304,
+          "text": "系统样式设置系统标题主题名称主色#ff8c42强"
+        },
+        {
+          "sel": "div.preview.glass-panel",
+          "over": 169,
+          "under": 0,
+          "w": 304,
+          "text": "实时预览康养数字孪生平台主题：康养暖橙主色块强调"
+        }
+      ],
+      "overflowCount": 2,
+      "smallTapTargets": 14,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-4518-27.el-input__inner",
+          "w": 138,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-4518-28.el-input__inner",
+          "w": 138,
+          "h": 30
+        },
+        {
+          "sel": "div#el-id-4518-30.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-4518-32.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-4518-34.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-4518-35.el-input__inner",
+          "w": 138,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-4518-36.el-select__input",
+          "w": 116,
+          "h": 24
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/db",
+      "name": "db-settings",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "colgroup",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "tr",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "colgroup",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 1008,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        }
+      ],
+      "overflowCount": 9,
+      "smallTapTargets": 5,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.is-link",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "page": "/predict",
+      "name": "predict",
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 500,
+          "under": 0,
+          "w": 620,
+          "text": "ID模型得分置信度等级时间"
+        },
+        {
+          "sel": "colgroup",
+          "over": 500,
+          "under": 0,
+          "w": 620,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 500,
+          "under": 0,
+          "w": 620,
+          "text": "ID模型得分置信度等级时间"
+        },
+        {
+          "sel": "tr",
+          "over": 500,
+          "under": 0,
+          "w": 620,
+          "text": "ID模型得分置信度等级时间"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 500,
+          "under": 0,
+          "w": 620,
+          "text": "暂无数据"
+        }
+      ],
+      "overflowCount": 5,
+      "smallTapTargets": 27,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-755-30.el-select__input",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-755-31.el-input__inner",
+          "w": 46,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-755-33.el-input__inner",
+          "w": 46,
+          "h": 30
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/dashboard",
+      "name": "dashboard",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 16,
+      "smallTapSample": [
+        {
+          "sel": "button.active",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "a.link.active",
+          "w": 58,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 300,
+        "h": 150,
+        "ctxOk": true
+      },
+      "chartCount": 2,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 482,
+        "h": 272,
+        "ctxOk": false
+      },
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 482,
+        "h": 312,
+        "ctxOk": false
+      },
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 482,
+        "h": 332,
+        "ctxOk": false
+      },
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/data",
+      "name": "data-manage",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "colgroup",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "tr",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "colgroup",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "9吴月华女761051特级critical202"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "8孙明远男731042三级attention20"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 1205,
+          "under": 0,
+          "w": 1720,
+          "text": "7周桂兰女681041二级stable2025-"
+        }
+      ],
+      "overflowCount": 18,
+      "smallTapTargets": 31,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-6191-12.el-select__input",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "sel": "input#el-id-6191-13.el-input__inner",
+          "w": 176,
+          "h": 30
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--success",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "div.el-upload.el-upload--text",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/users",
+      "name": "user-manage",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "colgroup",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "tr",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "colgroup",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "2editor13800000002editor"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 535,
+          "under": 0,
+          "w": 1050,
+          "text": "1admin13800000001adminda"
+        }
+      ],
+      "overflowCount": 11,
+      "smallTapTargets": 8,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/style",
+      "name": "style-settings",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 14,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-5863-27.el-input__inner",
+          "w": 342,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-5863-28.el-input__inner",
+          "w": 342,
+          "h": 30
+        },
+        {
+          "sel": "div#el-id-5863-30.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-5863-32.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-5863-34.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-5863-35.el-input__inner",
+          "w": 342,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-5863-36.el-select__input",
+          "w": 155,
+          "h": 24
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/db",
+      "name": "db-settings",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "colgroup",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "tr",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "colgroup",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 615,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        }
+      ],
+      "overflowCount": 9,
+      "smallTapTargets": 5,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.is-link",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 768,
+        "h": 1024
+      },
+      "page": "/predict",
+      "name": "predict",
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 107,
+          "under": 0,
+          "w": 620,
+          "text": "ID模型得分置信度等级时间"
+        },
+        {
+          "sel": "colgroup",
+          "over": 107,
+          "under": 0,
+          "w": 620,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 107,
+          "under": 0,
+          "w": 620,
+          "text": "ID模型得分置信度等级时间"
+        },
+        {
+          "sel": "tr",
+          "over": 107,
+          "under": 0,
+          "w": 620,
+          "text": "ID模型得分置信度等级时间"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 107,
+          "under": 0,
+          "w": 620,
+          "text": "暂无数据"
+        }
+      ],
+      "overflowCount": 5,
+      "smallTapTargets": 27,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-8213-30.el-select__input",
+          "w": 188,
+          "h": 24
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-8213-31.el-input__inner",
+          "w": 46,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-8213-33.el-input__inner",
+          "w": 46,
+          "h": 30
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/dashboard",
+      "name": "dashboard",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 16,
+      "smallTapSample": [
+        {
+          "sel": "button.active",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "a.link.active",
+          "w": 58,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 300,
+        "h": 150,
+        "ctxOk": true
+      },
+      "chartCount": 2,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 4,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.active",
+          "w": 74,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 91,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 74,
+          "h": 31
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 738,
+        "h": 272,
+        "ctxOk": false
+      },
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 738,
+        "h": 312,
+        "ctxOk": false
+      },
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 738,
+        "h": 332,
+        "ctxOk": false
+      },
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/data",
+      "name": "data-manage",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "colgroup",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "tr",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "colgroup",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "9吴月华女761051特级critical202"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "8孙明远男731042三级attention20"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 949,
+          "under": 0,
+          "w": 1720,
+          "text": "7周桂兰女681041二级stable2025-"
+        }
+      ],
+      "overflowCount": 18,
+      "smallTapTargets": 31,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-2939-12.el-select__input",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "sel": "input#el-id-2939-13.el-input__inner",
+          "w": 176,
+          "h": 30
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--success",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "div.el-upload.el-upload--text",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/users",
+      "name": "user-manage",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "colgroup",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "tr",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "ID用户名手机号角色权限状态创建时间操作"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "colgroup",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "3viewer13800000003viewer"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "2editor13800000002editor"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 279,
+          "under": 0,
+          "w": 1050,
+          "text": "1admin13800000001adminda"
+        }
+      ],
+      "overflowCount": 11,
+      "smallTapTargets": 8,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/style",
+      "name": "style-settings",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 14,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-3032-27.el-input__inner",
+          "w": 227,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-3032-28.el-input__inner",
+          "w": 227,
+          "h": 30
+        },
+        {
+          "sel": "div#el-id-3032-30.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-3032-32.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-3032-34.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-3032-35.el-input__inner",
+          "w": 227,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-3032-36.el-select__input",
+          "w": 155,
+          "h": 24
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/db",
+      "name": "db-settings",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "colgroup",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "tr",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "ID名称类型主机端口数据库用户名激活操作"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "colgroup",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 359,
+          "under": 0,
+          "w": 1130,
+          "text": "1本地SQLitesqlitelocalhost"
+        }
+      ],
+      "overflowCount": 9,
+      "smallTapTargets": 5,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.is-link",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1024,
+        "h": 768
+      },
+      "page": "/predict",
+      "name": "predict",
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 27,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-7424-30.el-select__input",
+          "w": 188,
+          "h": 24
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-7424-31.el-input__inner",
+          "w": 46,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-7424-33.el-input__inner",
+          "w": 46,
+          "h": 30
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/dashboard",
+      "name": "dashboard",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 16,
+      "smallTapSample": [
+        {
+          "sel": "button.active",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 79,
+          "h": 31
+        },
+        {
+          "sel": "a.link.active",
+          "w": 58,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        },
+        {
+          "sel": "a.link",
+          "w": 66,
+          "h": 27
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 300,
+        "h": 150,
+        "ctxOk": true
+      },
+      "chartCount": 2,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 4,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.active",
+          "w": 74,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 91,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 74,
+          "h": 31
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 557,
+        "h": 272,
+        "ctxOk": false
+      },
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 557,
+        "h": 312,
+        "ctxOk": false
+      },
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": true,
+        "w": 557,
+        "h": 332,
+        "ctxOk": false
+      },
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/data",
+      "name": "data-manage",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [
+        {
+          "sel": "table.el-table__header",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "colgroup",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "thead",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "tr",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "idnamegenderageroom_noca"
+        },
+        {
+          "sel": "div.el-scrollbar__view",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "table.el-table__body",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "colgroup",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": ""
+        },
+        {
+          "sel": "tbody",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "10郑国强男881052一级stable2026"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "9吴月华女761051特级critical202"
+        },
+        {
+          "sel": "tr.el-table__row",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "8孙明远男731042三级attention20"
+        },
+        {
+          "sel": "tr.el-table__row.el-table__row--striped",
+          "over": 533,
+          "under": 0,
+          "w": 1720,
+          "text": "7周桂兰女681041二级stable2025-"
+        }
+      ],
+      "overflowCount": 18,
+      "smallTapTargets": 31,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-2298-12.el-select__input",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "sel": "input#el-id-2298-13.el-input__inner",
+          "w": 176,
+          "h": 30
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--success",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "div.el-upload.el-upload--text",
+          "w": 94,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 94,
+          "h": 32
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/users",
+      "name": "user-manage",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 8,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/style",
+      "name": "style-settings",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 14,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-8698-27.el-input__inner",
+          "w": 445,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-8698-28.el-input__inner",
+          "w": 445,
+          "h": 30
+        },
+        {
+          "sel": "div#el-id-8698-30.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-8698-32.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-8698-34.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-8698-35.el-input__inner",
+          "w": 445,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-8698-36.el-select__input",
+          "w": 155,
+          "h": 24
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/db",
+      "name": "db-settings",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 5,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.is-link",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 20
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "page": "/predict",
+      "name": "predict",
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "smallTapTargets": 27,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 20
+        },
+        {
+          "sel": "input#el-id-5982-30.el-select__input",
+          "w": 188,
+          "h": 24
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-5982-31.el-input__inner",
+          "w": 46,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "span.el-input-number__increase",
+          "w": 32,
+          "h": 30
+        },
+        {
+          "sel": "input#el-id-5982-33.el-input__inner",
+          "w": 46,
+          "h": 30
+        }
+      ],
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "contentScrollable": false,
+      "webglCanvas": {
+        "present": false
+      },
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    }
+  ]
+}

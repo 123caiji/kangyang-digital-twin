@@ -37,31 +37,55 @@
 ## 快速启动
 
 ```bash
-# 安装前端依赖
+# 1. 安装前端依赖
 npm install
 
-# 安装后端依赖
+# 2. 安装后端依赖
 cd server && npm install && cd ..
 
-# 启动后端（终端1）
+# 3. 配置环境变量（首次必须执行）
+cp server/.env.example server/.env
+# 然后编辑 server/.env，至少填入 JWT_SECRET 与 LLM_API_KEY
+
+# 4. 启动后端（终端1）
 cd server && npm run dev
 
-# 启动前端（终端2）
+# 5. 启动前端（终端2）
 npm run dev
 ```
 
 访问 http://localhost:5173 ，默认账号 `admin / admin123`
+（数据库首次启动会自动建表并写入演示数据，无需手工导入。）
+
+## 环境变量
+
+所有配置集中在 `server/.env`（**该文件已被 .gitignore 忽略，不会进入仓库**）。
+`server/env.js` 是一个零依赖的 .env 加载器，在 `server/index.js` 首行执行；
+已存在的进程环境变量优先级更高，因此部署时可用 systemd / pm2 直接注入而不改文件。
+
+| 变量 | 说明 |
+|---|---|
+| `PORT` | 后端端口，默认 3001 |
+| `NODE_ENV` | `development` / `production` |
+| `JWT_SECRET` | 登录令牌签发密钥，**必须使用随机值** |
+| `LLM_API_URL` | OpenAI 兼容接口地址，如 `https://api.siliconflow.cn` |
+| `LLM_API_KEY` | 大模型服务密钥 |
+| `LLM_MODEL` | 模型名，默认 `deepseek-flash` |
+
+生成随机密钥：
+
+```bash
+node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
+```
+
+> ⚠️ **安全提示**：未配置 `LLM_API_URL` / `LLM_API_KEY` 时，AI 健康管家会返回 503 并提示「服务未配置」，
+> 其余功能不受影响。**切勿把真实密钥写回源码** —— 本仓库是公开仓库，密钥一旦提交即等于公开。
+> （历史上曾因此泄露过一个 LLM key，请到服务商后台确认其已吊销。）
 
 ## AI配置
 
-AI健康管家使用 OpenAI 兼容API，默认连接 deepseek-flash 模型。  
-可在 `server/routes/ai.js` 中修改 `LLM_CONFIG` 或通过环境变量配置：
-
-```env
-LLM_API_URL=http://your-api-url
-LLM_API_KEY=your-key
-LLM_MODEL=deepseek-flash
-```
+AI健康管家使用 OpenAI 兼容 API，通过上面的环境变量配置 `LLM_API_URL` / `LLM_API_KEY` / `LLM_MODEL`。
+密钥只从环境变量读取，`server/routes/ai.js` 中不再内置任何默认值。
 
 ## 目录结构
 
@@ -69,7 +93,7 @@ LLM_MODEL=deepseek-flash
 Vue25/
 ├── src/
 │   ├── api/           # Axios封装与接口
-│   ├── components/    # City3D 3D场景 / ChartPanel 图表
+│   ├── components/    # Room3D 3D康养场景 / ChartPanel 图表
 │   ├── router/        # 路由与权限守卫
 │   ├── stores/        # Pinia 用户/主题状态
 │   ├── styles/        # 全局样式

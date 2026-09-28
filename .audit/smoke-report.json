@@ -1,0 +1,115 @@
+{
+  "at": "2026-09-28T15:37:57.884Z",
+  "base": "http://127.0.0.1:5173",
+  "results": [
+    {
+      "path": "/dashboard",
+      "name": "康养孪生大屏",
+      "expect": "canvas",
+      "rendered": true,
+      "elCount": 91,
+      "title": "",
+      "overflow": 0,
+      "webgl": true,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/charts/ops",
+      "name": "健康监测",
+      "expect": "canvas",
+      "rendered": true,
+      "elCount": 174,
+      "title": "健康监测图表",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/charts/analysis",
+      "name": "护理分析",
+      "expect": "canvas",
+      "rendered": true,
+      "elCount": 131,
+      "title": "护理分析图表",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/charts/advanced",
+      "name": "空间关系",
+      "expect": "canvas",
+      "rendered": true,
+      "elCount": 131,
+      "title": "空间关系图谱",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/data",
+      "name": "数据管理",
+      "expect": "table, .card-list",
+      "rendered": true,
+      "elCount": 543,
+      "title": "数据管理",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/users",
+      "name": "用户管理",
+      "expect": "table, .card-list",
+      "rendered": true,
+      "elCount": 224,
+      "title": "用户管理",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/style",
+      "name": "样式设置",
+      "expect": ".preview-box",
+      "rendered": true,
+      "elCount": 191,
+      "title": "系统样式",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/db",
+      "name": "数据库设置",
+      "expect": "table, .card-list",
+      "rendered": true,
+      "elCount": 161,
+      "title": "数据库连接",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/predict",
+      "name": "健康预测",
+      "expect": ".layout",
+      "rendered": true,
+      "elCount": 312,
+      "title": "健康预测",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    }
+  ],
+  "errors": []
+}

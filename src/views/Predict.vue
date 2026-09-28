@@ -5,31 +5,28 @@
         <div class="panel-title">预测参数调试</div>
         <el-form label-width="100px">
           <el-form-item label="模型类型">
-            <el-select v-model="params.modelType" style="width: 100%">
-              <el-option label="交通拥堵预测" value="traffic" />
-              <el-option label="能源负荷预测" value="energy" />
-              <el-option label="环境质量预测" value="environment" />
-              <el-option label="综合风险预测" value="risk" />
+            <el-select v-model="params.modelType" class="full" aria-label="模型类型">
+              <el-option label="跌倒风险预测" value="fall_risk" />
+              <el-option label="健康异常预测" value="health_abnormal" />
+              <el-option label="护理质量评估" value="care_quality" />
+              <el-option label="综合风险预测" value="comprehensive" />
             </el-select>
           </el-form-item>
-          <el-form-item label="温度">
-            <el-slider v-model="params.temperature" :min="-10" :max="45" show-input />
+          <ParamSlider v-model="params.heartRate" label="心率(bpm)" :min="30" :max="180" :compact="isMobile" />
+          <ParamSlider v-model="params.systolic" label="收缩压(mmHg)" :min="70" :max="200" :compact="isMobile" />
+          <ParamSlider v-model="params.diastolic" label="舒张压(mmHg)" :min="40" :max="130" :compact="isMobile" />
+          <ParamSlider v-model="params.spo2" label="血氧(%)" :min="80" :max="100" :step="0.1" :compact="isMobile" />
+          <ParamSlider v-model="params.temperature" label="体温(°C)" :min="34" :max="42" :step="0.1" :compact="isMobile" />
+          <ParamSlider v-model="params.age" label="年龄" :min="50" :max="100" :compact="isMobile" />
+          <el-form-item label="护理等级">
+            <el-select v-model="params.careLevel" class="full" aria-label="护理等级">
+              <el-option label="特级" value="特级" />
+              <el-option label="一级" value="一级" />
+              <el-option label="二级" value="二级" />
+              <el-option label="三级" value="三级" />
+            </el-select>
           </el-form-item>
-          <el-form-item label="湿度">
-            <el-slider v-model="params.humidity" :min="0" :max="100" show-input />
-          </el-form-item>
-          <el-form-item label="人口密度">
-            <el-slider v-model="params.population" :min="0" :max="200" show-input />
-          </el-form-item>
-          <el-form-item label="交通流量">
-            <el-slider v-model="params.trafficFlow" :min="0" :max="100" show-input />
-          </el-form-item>
-          <el-form-item label="能源负荷">
-            <el-slider v-model="params.energyLoad" :min="0" :max="100" show-input />
-          </el-form-item>
-          <el-form-item label="阈值">
-            <el-slider v-model="params.threshold" :min="0" :max="1" :step="0.01" show-input />
-          </el-form-item>
+          <ParamSlider v-model="params.threshold" label="阈值" :min="0" :max="1" :step="0.01" :compact="isMobile" />
 
           <el-form-item label="场景图片">
             <div
@@ -113,7 +110,7 @@
 
         <div class="history glass-panel">
           <div class="panel-title">历史记录</div>
-          <el-table :data="history" stripe height="280" style="width: 100%">
+          <el-table v-if="!isMobile" :data="history" stripe height="280" style="width: 100%">
             <el-table-column prop="id" label="ID" width="70" />
             <el-table-column prop="model_type" label="模型" width="110" />
             <el-table-column label="得分" width="80">
@@ -127,6 +124,16 @@
             </el-table-column>
             <el-table-column prop="created_at" label="时间" min-width="160" />
           </el-table>
+
+          <!-- 手机：6 列固定宽度合计 620px，必然溢出，改卡片列表 -->
+          <MobileCardList
+            v-else
+            :rows="historyRows"
+            :fields="historyFields"
+            title-field="model_type"
+            empty-text="暂无预测记录"
+            :skeleton-count="2"
+          />
         </div>
       </div>
     </div>
@@ -137,7 +144,12 @@
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import ChartPanel from '@/components/ChartPanel.vue'
+import MobileCardList from '@/components/MobileCardList.vue'
+import ParamSlider from '@/components/ParamSlider.vue'
 import { getPredictHistory, runPredict } from '@/api'
+import { useBreakpoint } from '@/composables/useBreakpoint'
+
+const { isMobile } = useBreakpoint()
 
 const loading = ref(false)
 const file = ref(null)
@@ -150,31 +162,59 @@ const fileMeta = reactive({ name: '', sizeText: '', width: 0, height: 0 })
 const result = ref(null)
 const history = ref([])
 
+// 历史记录在窄屏改用卡片呈现：result 是嵌套对象，先摊平再交给卡片渲染
+const modelTypeLabel = {
+  fall_risk: '跌倒风险',
+  health_abnormal: '健康异常',
+  care_quality: '护理质量',
+  comprehensive: '综合风险'
+}
+
+const historyRows = computed(() =>
+  history.value.map((row) => ({
+    id: row.id,
+    model_type: modelTypeLabel[row.model_type] || row.model_type,
+    score: row.result?.score ?? '—',
+    confidence: row.result?.confidence != null ? `${row.result.confidence}%` : '—',
+    level: row.result?.level ?? '—',
+    created_at: row.created_at
+  }))
+)
+
+const historyFields = [
+  { prop: 'score', label: '得分' },
+  { prop: 'confidence', label: '置信度' },
+  { prop: 'level', label: '等级' },
+  { prop: 'created_at', label: '时间' }
+]
+
 const params = reactive({
-  modelType: 'traffic',
-  temperature: 22,
-  humidity: 55,
-  population: 80,
-  trafficFlow: 65,
-  energyLoad: 48,
+  modelType: 'fall_risk',
+  heartRate: 75,
+  systolic: 120,
+  diastolic: 80,
+  spo2: 97,
+  temperature: 36.5,
+  age: 75,
+  careLevel: '二级',
   threshold: 0.7
 })
 
 const chartOption = computed(() => ({
   backgroundColor: 'transparent',
   tooltip: { trigger: 'axis' },
-  legend: { textStyle: { color: '#9ec9e8' } },
+  legend: { textStyle: { color: '#d4a878' } },
   grid: { left: 40, right: 20, top: 40, bottom: 28 },
   xAxis: {
     type: 'category',
     data: (result.value?.series || []).map((i) => i.month),
-    axisLabel: { color: '#9ec9e8' },
-    axisLine: { lineStyle: { color: 'rgba(0,212,255,0.3)' } }
+    axisLabel: { color: '#d4a878' },
+    axisLine: { lineStyle: { color: 'rgba(255,140,66,0.3)' } }
   },
   yAxis: {
     type: 'value',
-    axisLabel: { color: '#9ec9e8' },
-    splitLine: { lineStyle: { color: 'rgba(0,212,255,0.08)' } }
+    axisLabel: { color: '#d4a878' },
+    splitLine: { lineStyle: { color: 'rgba(255,140,66,0.08)' } }
   },
   series: [
     {
@@ -183,13 +223,13 @@ const chartOption = computed(() => ({
       smooth: true,
       areaStyle: { opacity: 0.25 },
       data: (result.value?.series || []).map((i) => i.value),
-      color: '#00d4ff'
+      color: '#ff8c42'
     },
     {
       name: '因子贡献',
       type: 'bar',
       data: (result.value?.factors || []).map((i) => i.contribution),
-      itemStyle: { color: '#00ffa3' }
+      itemStyle: { color: '#ffb627' }
     }
   ]
 }))
@@ -219,12 +259,14 @@ function clearFile() {
 
 function resetParams() {
   Object.assign(params, {
-    modelType: 'traffic',
-    temperature: 22,
-    humidity: 55,
-    population: 80,
-    trafficFlow: 65,
-    energyLoad: 48,
+    modelType: 'fall_risk',
+    heartRate: 75,
+    systolic: 120,
+    diastolic: 80,
+    spo2: 97,
+    temperature: 36.5,
+    age: 75,
+    careLevel: '二级',
     threshold: 0.7
   })
   clearFile()
@@ -387,7 +429,7 @@ onMounted(loadHistory)
 onBeforeUnmount(() => revokePreview())
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .page {
   height: 100%;
 }
@@ -524,9 +566,74 @@ onBeforeUnmount(() => revokePreview())
 .chart {
   height: 280px;
 }
-@media (max-width: 1100px) {
+.full {
+  width: 100%;
+}
+
+@include below-desktop {
+  .page {
+    min-height: 100%;
+  }
+
   .layout {
     grid-template-columns: 1fr;
+  }
+}
+
+@include mobile {
+  .left,
+  .result,
+  .history {
+    padding: 12px;
+  }
+
+  /* 预测得分与右侧信息在窄屏改为纵向，避免被压扁 */
+  .score-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .score {
+    font-size: 34px;
+  }
+
+  .result-img {
+    max-width: 100%;
+    max-height: 160px;
+  }
+
+  /* 因子条：标签与数值收窄，给进度条留出空间 */
+  .factor {
+    grid-template-columns: 76px 1fr 44px;
+    gap: 6px;
+  }
+
+  .chart {
+    height: 240px;
+  }
+
+  .preview-wrap {
+    flex-direction: column;
+  }
+
+  .preview-wrap img {
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+  }
+
+  .upload-zone {
+    padding: 12px;
+  }
+
+  .upload-actions {
+    flex-direction: column;
+
+    :deep(.el-button) {
+      width: 100%;
+      margin-left: 0;
+    }
   }
 }
 </style>

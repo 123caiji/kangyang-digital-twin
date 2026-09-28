@@ -26,18 +26,16 @@
             <el-input v-model="form.panelBg" @change="preview" placeholder="支持 rgba()" />
           </el-form-item>
           <el-form-item label="字体">
-            <el-select v-model="form.fontFamily" style="width: 100%" @change="preview">
+            <el-select v-model="form.fontFamily" class="full" aria-label="字体" @change="preview">
               <el-option label="Orbitron + 思源黑体" value='"Orbitron", "Noto Sans SC", "Microsoft YaHei", sans-serif' />
               <el-option label="DIN + 微软雅黑" value='"DIN Alternate", "Microsoft YaHei", sans-serif' />
               <el-option label="思源黑体" value='"Noto Sans SC", "Microsoft YaHei", sans-serif' />
               <el-option label="等宽终端风" value='Consolas, "Courier New", monospace' />
             </el-select>
           </el-form-item>
-          <el-form-item label="字号">
-            <el-slider v-model="fontSize" :min="12" :max="20" :step="1" show-input @change="onFont" />
-          </el-form-item>
+          <ParamSlider v-model="fontSize" label="字号(px)" :min="12" :max="20" :step="1" :compact="isMobile" />
           <el-form-item label="默认3D主题">
-            <el-select v-model="form.modelTheme" style="width: 100%" @change="preview">
+            <el-select v-model="form.modelTheme" class="full" aria-label="默认三维主题" @change="preview">
               <el-option label="居室" value="room" />
               <el-option label="走廊" value="corridor" />
               <el-option label="餐厅" value="dining" />
@@ -46,7 +44,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="save">保存样式</el-button>
+            <el-button type="primary" :loading="saving" @click="save">保存样式</el-button>
             <el-button @click="reset">恢复默认</el-button>
           </el-form-item>
         </el-form>
@@ -69,17 +67,21 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
+import ParamSlider from '@/components/ParamSlider.vue'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 import { useThemeStore } from '@/stores/theme'
 
+const { isMobile } = useBreakpoint()
 const themeStore = useThemeStore()
 const form = reactive({ ...themeStore.settings })
 const fontSize = ref(Number(themeStore.settings.fontSize || 14))
+const saving = ref(false)
 
 const previewStyle = computed(() => ({
   background: form.bgColor,
-  color: '#e8f4ff',
+  color: '#e8d4c8',
   fontFamily: form.fontFamily,
   fontSize: `${fontSize.value}px`,
   '--p': form.primaryColor,
@@ -92,13 +94,21 @@ function onFont() {
   preview()
 }
 
+// 用 watch 而非事件回调，避免与 v-model 的更新顺序产生歧义
+watch(fontSize, onFont)
+
 function preview() {
   themeStore.setLocal({ ...form, fontSize: String(fontSize.value) })
 }
 
 async function save() {
-  await themeStore.save({ ...form, fontSize: String(fontSize.value) })
-  ElMessage.success('样式已保存')
+  saving.value = true
+  try {
+    await themeStore.save({ ...form, fontSize: String(fontSize.value) })
+    ElMessage.success('样式已保存')
+  } finally {
+    saving.value = false
+  }
 }
 
 function reset() {
@@ -124,51 +134,97 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.page { height: 100%; }
+<style scoped lang="scss">
+.page {
+  height: 100%;
+}
 .layout {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 14px;
   min-height: 100%;
 }
-.form, .preview {
+.form,
+.preview {
   padding: 16px;
 }
 .val {
   margin-left: 10px;
   color: var(--sc-muted);
+  overflow-wrap: anywhere;
 }
 .preview-box {
   min-height: 420px;
   padding: 24px;
-  border: 1px solid rgba(0, 212, 255, 0.25);
+  border: 1px solid rgba(255, 140, 66, 0.25);
 }
 .preview-box h2 {
   margin: 0 0 8px;
-  color: var(--p, #00d4ff);
+  color: var(--p, #ff8c42);
   letter-spacing: 2px;
 }
 .chips {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin: 18px 0;
 }
 .chips span {
   padding: 8px 14px;
-  background: var(--p, #00d4ff);
-  color: #041018;
+  background: var(--p, #ff8c42);
+  color: #1a1428;
 }
 .chips .accent {
-  background: var(--a, #00ffa3);
+  background: var(--a, #ffb627);
 }
 .panel-demo {
   margin-top: 20px;
   padding: 18px;
-  background: var(--panel, rgba(6, 30, 60, 0.55));
-  border: 1px solid rgba(0, 212, 255, 0.35);
+  background: var(--panel, rgba(40, 30, 50, 0.55));
+  border: 1px solid rgba(255, 140, 66, 0.35);
 }
-@media (max-width: 1000px) {
-  .layout { grid-template-columns: 1fr; }
+.full {
+  width: 100%;
+}
+
+@include below-desktop {
+  .page {
+    min-height: 100%;
+  }
+
+  /* 预览面板下沉到表单下方，窄屏不再左右挤 */
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include mobile {
+  .form,
+  .preview {
+    padding: 12px;
+  }
+
+  .preview-box {
+    min-height: 240px;
+    padding: 16px;
+  }
+
+  .preview-box h2 {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  /* 颜色选择器默认 32×32，触控偏小 */
+  :deep(.el-color-picker__trigger) {
+    width: var(--tap-min);
+    height: var(--tap-min);
+    padding: 6px;
+  }
+
+  .val {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 12px;
+  }
 }
 </style>
