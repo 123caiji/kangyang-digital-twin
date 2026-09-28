@@ -29,8 +29,8 @@ const TABLES = {
   },
   resident_health: {
     label: '健康监测',
-    columns: ['id', 'resident_id', 'resident_name', 'heart_rate', 'systolic', 'diastolic', 'spo2', 'temperature', 'glucose', 'status', 'measured_at', 'remark', 'created_at'],
-    writable: ['resident_id', 'resident_name', 'heart_rate', 'systolic', 'diastolic', 'spo2', 'temperature', 'glucose', 'status', 'measured_at', 'remark']
+    columns: ['id', 'resident_id', 'resident_name', 'heart_rate', 'breathing_rate', 'spo2', 'temperature', 'systolic', 'diastolic', 'glucose', 'fall_status', 'pir_status', 'status', 'measured_at', 'remark', 'created_at'],
+    writable: ['resident_id', 'resident_name', 'heart_rate', 'breathing_rate', 'spo2', 'temperature', 'systolic', 'diastolic', 'glucose', 'fall_status', 'pir_status', 'status', 'measured_at', 'remark']
   },
   care_records: {
     label: '护理记录',
@@ -39,8 +39,23 @@ const TABLES = {
   },
   room_environment: {
     label: '室内环境',
-    columns: ['id', 'room_no', 'temperature', 'humidity', 'pm25', 'co2', 'light', 'noise', 'status', 'measured_at', 'created_at'],
-    writable: ['room_no', 'temperature', 'humidity', 'pm25', 'co2', 'light', 'noise', 'status', 'measured_at']
+    columns: ['id', 'room_no', 'temperature', 'humidity', 'pm25', 'pm10', 'smoke', 'illumination', 'co2', 'light', 'noise', 'pir_status', 'status', 'measured_at', 'created_at'],
+    writable: ['room_no', 'temperature', 'humidity', 'pm25', 'pm10', 'smoke', 'illumination', 'co2', 'light', 'noise', 'pir_status', 'status', 'measured_at']
+  },
+  outdoor_weather: {
+    label: '室外气象',
+    columns: ['id', 'temperature', 'humidity', 'pressure', 'wind_direction', 'wind_speed', 'pm25', 'pm10', 'illumination', 'status', 'measured_at', 'created_at'],
+    writable: ['temperature', 'humidity', 'pressure', 'wind_direction', 'wind_speed', 'pm25', 'pm10', 'illumination', 'status', 'measured_at']
+  },
+  soil_monitor: {
+    label: '土壤监测',
+    columns: ['id', 'zone', 'soil_temp_1', 'soil_humi_1', 'soil_temp_2', 'soil_humi_2', 'soil_temp_3', 'soil_humi_3', 'ph', 'nitrogen', 'phosphorus', 'potassium', 'measured_at', 'created_at'],
+    writable: ['zone', 'soil_temp_1', 'soil_humi_1', 'soil_temp_2', 'soil_humi_2', 'soil_temp_3', 'soil_humi_3', 'ph', 'nitrogen', 'phosphorus', 'potassium', 'measured_at']
+  },
+  iot_raw_data: {
+    label: 'IoT原始数据',
+    columns: ['id', 'device_id', 'payload', 'received_at'],
+    writable: ['device_id', 'payload']
   },
   device_usage: {
     label: '设备使用',

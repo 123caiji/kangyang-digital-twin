@@ -7,4 +7,23 @@ server/uploads/
 dist/
 .DS_Store
 *.log
+
+# 环境变量：任何层级的 .env 都不提交（.env.example 模板需要保留）
 .env
+**/.env
+.env.local
+.env.*.local
+
+# 实测调试产物（体积大且可复现）；各视口截图作为改造证据保留
+.audit/probe-*.png
+.audit/compare-page.png
+.audit/smoke-last.png
+# 分阶段中间证据（before / after 已足以呈现前后对比）
+.audit/p1/
+.audit/p2/
+
+# Vite 在配置变化时生成的临时配置包（不应入库）
+vite.config.js.timestamp-*.mjs
+
+# 本地工具状态与工作记录（非交付物）
+.workbuddy/

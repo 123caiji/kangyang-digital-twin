@@ -14,11 +14,19 @@ import { computed, onMounted } from 'vue'
 import * as echarts from 'echarts'
 import 'echarts-gl'
 import ChartPanel from '@/components/ChartPanel.vue'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 
-const axis = {
-  axisLine: { lineStyle: { color: 'rgba(0,212,255,0.3)' } },
-  axisLabel: { color: '#9ec9e8' },
-  splitLine: { lineStyle: { color: 'rgba(0,212,255,0.08)' } }
+const { isMobile } = useBreakpoint()
+
+/** 窄屏：坐标轴字号收小并抽稀重叠标签 */
+function chartMetrics(mobile) {
+  return {
+    axis: {
+      axisLine: { lineStyle: { color: 'rgba(255,140,66,0.3)' } },
+      axisLabel: { color: '#d4a878', fontSize: mobile ? 9 : 12, hideOverlap: true },
+      splitLine: { lineStyle: { color: 'rgba(255,140,66,0.08)' } }
+    }
+  }
 }
 
 const treeData = {
@@ -65,6 +73,7 @@ function graphNodes(n = 40) {
 }
 
 const cards = computed(() => {
+  const { axis } = chartMetrics(isMobile.value)
   const g = graphNodes(36)
   const npm = graphNodes(80)
   const parallel = Array.from({ length: 40 }, () => [
@@ -90,7 +99,7 @@ const cards = computed(() => {
 
   return [
     {
-      title: '径向树状图 · 城市体系',
+      title: '径向树状图 · 康养体系',
       option: {
         backgroundColor: 'transparent',
         series: [
@@ -103,27 +112,27 @@ const cards = computed(() => {
             initialTreeDepth: 3,
             animationDurationUpdate: 750,
             emphasis: { focus: 'descendant' },
-            lineStyle: { color: 'rgba(0,212,255,0.45)', width: 1.2, curveness: 0.5 },
-            label: { color: '#e8f4ff', fontSize: 11 },
-            leaves: { label: { color: '#9ec9e8' } }
+            lineStyle: { color: 'rgba(255,140,66,0.45)', width: 1.2, curveness: 0.5 },
+            label: { color: '#e8d4c8', fontSize: 11 },
+            leaves: { label: { color: '#d4a878' } }
           }
         ]
       }
     },
     {
-      title: '关系图 · 自动隐藏重叠标签',
+      title: '康养关系图 · 住户设备关联',
       option: {
         backgroundColor: 'transparent',
-        legend: [{ data: ['交通', '能源', '安防', '环境'], textStyle: { color: '#9ec9e8' } }],
+        legend: [{ data: ['住户', '设备', '安全', '环境'], textStyle: { color: '#d4a878' } }],
         series: [
           {
             type: 'graph',
             layout: 'force',
             data: g.nodes,
             links: g.links,
-            categories: [{ name: '交通' }, { name: '能源' }, { name: '安防' }, { name: '环境' }],
+            categories: [{ name: '住户' }, { name: '设备' }, { name: '安全' }, { name: '环境' }],
             roam: true,
-            label: { show: true, position: 'right', color: '#e8f4ff', fontSize: 10 },
+            label: { show: true, position: 'right', color: '#e8d4c8', fontSize: 10 },
             labelLayout: { hideOverlap: true },
             lineStyle: { color: 'source', curveness: 0.2, opacity: 0.45 },
             force: { repulsion: 120, edgeLength: 60 },
@@ -133,7 +142,7 @@ const cards = computed(() => {
       }
     },
     {
-      title: 'WebKit 模块关系依赖图（示意）',
+      title: '康养系统模块依赖图（示意）',
       wide: true,
       option: {
         backgroundColor: 'transparent',
@@ -146,7 +155,7 @@ const cards = computed(() => {
             links: npm.links,
             categories: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }],
             roam: true,
-            label: { show: true, color: '#9ec9e8', fontSize: 9 },
+            label: { show: true, color: '#d4a878', fontSize: 9 },
             labelLayout: { hideOverlap: true },
             lineStyle: { color: 'source', curveness: 0.3, opacity: 0.35 },
             emphasis: { focus: 'adjacency', lineStyle: { width: 3 } }
@@ -155,19 +164,19 @@ const cards = computed(() => {
       }
     },
     {
-      title: 'AQI 分布（平行坐标）',
+      title: '健康指标分布（平行坐标）',
       option: {
         backgroundColor: 'transparent',
         parallelAxis: [
-          { dim: 0, name: 'AQI', nameTextStyle: { color: '#9ec9e8' }, axisLabel: { color: '#9ec9e8' } },
-          { dim: 1, name: 'PM2.5', nameTextStyle: { color: '#9ec9e8' }, axisLabel: { color: '#9ec9e8' } },
-          { dim: 2, name: 'PM10', nameTextStyle: { color: '#9ec9e8' }, axisLabel: { color: '#9ec9e8' } },
-          { dim: 3, name: 'CO', nameTextStyle: { color: '#9ec9e8' }, axisLabel: { color: '#9ec9e8' } },
-          { dim: 4, name: 'NO2', nameTextStyle: { color: '#9ec9e8' }, axisLabel: { color: '#9ec9e8' } },
-          { dim: 5, name: 'SO2', nameTextStyle: { color: '#9ec9e8' }, axisLabel: { color: '#9ec9e8' } }
+          { dim: 0, name: '心率', nameTextStyle: { color: '#d4a878' }, axisLabel: { color: '#d4a878' } },
+          { dim: 1, name: '血压', nameTextStyle: { color: '#d4a878' }, axisLabel: { color: '#d4a878' } },
+          { dim: 2, name: '血氧', nameTextStyle: { color: '#d4a878' }, axisLabel: { color: '#d4a878' } },
+          { dim: 3, name: '体温', nameTextStyle: { color: '#d4a878' }, axisLabel: { color: '#d4a878' } },
+          { dim: 4, name: '呼吸', nameTextStyle: { color: '#d4a878' }, axisLabel: { color: '#d4a878' } },
+          { dim: 5, name: '血糖', nameTextStyle: { color: '#d4a878' }, axisLabel: { color: '#d4a878' } }
         ],
-        parallel: { left: 40, right: 40, top: 40, bottom: 30, parallelAxisDefault: { axisLine: { lineStyle: { color: 'rgba(0,212,255,0.35)' } } } },
-        series: [{ type: 'parallel', lineStyle: { width: 1.2, opacity: 0.45, color: '#00d4ff' }, data: parallel }]
+        parallel: { left: 40, right: 40, top: 40, bottom: 30, parallelAxisDefault: { axisLine: { lineStyle: { color: 'rgba(255,140,66,0.35)' } } } },
+        series: [{ type: 'parallel', lineStyle: { width: 1.2, opacity: 0.45, color: '#ff8c42' }, data: parallel }]
       }
     },
     {
@@ -177,8 +186,8 @@ const cards = computed(() => {
         tooltip: {},
         visualMap: {
           max: 25,
-          inRange: { color: ['#0a2a4a', '#00d4ff', '#00ffa3'] },
-          textStyle: { color: '#9ec9e8' }
+          inRange: { color: ['#1a1428', '#ff8c42', '#42d97a'] },
+          textStyle: { color: '#d4a878' }
         },
         xAxis3D: { type: 'category', data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'] },
         yAxis3D: { type: 'category', data: ['东', '南', '西', '北', '中', '外', '远'] },
@@ -205,16 +214,16 @@ const cards = computed(() => {
             type: 'scatter3D',
             data: scatter3d,
             symbolSize: (d) => d[3] / 2 + 4,
-            itemStyle: { color: '#00d4ff', opacity: 0.85 }
+            itemStyle: { color: '#ff8c42', opacity: 0.85 }
           }
         ]
       }
     },
     {
-      title: '三维柱状图 · 分区负荷',
+      title: '三维柱状图 · 楼层健康负荷',
       option: {
         backgroundColor: 'transparent',
-        visualMap: { max: 20, inRange: { color: ['#123', '#00d4ff', '#ffaa00'] }, textStyle: { color: '#9ec9e8' } },
+        visualMap: { max: 20, inRange: { color: ['#123', '#ff8c42', '#ffaa00'] }, textStyle: { color: '#d4a878' } },
         xAxis3D: { type: 'category', data: ['A', 'B', 'C', 'D', 'E', 'F', 'G'] },
         yAxis3D: { type: 'category', data: ['1', '2', '3', '4', '5', '6', '7'] },
         zAxis3D: { type: 'value' },
@@ -223,12 +232,12 @@ const cards = computed(() => {
       }
     },
     {
-      title: 'Bar3D · 打卡统计柱状图',
+      title: 'Bar3D · 巡房打卡统计',
       option: {
         backgroundColor: 'transparent',
         tooltip: {},
-        visualMap: { max: 20, inRange: { color: ['#0b1c2e', '#38bdf8', '#00ffa3'] }, textStyle: { color: '#9ec9e8' } },
-        xAxis3D: { type: 'category', data: ['门岗1', '门岗2', '门岗3', '门岗4', '门岗5', '门岗6', '门岗7'] },
+        visualMap: { max: 20, inRange: { color: ['#1a1428', '#ff8c42', '#ffb627'] }, textStyle: { color: '#d4a878' } },
+        xAxis3D: { type: 'category', data: ['1楼东', '1楼西', '2楼东', '2楼西', '3楼东', '3楼西', '花园'] },
         yAxis3D: { type: 'category', data: ['00', '04', '08', '12', '16', '20', '23'] },
         zAxis3D: { type: 'value' },
         grid3D: { boxWidth: 150, boxDepth: 80, viewControl: { distance: 180 } },
@@ -270,14 +279,14 @@ const cards = computed(() => {
             type: 'scatter3D',
             data: scatter3d,
             symbolSize: 6,
-            itemStyle: { color: '#00ffa3' }
+            itemStyle: { color: '#42d97a' }
           },
           {
             type: 'scatter',
             xAxisIndex: 0,
             yAxisIndex: 0,
             data: scatter3d.map((d) => [d[0], d[1]]),
-            itemStyle: { color: '#00d4ff' }
+            itemStyle: { color: '#ff8c42' }
           },
           {
             type: 'scatter',
@@ -290,7 +299,7 @@ const cards = computed(() => {
       }
     },
     {
-      title: 'NPM 依赖图（大规模示意）',
+      title: '设备物联网络关系图（大规模示意）',
       wide: true,
       option: {
         backgroundColor: 'transparent',
@@ -313,7 +322,7 @@ const cards = computed(() => {
             categories: [{ name: 'core' }, { name: 'ui' }, { name: 'data' }, { name: 'util' }, { name: 'net' }],
             roam: true,
             label: { show: false },
-            lineStyle: { opacity: 0.25, width: 1, curveness: 0.15, color: '#00d4ff' },
+            lineStyle: { opacity: 0.25, width: 1, curveness: 0.15, color: '#ff8c42' },
             force: { repulsion: 40, edgeLength: [20, 60] },
             emphasis: { focus: 'adjacency' }
           }
@@ -329,7 +338,7 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .charts { height: 100%; }
 .grid {
   display: grid;
@@ -345,8 +354,23 @@ onMounted(() => {
   height: 420px;
 }
 .chart { height: calc(100% - 26px); }
-@media (max-width: 1100px) {
+
+@include below-narrow-desktop {
   .grid { grid-template-columns: 1fr; }
   .card.wide { grid-column: auto; }
+}
+
+@include mobile {
+  .grid { gap: 12px; }
+
+  /* 3D/关系图在窄屏需要更多纵向空间才看得清，适度加高 */
+  .card {
+    height: 340px;
+    padding: 10px;
+  }
+
+  .card.wide {
+    height: 380px;
+  }
 }
 </style>

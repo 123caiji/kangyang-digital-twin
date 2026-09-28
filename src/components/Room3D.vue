@@ -1,12 +1,20 @@
-<template>
-  <div ref="wrapRef" class="city3d">
+﻿<template>
+  <div ref="wrapRef" class="room3d" :class="{ 'is-touch': isTouch }">
     <canvas ref="fxRef" class="fx-layer"></canvas>
-    <div class="hint" v-if="!selected">鼠标拖拽 / 方向键旋转俯仰 · Q/E 缩放 · 滚轮缩放 · 点击查看数据</div>
+    <div class="hint" v-if="!selected && !glFailed">{{ hintText }}</div>
+    <div class="gl-fallback" v-if="glFailed" role="status">
+      <div class="gl-icon" aria-hidden="true">3D</div>
+      <p class="gl-title">当前设备未启用 WebGL，3D 场景无法渲染</p>
+      <p class="gl-sub">
+        可改用「健康监测 / 护理分析 / 空间关系」等图表页面查看同样的业务数据，
+        或在浏览器设置中开启硬件加速后重试。
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import * as THREE from 'three'
 
 const props = defineProps({
@@ -14,11 +22,24 @@ const props = defineProps({
   themeData: { type: Object, default: () => ({}) }
 })
 
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select', 'webgl-failed'])
 
 const wrapRef = ref(null)
 const fxRef = ref(null)
 const selected = ref(null)
+const glFailed = ref(false)
+
+// 触控设备：手势提示与低像素比（兼顾移动端性能）
+const isTouch = ref(
+  typeof window !== 'undefined' && window.matchMedia
+    ? window.matchMedia('(pointer: coarse)').matches
+    : false
+)
+const hintText = computed(() =>
+  isTouch.value
+    ? '单指拖拽旋转俯仰 · 双指捏合缩放 · 轻点模型查看数据'
+    : '鼠标拖拽 / 方向键旋转俯仰 · Q/E 缩放 · 滚轮缩放 · 点击查看数据'
+)
 
 let renderer, scene, camera, animationId, raycaster, mouse
 let interactive = []
@@ -40,10 +61,21 @@ let animatables = []
 let clock = null
 let alive = false
 let rebuildTimer = null
+let resizeObserver = null
+// 多点指针跟踪：用于双指捏合缩放
+const activePointers = new Map()
+let pinchDistance = 0
+let pinchRadius = 40
+let pinchActive = false
 const keys = Object.create(null)
 const KEY_ROTATE = 0.035
 const KEY_PITCH = 0.35
 const KEY_ZOOM = 0.45
+const STEP_ROTATE = 0.2
+const STEP_PITCH = 3
+const STEP_ZOOM = 4
+// 相机轨道限位，键盘 / 手势 / 虚拟按钮共用
+const LIMIT = { radiusMin: 18, radiusMax: 65, heightMin: 8, heightMax: 35 }
 
 const THEMES = {
   room: {
@@ -52,7 +84,7 @@ const THEMES = {
     ground: 0x2a2030,
     accent: 0xff8c42,
     secondary: 0xffb627,
-    building: 0x4a3a2a,
+    wall: 0x4a3a2a,
     emissive: 0x3a2a1a,
     skyGlow: '#2a1f1a'
   },
@@ -62,7 +94,7 @@ const THEMES = {
     ground: 0x1a2820,
     accent: 0x42d9b8,
     secondary: 0x6ec8ff,
-    building: 0x2a4a3a,
+    wall: 0x2a4a3a,
     emissive: 0x1a3a2a,
     skyGlow: '#102018'
   },
@@ -72,7 +104,7 @@ const THEMES = {
     ground: 0x2a2418,
     accent: 0xffb627,
     secondary: 0xff8c42,
-    building: 0x4a3a1a,
+    wall: 0x4a3a1a,
     emissive: 0x3a2a10,
     skyGlow: '#2a2010'
   },
@@ -82,7 +114,7 @@ const THEMES = {
     ground: 0x14242e,
     accent: 0x4fb8d9,
     secondary: 0x6ec8ff,
-    building: 0x1a3a4a,
+    wall: 0x1a3a4a,
     emissive: 0x0a2a3a,
     skyGlow: '#0a1820'
   },
@@ -92,7 +124,7 @@ const THEMES = {
     ground: 0x102818,
     accent: 0x6dd97a,
     secondary: 0xa0e8b0,
-    building: 0x1a4a2a,
+    wall: 0x1a4a2a,
     emissive: 0x0a3a1a,
     skyGlow: '#082014'
   }
@@ -123,17 +155,22 @@ function destroy() {
   alive = false
   if (rebuildTimer) { clearTimeout(rebuildTimer); rebuildTimer = null }
   if (animationId) { cancelAnimationFrame(animationId); animationId = null }
+  if (resizeObserver) { try { resizeObserver.disconnect() } catch { /* ignore */ } resizeObserver = null }
   window.removeEventListener('resize', onResize)
   window.removeEventListener('keydown', onKeyDown)
   window.removeEventListener('keyup', onKeyUp)
   Object.keys(keys).forEach((k) => { keys[k] = false })
   isDragging = false
+  dragMoved = false
+  activePointers.clear()
+  pinchActive = false
   const dom = renderer?.domElement
   if (dom) {
     try {
       dom.removeEventListener('pointerdown', onPointerDown)
       dom.removeEventListener('pointermove', onPointerMove)
       dom.removeEventListener('pointerup', onPointerUp)
+      dom.removeEventListener('pointercancel', onPointerUp)
       dom.removeEventListener('pointerleave', onPointerUp)
       dom.removeEventListener('wheel', onWheel)
     } catch { /* ignore */ }
@@ -145,6 +182,17 @@ function destroy() {
   if (dom?.parentNode) { try { dom.parentNode.removeChild(dom) } catch { /* ignore */ } }
   renderer = null; scene = null; camera = null
   selected.value = null
+}
+
+/** WebGL 能力探测：不支持时降级为静态提示，避免黑屏 */
+function hasWebGL() {
+  try {
+    if (typeof window === 'undefined' || !window.WebGLRenderingContext) return false
+    const canvas = document.createElement('canvas')
+    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+  } catch {
+    return false
+  }
 }
 
 function mat(opts = {}) {
@@ -1056,9 +1104,18 @@ function updateCamera() {
 
 function init() {
   if (alive) destroy()
-  alive = true
   const el = wrapRef.value
   if (!el) return
+
+  // WebGL 不可用：给出可读降级提示，而不是留一块黑屏
+  if (!hasWebGL()) {
+    glFailed.value = true
+    emit('webgl-failed')
+    return
+  }
+
+  alive = true
+  glFailed.value = false
   const w = el.clientWidth || window.innerWidth
   const h = el.clientHeight || window.innerHeight
   clock = new THREE.Clock()
@@ -1067,8 +1124,16 @@ function init() {
   camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 300)
   updateCamera()
 
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  try {
+    renderer = new THREE.WebGLRenderer({ antialias: !isTouch.value, alpha: true })
+  } catch (err) {
+    alive = false
+    glFailed.value = true
+    emit('webgl-failed')
+    return
+  }
+  // 触控设备降低像素比，兼顾清晰度与帧率
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch.value ? 1.5 : 2))
   renderer.setSize(w, h)
   renderer.setClearColor(0x000000, 0)
   renderer.outputColorSpace = THREE.SRGBColorSpace
@@ -1088,14 +1153,22 @@ function init() {
   mouse = new THREE.Vector2()
 
   const dom = renderer.domElement
+  dom.style.touchAction = 'none' // 触摸手势自行处理，避免与页面滚动/缩放抢事件
   dom.addEventListener('pointerdown', onPointerDown)
   dom.addEventListener('pointermove', onPointerMove)
   dom.addEventListener('pointerup', onPointerUp)
+  dom.addEventListener('pointercancel', onPointerUp)
   dom.addEventListener('pointerleave', onPointerUp)
   dom.addEventListener('wheel', onWheel, { passive: true })
   window.addEventListener('keydown', onKeyDown)
   window.addEventListener('keyup', onKeyUp)
   window.addEventListener('resize', onResize)
+
+  // 容器尺寸变化（侧栏折叠、抽屉开合、横竖屏切换）也能触发重绘
+  if (typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(() => onResize())
+    resizeObserver.observe(el)
+  }
 
   buildTheme(props.theme)
   animate()
@@ -1122,37 +1195,91 @@ function applyKeyboardOrbit() {
   let moved = false
   if (keys.ArrowLeft || keys.KeyA) { orbitAngle -= KEY_ROTATE; moved = true }
   if (keys.ArrowRight || keys.KeyD) { orbitAngle += KEY_ROTATE; moved = true }
-  if (keys.ArrowUp || keys.KeyW) { orbitHeight = Math.min(35, orbitHeight + KEY_PITCH); moved = true }
-  if (keys.ArrowDown || keys.KeyS) { orbitHeight = Math.max(8, orbitHeight - KEY_PITCH); moved = true }
-  if (keys.KeyQ) { orbitRadius = Math.min(65, orbitRadius + KEY_ZOOM); moved = true }
-  if (keys.KeyE) { orbitRadius = Math.max(18, orbitRadius - KEY_ZOOM); moved = true }
+  if (keys.ArrowUp || keys.KeyW) { orbitHeight = Math.min(LIMIT.heightMax, orbitHeight + KEY_PITCH); moved = true }
+  if (keys.ArrowDown || keys.KeyS) { orbitHeight = Math.max(LIMIT.heightMin, orbitHeight - KEY_PITCH); moved = true }
+  if (keys.KeyQ) { orbitRadius = Math.min(LIMIT.radiusMax, orbitRadius + KEY_ZOOM); moved = true }
+  if (keys.KeyE) { orbitRadius = Math.max(LIMIT.radiusMin, orbitRadius - KEY_ZOOM); moved = true }
   if (moved) updateCamera()
 }
 
+function pointerList() {
+  return [...activePointers.values()]
+}
+
+function measurePinch() {
+  const [a, b] = pointerList()
+  if (!a || !b) return 0
+  return Math.hypot(a.x - b.x, a.y - b.y)
+}
+
 function onPointerDown(e) {
-  isDragging = true; dragMoved = false
-  lastX = e.clientX; lastY = e.clientY
+  activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+  // 双指：进入捏合缩放，暂停单指旋转
+  if (activePointers.size === 2) {
+    pinchDistance = measurePinch()
+    pinchRadius = orbitRadius
+    pinchActive = true
+    isDragging = false
+    dragMoved = true
+    return
+  }
+  if (activePointers.size > 2) return
+
+  isDragging = true
+  dragMoved = false
+  lastX = e.clientX
+  lastY = e.clientY
 }
 
 function onPointerMove(e) {
+  if (!activePointers.has(e.pointerId)) return
+  activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+  // 双指捏合缩放：按两指距离比例映射到相机半径
+  if (pinchActive && activePointers.size >= 2) {
+    const d = measurePinch()
+    if (pinchDistance > 0 && d > 0) {
+      orbitRadius = Math.min(LIMIT.radiusMax, Math.max(LIMIT.radiusMin, pinchRadius * (pinchDistance / d)))
+      updateCamera()
+    }
+    dragMoved = true
+    return
+  }
+
   if (!isDragging) return
   const dx = e.clientX - lastX
   const dy = e.clientY - lastY
   if (Math.abs(dx) + Math.abs(dy) > 3) dragMoved = true
   lastX = e.clientX; lastY = e.clientY
   orbitAngle += dx * 0.005
-  orbitHeight = Math.min(35, Math.max(8, orbitHeight - dy * 0.04))
+  orbitHeight = Math.min(LIMIT.heightMax, Math.max(LIMIT.heightMin, orbitHeight - dy * 0.04))
   updateCamera()
 }
 
 function onPointerUp(e) {
+  activePointers.delete(e.pointerId)
+  if (activePointers.size < 2) pinchActive = false
+
+  // 从双指退回单指：重置拖拽基准，避免相机跳变
+  if (activePointers.size === 1) {
+    const [p] = pointerList()
+    lastX = p.x
+    lastY = p.y
+    isDragging = true
+    dragMoved = true
+    return
+  }
+  if (activePointers.size > 1) return
+
   const wasDrag = dragMoved
   isDragging = false
+  dragMoved = false
   if (!wasDrag) pick(e)
 }
 
 function onWheel(e) {
-  orbitRadius = Math.min(65, Math.max(18, orbitRadius + e.deltaY * 0.025))
+  orbitRadius = Math.min(LIMIT.radiusMax, Math.max(LIMIT.radiusMin, orbitRadius + e.deltaY * 0.025))
   updateCamera()
 }
 
@@ -1262,22 +1389,45 @@ onBeforeUnmount(() => destroy())
 
 defineExpose({
   clearSelect() { selected.value = null; clearSelectionEffect() },
-  destroy
+  destroy,
+  // 供虚拟控制按钮 / 无障碍键盘操作调用（步进值比连续按键更明确）
+  rotateBy(direction = 1) { orbitAngle += STEP_ROTATE * direction; updateCamera() },
+  pitchBy(direction = 1) {
+    orbitHeight = Math.min(LIMIT.heightMax, Math.max(LIMIT.heightMin, orbitHeight + STEP_PITCH * direction))
+    updateCamera()
+  },
+  zoomBy(direction = 1) {
+    orbitRadius = Math.min(LIMIT.radiusMax, Math.max(LIMIT.radiusMin, orbitRadius + STEP_ZOOM * direction))
+    updateCamera()
+  },
+  resetView() { orbitAngle = 0.55; orbitRadius = 40; orbitHeight = 20; updateCamera() },
+  isWebglReady: () => alive && !!renderer
 })
 </script>
 
 <style scoped>
-.city3d {
+.room3d {
   position: absolute;
   inset: 0;
   z-index: 0;
   cursor: grab;
+  touch-action: none; /* 手势由组件接管，避免与页面滚动冲突 */
   --glow: #2a1f1a;
   background:
     radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--glow) 70%, transparent), transparent 55%),
     radial-gradient(ellipse at 50% 100%, rgba(40, 30, 50, 0.35), transparent 50%);
 }
-.city3d:active { cursor: grabbing; }
+.room3d:active { cursor: grabbing; }
+.room3d.is-touch { cursor: default; }
+
+/* 触控端：提示移到顶部，底部让位给虚拟控制条 */
+.room3d.is-touch .hint {
+  top: 10px;
+  bottom: auto;
+  font-size: 11px;
+  padding: 6px 12px;
+  letter-spacing: 0.5px;
+}
 .fx-layer { display: none; }
 .hint {
   position: absolute;
@@ -1285,6 +1435,7 @@ defineExpose({
   bottom: 42px;
   transform: translateX(-50%);
   z-index: 2;
+  max-width: calc(100% - 32px);
   padding: 8px 16px;
   font-size: 12px;
   color: var(--sc-muted);
@@ -1292,6 +1443,51 @@ defineExpose({
   border: 1px solid var(--sc-border);
   pointer-events: none;
   letter-spacing: 1px;
+  text-align: center;
   backdrop-filter: blur(6px);
 }
+
+/* WebGL 降级：给出可读说明，避免黑屏 */
+.gl-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  background: rgba(20, 15, 25, 0.72);
+  backdrop-filter: blur(4px);
+}
+.gl-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--sc-border);
+  color: var(--sc-primary);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: linear-gradient(135deg, rgba(255, 140, 66, 0.16), transparent 60%);
+}
+.gl-title {
+  margin: 0;
+  font-size: 14px;
+  color: var(--sc-primary);
+  letter-spacing: 1px;
+}
+.gl-sub {
+  margin: 0;
+  max-width: 420px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--sc-muted);
+}
 </style>
+
