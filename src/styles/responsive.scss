@@ -1,0 +1,54 @@
+// ============================================================
+// 响应式 mixin · 经 vite.config.js 的 additionalData 全局注入
+// 任意 <style lang="scss"> 中可直接 @include mobile { ... }
+// ============================================================
+@forward './tokens.scss';
+
+/// 手机：< 768px
+@mixin mobile {
+  @media (max-width: 767.98px) {
+    @content;
+  }
+}
+
+/// 平板：768px - 1023px
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023.98px) {
+    @content;
+  }
+}
+
+/// 桌面：>= 1024px
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+/// 桌面以下（手机 + 平板）：< 1024px
+@mixin below-desktop {
+  @media (max-width: 1023.98px) {
+    @content;
+  }
+}
+
+/// 窄桌面及以下：< 1100px
+@mixin below-narrow-desktop {
+  @media (max-width: 1099.98px) {
+    @content;
+  }
+}
+
+/// 触控优先设备（手机 / 平板 / 触摸屏）
+@mixin coarse-pointer {
+  @media (pointer: coarse) {
+    @content;
+  }
+}
+
+/// 用户偏好减弱动效
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

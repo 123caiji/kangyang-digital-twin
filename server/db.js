@@ -71,11 +71,14 @@ CREATE TABLE IF NOT EXISTS resident_health (
   resident_id INTEGER,
   resident_name TEXT,
   heart_rate INTEGER,
-  systolic INTEGER,
-  diastolic INTEGER,
+  breathing_rate INTEGER,
   spo2 REAL,
   temperature REAL,
+  systolic INTEGER,
+  diastolic INTEGER,
   glucose REAL,
+  fall_status TEXT,
+  pir_status INTEGER,
   status TEXT DEFAULT 'normal',
   measured_at TEXT,
   remark TEXT,
@@ -101,9 +104,13 @@ CREATE TABLE IF NOT EXISTS room_environment (
   temperature REAL,
   humidity REAL,
   pm25 REAL,
+  pm10 REAL,
+  smoke REAL,
+  illumination INTEGER,
   co2 INTEGER,
   light INTEGER,
   noise REAL,
+  pir_status INTEGER,
   status TEXT DEFAULT 'normal',
   measured_at TEXT,
   created_at TEXT DEFAULT (datetime('now','localtime'))
@@ -163,6 +170,45 @@ CREATE TABLE IF NOT EXISTS predict_history (
   result TEXT,
   image_path TEXT,
   user_id INTEGER,
+  created_at TEXT DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS iot_raw_data (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  device_id TEXT,
+  payload TEXT,
+  received_at TEXT DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS outdoor_weather (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  temperature REAL,
+  humidity REAL,
+  pressure REAL,
+  wind_direction INTEGER,
+  wind_speed REAL,
+  pm25 REAL,
+  pm10 REAL,
+  illumination INTEGER,
+  status TEXT DEFAULT 'normal',
+  measured_at TEXT,
+  created_at TEXT DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS soil_monitor (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  zone TEXT,
+  soil_temp_1 REAL,
+  soil_humi_1 REAL,
+  soil_temp_2 REAL,
+  soil_humi_2 REAL,
+  soil_temp_3 REAL,
+  soil_humi_3 REAL,
+  ph REAL,
+  nitrogen REAL,
+  phosphorus REAL,
+  potassium REAL,
+  measured_at TEXT,
   created_at TEXT DEFAULT (datetime('now','localtime'))
 );
 `)
@@ -250,19 +296,22 @@ function seed() {
   if (healthCount === 0) {
     const residents = db.prepare('SELECT id, name FROM residents').all()
     const insert = db.prepare(
-      `INSERT INTO resident_health (resident_id, resident_name, heart_rate, systolic, diastolic, spo2, temperature, glucose, status, measured_at, remark)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO resident_health (resident_id, resident_name, heart_rate, breathing_rate, systolic, diastolic, spo2, temperature, glucose, fall_status, pir_status, status, measured_at, remark)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     for (const r of residents) {
       for (let d = 0; d < 7; d++) {
         const hr = 60 + Math.floor(Math.random() * 30)
+        const br = 14 + Math.floor(Math.random() * 8)
         const sys = 110 + Math.floor(Math.random() * 40)
         const dia = 70 + Math.floor(Math.random() * 25)
         const spo2 = +(95 + Math.random() * 5).toFixed(1)
         const temp = +(36.3 + Math.random() * 1.2).toFixed(1)
         const glucose = +(4 + Math.random() * 6).toFixed(1)
-        const status = hr > 90 || sys > 150 || dia > 100 || spo2 < 96 ? 'attention' : 'normal'
-        insert.run(r.id, r.name, hr, sys, dia, spo2, temp, glucose, status,
+        const fall = Math.random() > 0.92 ? 'detected' : 'none'
+        const pir = Math.random() > 0.7 ? 1 : 0
+        const status = hr > 90 || sys > 150 || dia > 100 || spo2 < 96 || fall === 'detected' ? 'attention' : 'normal'
+        insert.run(r.id, r.name, hr, br, sys, dia, spo2, temp, glucose, fall, pir, status,
           new Date(Date.now() - d * 86400000).toISOString(), '日常监测')
       }
     }
@@ -295,8 +344,8 @@ function seed() {
       rooms.push({ room_no: '101' }, { room_no: '102' }, { room_no: '201' }, { room_no: '202' })
     }
     const insert = db.prepare(
-      `INSERT INTO room_environment (room_no, temperature, humidity, pm25, co2, light, noise, status, measured_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO room_environment (room_no, temperature, humidity, pm25, pm10, smoke, illumination, co2, light, noise, pir_status, status, measured_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     for (let d = 0; d < 14; d++) {
       const date = new Date(Date.now() - d * 86400000).toISOString()
@@ -305,9 +354,13 @@ function seed() {
           +(22 + Math.random() * 4).toFixed(1),
           +(45 + Math.random() * 20).toFixed(1),
           +(Math.random() * 50 + 10).toFixed(1),
+          +(Math.random() * 80 + 20).toFixed(1),
+          +(Math.random() * 0.3).toFixed(2),
+          Math.floor(200 + Math.random() * 400),
           Math.floor(400 + Math.random() * 600),
           Math.floor(100 + Math.random() * 300),
           +(Math.random() * 40 + 20).toFixed(1),
+          Math.random() > 0.7 ? 1 : 0,
           'normal', date)
       }
     }
@@ -353,6 +406,56 @@ function seed() {
         statuses[i % 3] === 'resolved' ? '李护士' : null,
         statuses[i % 3] === 'resolved' ? new Date().toISOString() : null
       )
+    }
+  }
+
+  const weatherCount = db.prepare('SELECT COUNT(*) as c FROM outdoor_weather').get().c
+  if (weatherCount === 0) {
+    const insert = db.prepare(
+      `INSERT INTO outdoor_weather (temperature, humidity, pressure, wind_direction, wind_speed, pm25, pm10, illumination, status, measured_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    for (let d = 0; d < 14; d++) {
+      const date = new Date(Date.now() - d * 86400000).toISOString()
+      insert.run(
+        +(15 + Math.random() * 15).toFixed(1),
+        +(30 + Math.random() * 50).toFixed(1),
+        Math.floor(990 + Math.random() * 30),
+        Math.floor(Math.random() * 360),
+        +(Math.random() * 8).toFixed(1),
+        +(Math.random() * 80 + 10).toFixed(1),
+        +(Math.random() * 120 + 20).toFixed(1),
+        Math.floor(10000 + Math.random() * 40000),
+        'normal', date
+      )
+    }
+  }
+
+  const soilCount = db.prepare('SELECT COUNT(*) as c FROM soil_monitor').get().c
+  if (soilCount === 0) {
+    const zones = ['花园A区', '花园B区', '菜地区', '药草区']
+    const insert = db.prepare(
+      `INSERT INTO soil_monitor (zone, soil_temp_1, soil_humi_1, soil_temp_2, soil_humi_2, soil_temp_3, soil_humi_3, ph, nitrogen, phosphorus, potassium, measured_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    for (const zone of zones) {
+      for (let d = 0; d < 7; d++) {
+        const date = new Date(Date.now() - d * 86400000).toISOString()
+        insert.run(
+          zone,
+          +(18 + Math.random() * 8).toFixed(1),
+          +(30 + Math.random() * 40).toFixed(1),
+          +(18 + Math.random() * 8).toFixed(1),
+          +(30 + Math.random() * 40).toFixed(1),
+          +(18 + Math.random() * 8).toFixed(1),
+          +(30 + Math.random() * 40).toFixed(1),
+          +(6 + Math.random() * 1.5).toFixed(1),
+          +(40 + Math.random() * 60).toFixed(1),
+          +(15 + Math.random() * 30).toFixed(1),
+          +(80 + Math.random() * 80).toFixed(1),
+          date
+        )
+      }
     }
   }
 

@@ -1,6 +1,26 @@
-<template>
+﻿<template>
   <div class="twin-page" :class="`theme-${modelTheme}`">
-    <City3D ref="cityRef" :theme="modelTheme" :theme-data="themePayload" @select="onSelect" />
+    <div class="stage">
+      <Room3D
+        ref="roomRef"
+        :theme="modelTheme"
+        :theme-data="themePayload"
+        @select="onSelect"
+        @webgl-failed="onWebglFailed"
+      />
+
+      <!-- 触控设备：键盘可控项在移动端的等价入口 -->
+      <div v-if="isCoarsePointer && !webglFailed" class="stage-tools" role="group" aria-label="三维视图控制">
+        <button type="button" aria-label="向左旋转" @click="viewCtrl('rotate', -1)">‹</button>
+        <button type="button" aria-label="向右旋转" @click="viewCtrl('rotate', 1)">›</button>
+        <button type="button" aria-label="升高视角" @click="viewCtrl('pitch', 1)">▲</button>
+        <button type="button" aria-label="降低视角" @click="viewCtrl('pitch', -1)">▼</button>
+        <span class="split" aria-hidden="true"></span>
+        <button type="button" aria-label="拉远视角" @click="viewCtrl('zoom', 1)">−</button>
+        <button type="button" aria-label="拉近视角" @click="viewCtrl('zoom', -1)">+</button>
+        <button type="button" aria-label="重置视角" @click="viewCtrl('reset')">⟳</button>
+      </div>
+    </div>
 
     <header class="hud top">
       <div class="brand">
@@ -11,29 +31,32 @@
         </div>
       </div>
 
-      <div class="theme-switch">
+      <div class="theme-switch" role="group" aria-label="三维场景切换">
         <button
           v-for="t in themes"
           :key="t.key"
+          type="button"
           :class="{ active: modelTheme === t.key }"
+          :aria-pressed="modelTheme === t.key"
           @click="switchTheme(t.key)"
         >
-          <i :style="{ background: t.color }"></i>
+          <i :style="{ background: t.color }" aria-hidden="true"></i>
           {{ t.label }}
         </button>
       </div>
 
-      <div class="nav">
-        <a
+      <nav class="nav" aria-label="主菜单">
+        <button
           v-for="m in menus"
           :key="m.path"
-          href="javascript:;"
+          type="button"
           class="link"
           :class="{ active: m.path === '/dashboard' }"
-          @click.prevent="goPage(m.path)"
-        >{{ m.title }}</a>
-        <button class="link danger" @click="logout">退出</button>
-      </div>
+          :aria-current="m.path === '/dashboard' ? 'page' : undefined"
+          @click="goPage(m.path)"
+        >{{ m.title }}</button>
+        <button type="button" class="link danger" @click="logout">退出</button>
+      </nav>
     </header>
 
     <aside class="hud side glass-panel">
@@ -55,10 +78,37 @@
       <ul class="comp-list soft">
         <li v-for="e in currentTheme.effects" :key="e">{{ e }}</li>
       </ul>
+      <div class="panel-title mt" v-if="iotData">IoT实时数据</div>
+      <div class="iot-mini" v-if="iotData">
+        <div class="iot-row" v-if="iotData.healthLatest?.length">
+          <span>健康监测</span>
+          <b>{{ iotData.healthLatest.length }}人</b>
+        </div>
+        <div class="iot-row" v-if="iotData.fallCount !== undefined">
+          <span>跌倒检测</span>
+          <b :class="{ alert: iotData.fallCount > 0 }">{{ iotData.fallCount }}次</b>
+        </div>
+        <div class="iot-row" v-if="iotData.envLatest?.length">
+          <span>环境监测</span>
+          <b>{{ iotData.envLatest.length }}间</b>
+        </div>
+        <div class="iot-row" v-if="iotData.outdoorLatest">
+          <span>室外温度</span>
+          <b>{{ iotData.outdoorLatest.temperature }}°C</b>
+        </div>
+        <div class="iot-row" v-if="iotData.soilLatest?.length">
+          <span>土壤监测</span>
+          <b>{{ iotData.soilLatest.length }}区</b>
+        </div>
+      </div>
+      <button class="iot-sim-btn" @click="simulateIoT" :disabled="simLoading">
+        {{ simLoading ? '推送中...' : '模拟IoT数据上报' }}
+      </button>
       <p class="tip">鼠标拖拽或方向键/WASD 旋转俯仰 · Q/E 或滚轮缩放 · 点击模型查看数据</p>
     </aside>
 
     <aside class="hud detail glass-panel" v-if="selected" :class="selected.status">
+      <div class="sheet-handle" aria-hidden="true"></div>
       <div class="detail-head">
         <div>
           <div class="panel-title">{{ selected.name }}</div>
@@ -97,15 +147,24 @@
       <div class="meta">当前场景：{{ currentTheme.label }} · {{ now }}</div>
     </footer>
 
-    <button class="ai-fab" @click="showAi = !showAi" title="AI健康管家">
+    <button
+      class="ai-fab"
+      type="button"
+      title="AI健康管家"
+      aria-label="AI 健康管家"
+      aria-controls="ai-panel"
+      :aria-expanded="showAi"
+      @click="showAi = !showAi"
+    >
       <span class="ai-icon">AI</span>
     </button>
 
     <transition name="slide-left">
-      <aside class="ai-panel glass-panel" v-if="showAi">
+      <aside id="ai-panel" class="ai-panel glass-panel" v-if="showAi" aria-label="AI 健康管家">
+        <div class="sheet-handle" aria-hidden="true"></div>
         <div class="ai-header">
           <span>AI 健康管家</span>
-          <button class="ai-close" @click="showAi = false">×</button>
+          <button class="ai-close" type="button" aria-label="关闭 AI 面板" @click="showAi = false">×</button>
         </div>
         <div class="ai-suggestions">
           <button v-for="q in quickQuestions" :key="q" @click="askAI(q)" :disabled="aiLoading">{{ q }}</button>
@@ -121,10 +180,11 @@
           <input
             v-model="aiQuestion"
             placeholder="输入你的问题..."
+            aria-label="向 AI 健康管家提问"
             @keydown.enter="askAI()"
             :disabled="aiLoading"
           />
-          <button @click="askAI()" :disabled="aiLoading || !aiQuestion.trim()">发送</button>
+          <button type="button" @click="askAI()" :disabled="aiLoading || !aiQuestion.trim()">发送</button>
         </div>
         <div class="ai-footer" v-if="aiTokens">消耗 {{ aiTokens }} tokens · {{ aiModel }}</div>
       </aside>
@@ -136,15 +196,18 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
-import City3D from '@/components/City3D.vue'
-import { getOverview, getTableData, aiAnalyze } from '@/api'
+import Room3D from '@/components/Room3D.vue'
+import { getOverview, getTableData, aiAnalyze, iotDashboard, iotSimulate } from '@/api'
 import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 
 const router = useRouter()
 const themeStore = useThemeStore()
 const userStore = useUserStore()
-const cityRef = ref(null)
+const { isCoarsePointer } = useBreakpoint()
+const roomRef = ref(null)
+const webglFailed = ref(false)
 
 const modelTheme = ref('room')
 const selected = ref(null)
@@ -154,6 +217,8 @@ const healthRows = ref([])
 const alarmRows = ref([])
 const envRows = ref([])
 const deviceRows = ref([])
+const iotData = ref(null)
+const simLoading = ref(false)
 const now = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
 
 const showAi = ref(false)
@@ -275,7 +340,7 @@ const themePayload = computed(() => {
       unit: 'bpm',
       district: '101室',
       status: r.status === 'normal' ? 'normal' : r.status === 'attention' ? 'warning' : 'critical',
-      remark: `${r.resident_name} 健康监测`
+      remark: `${r.resident_name} 心率${r.heart_rate} 呼吸${r.breathing_rate || '--'} SpO2 ${r.spo2 || '--'}% ${r.fall_status === 'detected' ? '·跌倒告警' : ''}`
     }))
   }
 })
@@ -284,11 +349,15 @@ const summary = computed(() => {
   if (modelTheme.value === 'room') {
     const nodes = themePayload.value.nodes || []
     const avgHR = nodes.length ? Math.round(nodes.reduce((s, i) => s + Number(i.value || 0), 0) / nodes.length) : '--'
+    const fallCount = iotData.value?.fallCount ?? healthRows.value.filter((r) => r.fall_status === 'detected').length
+    const avgSpO2 = healthRows.value.length
+      ? Math.round(healthRows.value.reduce((s, r) => s + Number(r.spo2 || 0), 0) / healthRows.value.length * 10) / 10
+      : '--'
     return [
       { label: '监测住户', value: nodes.length },
       { label: '平均心率', value: avgHR },
-      { label: '关注', value: nodes.filter((n) => n.status === 'warning').length },
-      { label: '紧急', value: nodes.filter((n) => n.status === 'critical').length }
+      { label: '平均血氧', value: avgSpO2 },
+      { label: '跌倒事件', value: fallCount }
     ]
   }
   if (modelTheme.value === 'corridor') {
@@ -355,27 +424,58 @@ function effectLabel(effect) {
 function switchTheme(key) {
   modelTheme.value = key
   selected.value = null
-  cityRef.value?.clearSelect?.()
+  roomRef.value?.clearSelect?.()
 }
 
 function onSelect(item) { selected.value = item }
 
 function closeDetail() {
   selected.value = null
-  cityRef.value?.clearSelect?.()
+  roomRef.value?.clearSelect?.()
+}
+
+function onWebglFailed() {
+  webglFailed.value = true
+}
+
+/** 触控设备虚拟控制条：等价于桌面的方向键 / QE 键 */
+function viewCtrl(kind, direction = 1) {
+  const api = roomRef.value
+  if (!api) return
+  if (kind === 'rotate') api.rotateBy?.(direction)
+  else if (kind === 'pitch') api.pitchBy?.(direction)
+  else if (kind === 'zoom') api.zoomBy?.(direction)
+  else if (kind === 'reset') api.resetView?.()
 }
 
 async function goPage(path) {
   if (!path) return
-  try { cityRef.value?.destroy?.() } catch { /* ignore */ }
+  try { roomRef.value?.destroy?.() } catch { /* ignore */ }
   await nextTick()
   router.push(path).catch(() => {})
 }
 
 function logout() {
-  try { cityRef.value?.destroy?.() } catch { /* ignore */ }
+  try { roomRef.value?.destroy?.() } catch { /* ignore */ }
   userStore.logout()
   router.push('/login')
+}
+
+async function simulateIoT() {
+  if (simLoading.value) return
+  simLoading.value = true
+  try {
+    await iotSimulate()
+    const [hlRows, evRows, dash] = await Promise.all([
+      getTableData('resident_health', { page: 1, pageSize: 40 }),
+      getTableData('room_environment', { page: 1, pageSize: 30 }),
+      iotDashboard()
+    ])
+    healthRows.value = hlRows.data.list || []
+    envRows.value = evRows.data.list || []
+    iotData.value = dash.data
+  } catch { /* ignore */ }
+  finally { simLoading.value = false }
 }
 
 onMounted(async () => {
@@ -385,13 +485,14 @@ onMounted(async () => {
     now.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
   }, 1000)
   try {
-    const [ov, resRows, hlRows, alRows, evRows, devRows] = await Promise.all([
+    const [ov, resRows, hlRows, alRows, evRows, devRows, dash] = await Promise.all([
       getOverview(),
       getTableData('residents', { page: 1, pageSize: 50 }),
       getTableData('resident_health', { page: 1, pageSize: 40 }),
       getTableData('alarms', { page: 1, pageSize: 30 }),
       getTableData('room_environment', { page: 1, pageSize: 30 }),
-      getTableData('devices', { page: 1, pageSize: 40 })
+      getTableData('devices', { page: 1, pageSize: 40 }),
+      iotDashboard()
     ])
     overview.value = ov.data
     residents.value = resRows.data.list || []
@@ -399,12 +500,13 @@ onMounted(async () => {
     alarmRows.value = alRows.data.list || []
     envRows.value = evRows.data.list || []
     deviceRows.value = devRows.data.list || []
+    iotData.value = dash.data
   } catch { /* empty */ }
 })
 
 onBeforeUnmount(() => {
   clearInterval(timer)
-  try { cityRef.value?.destroy?.() } catch { /* ignore */ }
+  try { roomRef.value?.destroy?.() } catch { /* ignore */ }
 })
 </script>
 
@@ -412,8 +514,9 @@ onBeforeUnmount(() => {
 .twin-page {
   position: fixed;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  height: 100dvh; /* 规避移动端地址栏收放导致的视口跳动 */
   overflow: hidden;
   background: linear-gradient(180deg, #1a1428 0%, #1a1a2e 100%);
   &.theme-corridor {
@@ -428,6 +531,13 @@ onBeforeUnmount(() => {
   &.theme-rehab {
     background: linear-gradient(180deg, #0a1e14 0%, #102818 100%);
   }
+}
+
+/* 3D 舞台：桌面铺满视口，窄屏退化为文档流中的固定高度区 */
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 .hud {
@@ -610,6 +720,37 @@ onBeforeUnmount(() => {
   color: var(--sc-muted);
 }
 
+.iot-mini {
+  margin: 8px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.iot-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 4px 8px;
+  background: rgba(255, 140, 66, 0.06);
+  border: 1px solid rgba(255, 140, 66, 0.12);
+  span { color: var(--sc-muted); }
+  b { color: var(--sc-accent); }
+  b.alert { color: #ff4f7a; }
+}
+.iot-sim-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(255, 140, 66, 0.15);
+  border: 1px solid rgba(255, 140, 66, 0.3);
+  color: var(--sc-primary);
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 1px;
+  &:hover { background: rgba(255, 140, 66, 0.25); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
 .detail-head {
   display: flex;
   justify-content: space-between;
@@ -735,10 +876,247 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (max-width: 1100px) {
-  .top { grid-template-columns: 1fr; }
-  .side,
-  .detail { width: min(300px, calc(100vw - 24px)); }
+/* 抽屉/底部面板的抓取条，仅在面板形态下显示 */
+.sheet-handle {
+  display: none;
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(100%); opacity: 0.6; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* 触摸端虚拟控制条：键盘方向键/QE 的移动端等价入口 */
+.stage-tools {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--sc-border);
+  background: rgba(20, 15, 25, 0.74);
+  backdrop-filter: blur(8px);
+
+  button {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 140, 66, 0.28);
+    border-radius: 6px;
+    background: rgba(40, 30, 50, 0.6);
+    color: var(--sc-primary);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard);
+
+    &:hover,
+    &:active {
+      background: rgba(255, 140, 66, 0.24);
+    }
+  }
+
+  .split {
+    width: 1px;
+    height: 22px;
+    background: rgba(255, 140, 66, 0.25);
+  }
+}
+
+/* ============================================================
+   响应式：< 1100px 由「绝对定位叠加」改为「文档流纵向堆叠」
+   ≥ 1100px 的桌面大屏观感完全不变
+   ============================================================ */
+@include below-narrow-desktop {
+  .twin-page {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hud {
+    position: static;
+    pointer-events: auto;
+  }
+
+  /* 顶部：品牌 / 场景 / 导航 收成纵向三行 */
+  .top {
+    order: 1;
+    position: static;
+    z-index: 30;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(20, 15, 25, 0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--sc-border);
+  }
+
+  .theme-switch,
+  .nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    button {
+      flex-shrink: 0;
+    }
+  }
+
+  .nav .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+  }
+
+  /* 3D 舞台：固定高度区，数据面板下沉到文档流 */
+  .stage {
+    order: 2;
+    position: relative;
+    inset: auto;
+    height: 46dvh;
+    min-height: 240px;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--sc-border);
+  }
+
+  .side {
+    order: 3;
+    position: static;
+    width: auto;
+    max-height: none;
+    overflow: visible;
+    margin: 12px;
+    backdrop-filter: none;
+  }
+
+  .bottom {
+    order: 4;
+    position: static;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px calc(64px + env(safe-area-inset-bottom));
+    background: rgba(20, 15, 25, 0.6);
+  }
+
+  /* 模型详情改底部抽屉：点选后立刻可见，无需滚动寻找 */
+  .detail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    max-height: 66dvh;
+    overflow-y: auto;
+    border-radius: 12px 12px 0 0;
+    z-index: 45;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+    animation: sheetUp 0.24s var(--ease-standard);
+  }
+
+  .detail .sheet-handle,
+  .ai-panel .sheet-handle {
+    display: block;
+    width: 36px;
+    height: 4px;
+    margin: -6px auto 8px;
+    border-radius: 2px;
+    background: rgba(255, 140, 66, 0.45);
+  }
+
+  /* AI 面板与入口改为固定定位，避免随内容滚走 */
+  .ai-panel {
+    position: fixed;
+    right: 16px;
+    bottom: calc(84px + env(safe-area-inset-bottom));
+    max-height: 60dvh;
+    z-index: 55;
+  }
+
+  .ai-fab {
+    position: fixed;
+    right: 16px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 60;
+  }
+}
+
+@include tablet {
+  /* 平板空间较充裕：顶栏吸顶，方便随时切场景/跳页 */
+  .top {
+    position: sticky;
+    top: 0;
+  }
+}
+
+@include mobile {
+  .brand {
+    .mark {
+      width: 30px;
+      height: 30px;
+    }
+
+    h1 {
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    p {
+      display: none; /* 窄屏让位给场景与导航 */
+    }
+  }
+
+  .theme-switch button {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+
+  .stage {
+    height: 44dvh;
+    min-height: 220px;
+  }
+
+  .kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .detail {
+    max-height: 72dvh;
+  }
+
+  /* AI 面板铺满底部，输入区留出安全区 */
+  .ai-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 76dvh;
+    border-radius: 12px 12px 0 0;
+    z-index: 55;
+  }
+
+  .ai-input-row {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+
+    button {
+      min-width: 64px;
+    }
+  }
 }
 
 .ai-fab {

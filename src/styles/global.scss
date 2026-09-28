@@ -125,6 +125,30 @@ body {
   background: rgba(255, 140, 66, 0.12) !important;
 }
 
+/* 固定列必须有不透明底色：全局透明化后，固定列无法遮挡其下方横向滚动的内容，
+   「操作」列会与相邻数据列文字叠在一起。
+   这里要一次性覆盖 普通 / 斑马纹 / 悬停 三种状态 —— 斑马纹规则的选择器特异性最高，
+   只写普通态会导致隔行重新透出内容。
+   选择器带上 td.el-table__cell 以压过上面的透明规则（同为 !important） */
+.el-table td.el-table__cell.el-table-fixed-column--left,
+.el-table td.el-table__cell.el-table-fixed-column--right,
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell.el-table-fixed-column--left,
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell.el-table-fixed-column--right {
+  background: #2b2130 !important;
+}
+
+.el-table__body tr:hover > td.el-table__cell.el-table-fixed-column--left,
+.el-table__body tr:hover > td.el-table__cell.el-table-fixed-column--right,
+.el-table--striped .el-table__body tr.el-table__row--striped:hover > td.el-table__cell.el-table-fixed-column--left,
+.el-table--striped .el-table__body tr.el-table__row--striped:hover > td.el-table__cell.el-table-fixed-column--right {
+  background: #3a2a34 !important;
+}
+
+.el-table th.el-table__cell.el-table-fixed-column--left,
+.el-table th.el-table__cell.el-table-fixed-column--right {
+  background: #3c2832 !important;
+}
+
 .el-card,
 .el-dialog,
 .el-drawer,
@@ -166,3 +190,225 @@ body {
   background: rgba(255, 140, 66, 0.12) !important;
   color: var(--sc-primary) !important;
 }
+
+/* ============================================================
+   响应式地基 · 断点行为 / 触控 / 无障碍
+   ============================================================ */
+:root {
+  --app-gutter: clamp(12px, 2.4vw, 24px);
+  --tap-min: #{$tap-min};
+  --dur-fast: #{$dur-fast};
+  --dur-base: #{$dur-base};
+  --ease-standard: #{$ease-standard};
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overscroll-behavior: contain;
+}
+
+/* 键盘可达：统一焦点描边（鼠标点击不出现，符合 :focus-visible 语义） */
+:focus-visible {
+  outline: 2px solid var(--sc-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* 仅供屏幕阅读器的文本 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 窄屏：单滚动条策略——页面容器不再自滚，统一交给 Layout 的 .content */
+@include below-desktop {
+  .page-scroll {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+    padding: var(--app-gutter);
+    padding-bottom: calc(#{$sp-6} + env(safe-area-inset-bottom));
+  }
+
+  /* 窄屏滚动条收细，减少对内容的挤压 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* 窄屏弹窗：把写死的 560px 宽度收敛到视口内，并预留纵向空间 */
+@include mobile {
+  .el-dialog {
+    width: 92vw !important;
+    max-width: 92vw;
+    margin: 4vh auto !important;
+    max-height: 92dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .el-dialog__body {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .el-message-box {
+    width: 88vw !important;
+    max-width: 88vw;
+  }
+
+  .el-message {
+    min-width: 0;
+    width: 92vw;
+  }
+
+  /* 弹窗内表单改顶对齐，避免 label 吃掉本就紧张的水平空间 */
+  .el-form-item {
+    display: block !important;
+  }
+
+  .el-form-item__label {
+    display: block !important;
+    width: auto !important;
+    text-align: left !important;
+    padding: 0 0 4px !important;
+  }
+
+  .el-form-item__content {
+    margin-left: 0 !important;
+  }
+}
+
+/* 触控设备（手机 + 平板）：交互元素统一放大到 44px 最小触控尺寸
+   注意用 :root 保证与 Element Plus 的 :root 同特异性，靠引入顺序覆盖 */
+@include below-desktop {
+  @include coarse-pointer {
+    :root {
+      --el-component-size: #{$tap-min};
+      --el-component-size-small: 36px;
+      --el-component-size-large: 52px;
+    }
+
+    .el-button,
+    .el-menu-item,
+    .el-pagination button,
+    .el-pager li,
+    .el-tabs__item,
+    button,
+    a[href],
+    [role='button'] {
+      min-height: var(--tap-min);
+    }
+  }
+}
+
+/* ============================================================
+   共用 UI 套件 · 窄屏记录卡片
+   宽表在手机上必然横向溢出，统一降级为逐条卡片
+   ============================================================ */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rec-card {
+  padding: 14px;
+}
+
+.rec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--sc-border);
+
+  h3 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--sc-primary);
+    letter-spacing: 0.5px;
+    overflow-wrap: anywhere;
+  }
+
+  .rec-id {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--sc-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.rec-body {
+  margin: 0;
+
+  > div {
+    display: flex;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px dashed rgba(255, 140, 66, 0.12);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  dt {
+    width: 92px;
+    flex-shrink: 0;
+    color: var(--sc-muted);
+    font-size: 13px;
+  }
+
+  dd {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    color: var(--sc-text);
+    font-size: 13px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+}
+
+.rec-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--sc-border);
+
+  /* 触控友好：按钮留出足够宽度，避免误触 */
+  .el-button {
+    min-width: 88px;
+  }
+}
+
+/* 尊重系统的减弱动效偏好 */
+@include reduced-motion {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

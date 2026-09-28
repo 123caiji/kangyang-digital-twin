@@ -1,11 +1,15 @@
+require('./env') // 必须最先执行：后续模块在加载时就会读取 process.env
+
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
+const fs = require('fs')
 const authRoutes = require('./routes/auth')
 const dataRoutes = require('./routes/data')
 const settingsRoutes = require('./routes/settings')
 const predictRoutes = require('./routes/predict')
 const aiRoutes = require('./routes/ai')
+const iotRoutes = require('./routes/iot')
 
 require('./db')
 
@@ -22,6 +26,7 @@ app.use('/api/data', dataRoutes)
 app.use('/api/settings', settingsRoutes)
 app.use('/api/predict', predictRoutes)
 app.use('/api/ai', aiRoutes)
+app.use('/api/iot', iotRoutes)
 
 app.get('/api/health', (_req, res) => {
   res.json({ code: 0, message: 'kangyang server ok', time: new Date().toISOString() })

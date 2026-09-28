@@ -3,7 +3,7 @@
     <div class="grid-bg"></div>
     <div class="login-card glass-panel">
       <div class="brand">
-        <div class="logo"></div>
+        <div class="logo" aria-hidden="true"></div>
         <h1>康养数字孪生</h1>
         <p>Kangyang Digital Twin Platform</p>
       </div>
@@ -15,18 +15,52 @@
 
       <el-form :model="form" @keyup.enter="onSubmit">
         <el-form-item v-if="loginType === 'account'">
-          <el-input v-model="form.username" placeholder="用户名" prefix-icon="User" size="large" />
+          <el-input
+            v-model="form.username"
+            placeholder="用户名"
+            aria-label="用户名"
+            autocomplete="username"
+            prefix-icon="User"
+            size="large"
+          />
         </el-form-item>
         <el-form-item v-else>
-          <el-input v-model="form.phone" placeholder="手机号" prefix-icon="Iphone" size="large" />
+          <el-input
+            v-model="form.phone"
+            placeholder="手机号"
+            aria-label="手机号"
+            autocomplete="tel"
+            prefix-icon="Iphone"
+            size="large"
+          />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="form.password" type="password" show-password placeholder="密码" prefix-icon="Lock" size="large" />
+          <el-input
+            v-model="form.password"
+            type="password"
+            show-password
+            placeholder="密码"
+            aria-label="密码"
+            autocomplete="current-password"
+            prefix-icon="Lock"
+            size="large"
+          />
         </el-form-item>
         <el-form-item>
           <div class="captcha-row">
-            <el-input v-model="form.captchaCode" placeholder="验证码" prefix-icon="Key" size="large" />
-            <img :src="captchaSvg" class="captcha-img" alt="captcha" title="点击刷新" @click="refreshCaptcha" />
+            <el-input
+              v-model="form.captchaCode"
+              placeholder="验证码"
+              aria-label="验证码"
+              autocomplete="off"
+              prefix-icon="Key"
+              size="large"
+            />
+            <!-- 用 button 包住图片：键盘可聚焦、可 Enter 触发刷新 -->
+            <button type="button" class="captcha-btn" aria-label="刷新验证码" @click="refreshCaptcha">
+              <img v-if="captchaSvg" :src="captchaSvg" class="captcha-img" alt="图形验证码" />
+              <span v-else class="captcha-loading">加载中</span>
+            </button>
           </div>
         </el-form-item>
         <el-button type="primary" class="submit-btn" size="large" :loading="loading" @click="onSubmit">
@@ -177,15 +211,37 @@ onMounted(async () => {
 
   .el-input {
     flex: 1;
+    min-width: 0;
+  }
+}
+
+.captcha-btn {
+  flex-shrink: 0;
+  width: 120px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--sc-border);
+  border-radius: 2px;
+  background: rgba(20, 15, 25, 0.6);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--dur-fast) var(--ease-standard);
+
+  &:hover {
+    border-color: var(--sc-primary);
   }
 }
 
 .captcha-img {
-  width: 120px;
-  height: 40px;
-  border: 1px solid var(--sc-border);
-  cursor: pointer;
-  border-radius: 2px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.captcha-loading {
+  font-size: 12px;
+  color: var(--sc-muted);
 }
 
 .submit-btn {
@@ -215,5 +271,34 @@ onMounted(async () => {
 }
 :deep(.el-tabs__nav-wrap::after) {
   background: rgba(255, 140, 66, 0.2);
+}
+
+@include mobile {
+  .login-card {
+    width: 92vw;
+    padding: 24px 18px 20px;
+  }
+
+  .brand {
+    h1 {
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+    }
+  }
+
+  /* 触控：验证码区域整体加高，便于点按刷新 */
+  .captcha-btn {
+    height: var(--tap-min);
+    width: 108px;
+  }
+
+  .tips {
+    font-size: 11px;
+  }
 }
 </style>

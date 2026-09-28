@@ -5,10 +5,24 @@ const { auth } = require('../middleware/auth')
 
 const router = express.Router()
 
+/**
+ * 大模型接入配置。
+ * 密钥只能来自环境变量（server/.env 或部署时注入），**不要**把真实 key 写进源码：
+ * 本仓库是公开仓库，历史提交里已经因此泄露过一次密钥（见 README 的安全说明）。
+ */
 const LLM_CONFIG = {
-  url: process.env.LLM_API_URL || 'http://101.33.236.137:4000',
-  key: process.env.LLM_API_KEY || 'sk-nYjZ88NiYme9cdNVubAdE8xNh2EKBelHBpA6Qexmfj1YBUtS',
+  url: process.env.LLM_API_URL || '',
+  key: process.env.LLM_API_KEY || '',
   model: process.env.LLM_MODEL || 'deepseek-flash'
+}
+
+/** 未配置密钥时给出明确提示，而不是拿空 key 去请求 */
+function assertLlmConfigured() {
+  if (!LLM_CONFIG.url || !LLM_CONFIG.key) {
+    const err = new Error('AI 服务未配置：请在 server/.env 中设置 LLM_API_URL 与 LLM_API_KEY')
+    err.statusCode = 503
+    throw err
+  }
 }
 
 function gatherContext() {
@@ -63,6 +77,7 @@ function buildPrompt(question, ctx) {
 }
 
 async function callLLM(prompt) {
+  assertLlmConfigured()
   const resp = await fetch(`${LLM_CONFIG.url}/v1/chat/completions`, {
     method: 'POST',
     headers: {
@@ -94,7 +109,8 @@ router.post('/analyze', auth(), async (req, res) => {
     const result = await callLLM(prompt)
     res.json({ code: 0, data: result, message: '分析完成' })
   } catch (e) {
-    res.status(500).json({ code: 500, message: e.message || 'AI分析失败' })
+    // 未配置密钥属于「服务端未就绪」，用 503 让前端能区分于真正的调用失败
+    res.status(e.statusCode || 500).json({ code: e.statusCode || 500, message: e.message || 'AI分析失败' })
   }
 })
 
