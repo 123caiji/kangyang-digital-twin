@@ -1,0 +1,32 @@
+{
+  "name": "kangyang-digital-twin",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:server": "npm --prefix server run dev",
+    "dev:all": "npm run dev:server & npm run dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "axios": "^1.19.0",
+    "dayjs": "^1.11.23",
+    "echarts": "^6.1.0",
+    "echarts-gl": "^2.1.0",
+    "element-plus": "^2.14.4",
+    "file-saver": "^2.0.5",
+    "pinia": "^4.0.3",
+    "three": "^0.185.1",
+    "vue": "^3.5.40",
+    "vue-router": "^4.6.4",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "sass": "^1.77.8",
+    "vite": "^5.4.11"
+  }
+}
