@@ -87,16 +87,23 @@ async function callLLM(prompt) {
     body: JSON.stringify({
       model: LLM_CONFIG.model,
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 512,
+      // 注意：推理型模型（返回 reasoning_content 的那些）会先消耗 reasoning_tokens，
+      // 预留空间不足时 finish_reason 会是 length 且 content 为空字符串。
+      // 之前的 512 在长上下文下经常被推理阶段吃光，导致前端永远显示「无分析结果」。
+      max_tokens: Number(process.env.LLM_MAX_TOKENS || 2048),
       temperature: 0.6
     })
   })
   if (!resp.ok) throw new Error(`LLM API ${resp.status}: ${await resp.text()}`)
   const data = await resp.json()
+  const message = data.choices?.[0]?.message || {}
+  // 正文优先；若只有推理内容（推理模型偶发）则退回使用，避免前端拿到空字符串
+  const content = String(message.content || '').trim() || String(message.reasoning_content || '').trim()
   return {
-    content: data.choices?.[0]?.message?.content || '无分析结果',
+    content: content || '模型未返回内容，请重试或换个更具体的问法',
     model: data.model,
-    tokens: data.usage?.total_tokens || 0
+    tokens: data.usage?.total_tokens || 0,
+    truncated: data.choices?.[0]?.finish_reason === 'length'
   }
 }
 
