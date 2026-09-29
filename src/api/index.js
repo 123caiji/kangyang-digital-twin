@@ -48,6 +48,15 @@ export const iotOutdoor = (limit) => http.get('/iot/outdoor', { params: { limit 
 export const iotSoil = (limit) => http.get('/iot/soil', { params: { limit } })
 export const iotDashboard = () => http.get('/iot/dashboard')
 
+export const getDevices = () => http.get('/iot/devices')
+export const createDevice = (data) => http.post('/iot/devices', data)
+export const updateDevice = (id, data) => http.put(`/iot/devices/${id}`, data)
+export const deleteDevice = (id) => http.delete(`/iot/devices/${id}`)
+export const resetDeviceToken = (id) => http.post(`/iot/devices/${id}/reset-token`)
+export const controlSG90 = (id, status) => http.post(`/iot/devices/${id}/sg90`, { status })
+
+export const getAuditLogs = (limit) => http.get('/audit/logs', { params: { limit } })
+
 // 总览沙盘：空间树 + 按房间聚合的实时状态（新增，只读）
 export const getSpaceLayout = () => http.get('/overview/layout')
 export const getRoomOverview = () => http.get('/overview/rooms')
