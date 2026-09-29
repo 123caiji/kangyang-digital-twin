@@ -55,6 +55,7 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const allMenus = [
+  { path: '/overview', title: '园区总览', icon: 'OfficeBuilding', perm: 'dashboard' },
   { path: '/dashboard', title: '康养孪生大屏', icon: 'Monitor', perm: 'dashboard' },
   { path: '/charts/ops', title: '健康监测', icon: 'DataLine', perm: 'charts' },
   { path: '/charts/analysis', title: '护理分析', icon: 'PieChart', perm: 'charts' },

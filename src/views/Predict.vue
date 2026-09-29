@@ -142,7 +142,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from '@/plugins/element'
 import ChartPanel from '@/components/ChartPanel.vue'
 import MobileCardList from '@/components/MobileCardList.vue'
 import ParamSlider from '@/components/ParamSlider.vue'

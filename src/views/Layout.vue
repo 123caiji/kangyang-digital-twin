@@ -35,7 +35,7 @@
           <div class="page-title">{{ route.meta.title || themeStore.settings.headerTitle }}</div>
         </div>
         <div class="actions">
-          <span class="time">{{ now }}</span>
+          <LiveClock />
           <el-tag size="small" effect="dark" type="success">在线</el-tag>
         </div>
       </header>
@@ -50,10 +50,10 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import dayjs from 'dayjs'
 import SideNav from '@/components/SideNav.vue'
+import LiveClock from '@/components/LiveClock.vue'
 import { useBreakpoint } from '@/composables/useBreakpoint'
 import { useThemeStore } from '@/stores/theme'
 
@@ -62,8 +62,6 @@ const themeStore = useThemeStore()
 const { isMobile, isTablet, isDesktop } = useBreakpoint()
 
 const drawerOpen = ref(false)
-const now = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-let timer
 
 function onNavigate() {
   drawerOpen.value = false
@@ -74,14 +72,8 @@ watch(isMobile, (v) => {
   if (!v) drawerOpen.value = false
 })
 
-onMounted(async () => {
-  await themeStore.load()
-  timer = setInterval(() => {
-    now.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
-  }, 1000)
-})
-
-onUnmounted(() => clearInterval(timer))
+// 时钟每秒刷新的负担已下沉到 LiveClock 组件内部，此处不再持有 per-second 响应式状态
+onMounted(() => themeStore.load())
 </script>
 
 <style scoped lang="scss">
@@ -168,11 +160,6 @@ onUnmounted(() => clearInterval(timer))
   gap: 12px;
   align-items: center;
   flex-shrink: 0;
-
-  .time {
-    color: var(--sc-muted);
-    font-variant-numeric: tabular-nums;
-  }
 }
 
 .content {
@@ -196,11 +183,6 @@ onUnmounted(() => clearInterval(timer))
   .page-title {
     font-size: 15px;
     letter-spacing: 1px;
-  }
-
-  /* 时间在中窄屏让位给标题 */
-  .time {
-    display: none;
   }
 }
 </style>

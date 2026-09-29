@@ -2,6 +2,7 @@ const Database = require('better-sqlite3')
 const path = require('path')
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
+const layout = require('./layout')
 
 const dataDir = path.join(__dirname, 'data')
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS residents (
   gender TEXT,
   age INTEGER,
   room_no TEXT,
+  bed_no INTEGER DEFAULT 1,
   care_level TEXT DEFAULT '二级',
   health_status TEXT DEFAULT 'stable',
   admission_date TEXT,
@@ -79,6 +81,8 @@ CREATE TABLE IF NOT EXISTS resident_health (
   glucose REAL,
   fall_status TEXT,
   pir_status INTEGER,
+  warning_level INTEGER DEFAULT 0,
+  person_info TEXT,
   status TEXT DEFAULT 'normal',
   measured_at TEXT,
   remark TEXT,
@@ -111,6 +115,8 @@ CREATE TABLE IF NOT EXISTS room_environment (
   light INTEGER,
   noise REAL,
   pir_status INTEGER,
+  warning_level INTEGER DEFAULT 0,
+  sg90_status INTEGER DEFAULT 0,
   status TEXT DEFAULT 'normal',
   measured_at TEXT,
   created_at TEXT DEFAULT (datetime('now','localtime'))
@@ -211,6 +217,34 @@ CREATE TABLE IF NOT EXISTS soil_monitor (
   measured_at TEXT,
   created_at TEXT DEFAULT (datetime('now','localtime'))
 );
+
+CREATE TABLE IF NOT EXISTS iot_devices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  device_id TEXT UNIQUE NOT NULL,
+  product_key TEXT,
+  device_token TEXT UNIQUE NOT NULL,
+  device_name TEXT,
+  device_type TEXT,
+  room_no TEXT,
+  resident_id INTEGER,
+  zone TEXT,
+  status TEXT DEFAULT 'online',
+  last_seen TEXT,
+  created_at TEXT DEFAULT (datetime('now','localtime'))
+);
+
+CREATE TABLE IF NOT EXISTS audit_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER,
+  username TEXT,
+  action TEXT,
+  target TEXT,
+  method TEXT,
+  ip TEXT,
+  status TEXT,
+  detail TEXT,
+  created_at TEXT DEFAULT (datetime('now','localtime'))
+);
 `)
 
 function seed() {
@@ -237,15 +271,16 @@ function seed() {
     const levels = ['特级', '一级', '二级', '三级']
     const statuses = ['stable', 'attention', 'critical']
     const conditions = ['高血压', '糖尿病', '冠心病', '脑梗后遗症', '骨质疏松', '阿尔茨海默症']
+    // 房号与床位来自 layout 的归属表：3 位房号 + 床位号，保证与 rooms 表可关联
     const insert = db.prepare(
-      `INSERT INTO residents (name, gender, age, room_no, care_level, health_status, admission_date, contact_phone, emergency_contact, conditions, remark)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO residents (name, gender, age, room_no, bed_no, care_level, health_status, admission_date, contact_phone, emergency_contact, conditions, remark)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     for (let i = 0; i < names.length; i++) {
-      const roomNo = `${100 + Math.floor(i / 2) + 1}${i % 2 + 1}`
+      const seat = layout.RESIDENT_ASSIGNMENT[i % layout.RESIDENT_ASSIGNMENT.length]
       insert.run(
         names[i], genders[i % 2], 65 + Math.floor(Math.random() * 25),
-        roomNo, levels[i % levels.length], statuses[i % statuses.length],
+        seat.room_no, seat.bed_no, levels[i % levels.length], statuses[i % statuses.length],
         new Date(Date.now() - (Math.random() * 365 * 86400000)).toISOString().slice(0, 10),
         `138${Math.floor(Math.random() * 100000000).toString().padStart(8, '0')}`,
         `${names[i].charAt(0)}小明`,
@@ -258,14 +293,16 @@ function seed() {
   const roomCount = db.prepare('SELECT COUNT(*) as c FROM rooms').get().c
   if (roomCount === 0) {
     const types = ['standard', 'premium', 'suite', 'nursing']
+    // 在住人数由住户归属推导，不再用随机数（随机数会让 rooms.occupancy 与住户记录打架）
+    const occupancy = layout.occupancyFromAssignment()
     const insert = db.prepare(
       `INSERT INTO rooms (room_no, floor, type, capacity, occupancy, status, remark) VALUES (?, ?, ?, ?, ?, ?, ?)`
     )
-    for (let f = 1; f <= 3; f++) {
-      for (let r = 1; r <= 6; r++) {
+    for (let f = 1; f <= layout.MODULE.floors; f++) {
+      for (let r = 1; r <= layout.MODULE.roomsPerFloor; r++) {
         const roomNo = `${f}0${r}`
-        const occ = Math.floor(Math.random() * 2)
-        insert.run(roomNo, f, types[r % types.length], 2, occ,
+        const occ = occupancy[roomNo] || 0
+        insert.run(roomNo, f, types[r % types.length], layout.MODULE.bedsPerRoom, occ,
           occ > 0 ? 'occupied' : 'available', `${f}楼${r}号房间`)
       }
     }
@@ -389,8 +426,14 @@ function seed() {
     const types = ['fall', 'heart_rate', 'wandering', 'emergency_call', 'device_fault', 'environment']
     const titles = ['跌倒告警', '心率异常', '走失预警', '紧急呼叫', '设备故障', '环境异常']
     const levels = ['低', '中', '高', '紧急']
-    const statuses = ['pending', 'processing', 'resolved']
     const residents = db.prepare('SELECT id, name, room_no FROM residents').all()
+    /**
+     * 演示告警的状态分布：只保留少量未闭环，其余记为已闭环。
+     * 若按 1/3 平均分配，会让每个有人住的房间都挂上待处理告警，
+     * 总览沙盘就会「满屏红色」、四色状态只用上两色。
+     * 这里刻意留下 1 条待处理 + 2 条处理中，分布在不同楼层，形成状态梯度。
+     */
+    const ALARM_PLAN = { 0: 'pending', 7: 'processing', 19: 'processing' }
     const insert = db.prepare(
       `INSERT INTO alarms (title, type, level, room_no, resident_id, resident_name, status, description, handler, resolved_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
@@ -398,13 +441,14 @@ function seed() {
     for (let i = 0; i < 20; i++) {
       const r = residents[i % residents.length]
       const idx = i % types.length
+      const status = ALARM_PLAN[i] || 'resolved'
       insert.run(
         `${titles[idx]}#${i + 1}`, types[idx], levels[i % levels.length],
         r.room_no, r.id, r.name,
-        statuses[i % 3],
+        status,
         `${r.name}住户${titles[idx]}事件`,
-        statuses[i % 3] === 'resolved' ? '李护士' : null,
-        statuses[i % 3] === 'resolved' ? new Date().toISOString() : null
+        status === 'pending' ? null : '李护士',
+        status === 'resolved' ? new Date().toISOString() : null
       )
     }
   }
@@ -486,8 +530,62 @@ function seed() {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     ).run('本地SQLite', 'sqlite', 'localhost', 0, dbPath, '', '', 1)
   }
+
+  // IoT设备种子数据
+  const devCount = db.prepare('SELECT COUNT(*) as c FROM iot_devices').get().c
+  if (devCount === 0) {
+    const crypto = require('crypto')
+    const genToken = () => 'dev_' + crypto.randomBytes(24).toString('hex')
+    const ins = db.prepare(
+      `INSERT INTO iot_devices (device_id, product_key, device_token, device_name, device_type, room_no, resident_id, zone, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    const residents = db.prepare('SELECT id, name, room_no FROM residents LIMIT 5').all()
+    const rooms = db.prepare('SELECT room_no FROM rooms LIMIT 6').all()
+
+    // 健康监测设备（绑定住户）
+    for (let i = 0; i < residents.length; i++) {
+      const r = residents[i]
+      ins.run(
+        `health-${i + 1}`, 'a1MlghnXTvu', genToken(),
+        `${r.name}健康监测仪`, 'health_monitor', r.room_no, r.id, null, 'online'
+      )
+    }
+
+    // 室内环境设备（绑定房间）
+    for (let i = 0; i < rooms.length; i++) {
+      ins.run(
+        `room-env-${i + 1}`, 'a1MlghnXTvu', genToken(),
+        `${rooms[i].room_no}环境监测`, 'environment', rooms[i].room_no, null, null, 'online'
+      )
+    }
+
+    // 室外气象站
+    ins.run(
+      'weather-station-1', 'a1MlghnXTvu', genToken(),
+      '室外气象站', 'weather', null, null, null, 'online'
+    )
+
+    // 土壤监测设备
+    ins.run(
+      'soil-monitor-a', 'a1MlghnXTvu', genToken(),
+      '康养花园A区土壤监测', 'soil', null, null, '康养花园A区', 'online'
+    )
+  }
 }
 
 seed()
+
+// 建立空间树（园区→楼栋→楼层→房间/功能区），并把历史遗留的 4 位房号规范化到 3 位。
+// 幂等：新库直接播种，老库自动补齐，重复启动结果一致。
+const layoutResult = layout.ensureLayout(db)
+if (layoutResult.space.inserted > 0 || layoutResult.data.fixedResidents > 0) {
+  console.log(
+    `[layout] 空间树节点 ${layoutResult.space.inserted} 个；` +
+      `修正住户房号 ${layoutResult.data.fixedResidents} 条；` +
+      `在住合计 ${layoutResult.data.occupancyTotal}；` +
+      `告警可关联房间 ${layoutResult.data.alarmsMatched}/${layoutResult.data.alarmsTotal}`
+  )
+}
 
 module.exports = db
