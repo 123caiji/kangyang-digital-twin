@@ -1,6 +1,7 @@
 const Database = require('better-sqlite3')
 const path = require('path')
 const fs = require('fs')
+const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const layout = require('./layout')
 
@@ -250,9 +251,15 @@ CREATE TABLE IF NOT EXISTS audit_log (
 function seed() {
   const userCount = db.prepare('SELECT COUNT(*) as c FROM users').get().c
   if (userCount === 0) {
-    const hash = bcrypt.hashSync('admin123', 10)
-    const viewerHash = bcrypt.hashSync('viewer123', 10)
-    const editorHash = bcrypt.hashSync('editor123', 10)
+    const adminPwd = process.env.SEED_ADMIN_PASSWORD || crypto.randomBytes(12).toString('base64url')
+    const editorPwd = process.env.SEED_EDITOR_PASSWORD || crypto.randomBytes(12).toString('base64url')
+    const viewerPwd = process.env.SEED_VIEWER_PASSWORD || crypto.randomBytes(12).toString('base64url')
+    if (!process.env.SEED_ADMIN_PASSWORD) {
+      console.log('[seed] 初始密码（仅显示一次）: admin=' + adminPwd + ' editor=' + editorPwd + ' viewer=' + viewerPwd)
+    }
+    const hash = bcrypt.hashSync(adminPwd, 10)
+    const viewerHash = bcrypt.hashSync(viewerPwd, 10)
+    const editorHash = bcrypt.hashSync(editorPwd, 10)
     const insert = db.prepare(
       `INSERT INTO users (username, password, phone, role, permissions) VALUES (?, ?, ?, ?, ?)`
     )

@@ -1,7 +1,7 @@
 const express = require('express')
 const crypto = require('crypto')
 const db = require('../db')
-const { auth, requireRole } = require('../middleware/auth')
+const { auth, requireRole, requirePerm } = require('../middleware/auth')
 
 const router = express.Router()
 const PRODUCT_KEY = 'a1MlghnXTvu'
@@ -81,8 +81,10 @@ function validateTSL(identifier, value) {
 }
 
 // ============================================================
-// 设备识别（无需预注册，自动识别）
-// 优先级：token → body.deviceName → body.params.ID → body.ID → 自动注册
+// 设备识别
+// 认证路径：device_token（Authorization: Bearer / ?token=）
+// 兼容路径：body.deviceName / body.deviceId / body.params.ID / body.ID —— 仅限「已注册」设备
+// 安全约束：未注册设备一律拒绝；不再自动注册，不再创建临时设备
 // ============================================================
 function deviceAuth(req, res, next) {
   const header = req.headers.authorization || ''
@@ -98,35 +100,20 @@ function deviceAuth(req, res, next) {
     }
   }
 
-  // 通过body中的设备标识匹配
+  // 兼容老固件：按设备标识匹配，但该设备必须已由管理员注册
   const body = req.body || {}
   const devName = body.deviceName || body.deviceId || (body.params && body.params.ID) || body.ID
 
   if (devName) {
-    let device = db.prepare('SELECT * FROM iot_devices WHERE device_id = ?').get(devName)
-    if (!device) {
-      // 自动注册设备
-      const device_token = 'dev_' + crypto.randomBytes(24).toString('hex')
-      const info = db.prepare(
-        `INSERT INTO iot_devices (device_id, product_key, device_token, device_name, device_type, status)
-         VALUES (?, ?, ?, ?, ?, 'online')`
-      ).run(devName, PRODUCT_KEY, device_token, devName, 'auto')
-      device = db.prepare('SELECT * FROM iot_devices WHERE id = ?').get(info.lastInsertRowid)
+    const device = db.prepare('SELECT * FROM iot_devices WHERE device_id = ?').get(devName)
+    if (device) {
+      db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
+      req.device = device
+      return next()
     }
-    db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
-    req.device = device
-    return next()
   }
 
-  // 无任何标识，创建临时设备
-  const tempId = 'auto-' + Date.now()
-  const device_token = 'dev_' + crypto.randomBytes(24).toString('hex')
-  const info = db.prepare(
-    `INSERT INTO iot_devices (device_id, product_key, device_token, device_name, device_type, status)
-     VALUES (?, ?, ?, ?, ?, 'online')`
-  ).run(tempId, PRODUCT_KEY, device_token, tempId, 'auto')
-  req.device = db.prepare('SELECT * FROM iot_devices WHERE id = ?').get(info.lastInsertRowid)
-  next()
+  return res.status(401).json({ code: 401, message: '设备未认证或未注册，请先在设备台账中注册' })
 }
 
 // ============================================================
@@ -349,7 +336,13 @@ router.get('/devices', auth(), requireRole('admin'), (req, res) => {
      LEFT JOIN residents r ON d.resident_id = r.id
      ORDER BY d.id DESC`
   ).all()
-  res.json({ code: 0, data: rows })
+  const masked = rows.map(r => {
+    const token = r.device_token || ''
+    r.device_token_masked = token.length > 16 ? token.slice(0, 8) + '****' + token.slice(-4) : '****'
+    delete r.device_token
+    return r
+  })
+  res.json({ code: 0, data: masked })
 })
 
 // 注册设备
@@ -550,8 +543,9 @@ router.get('/dashboard', auth(), (req, res) => {
 
 // ============================================================
 // 模拟IoT数据上报（前端调试用，需要登录）
+// 该接口会真实写入数据库，属写操作，因此必须校验 data 权限
 // ============================================================
-router.post('/simulate', auth(), (req, res) => {
+router.post('/simulate', auth(), requirePerm('data'), (req, res) => {
   try {
     const residents = db.prepare('SELECT id, name, room_no FROM residents').all()
     const rooms = db.prepare('SELECT room_no FROM rooms').all()

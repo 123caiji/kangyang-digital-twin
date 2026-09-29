@@ -1,16 +1,19 @@
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 
-/**
- * 签发密钥只应来自环境变量。
- * 这里的兜底值仅用于本地开发（源码公开，写死真密钥等于公开凭证）；
- * 生产部署请通过 server/.env 或 systemd/pm2 注入随机值。
- */
-const DEV_FALLBACK_SECRET = 'kangyang-dev-only-secret-please-set-JWT_SECRET'
-const JWT_SECRET = process.env.JWT_SECRET || DEV_FALLBACK_SECRET
-
-if (JWT_SECRET === DEV_FALLBACK_SECRET && process.env.NODE_ENV === 'production') {
-  console.warn('[warn] 生产环境未设置 JWT_SECRET，正在使用开发兜底值，请尽快配置随机密钥')
+// JWT 密钥必须来自环境变量，不接受硬编码兜底值
+// 生产环境未设置时直接终止启动，避免使用可预测的密钥
+if (!process.env.JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production') {
+    console.error('[FATAL] 生产环境必须设置 JWT_SECRET 环境变量，服务拒绝启动')
+    process.exit(1)
+  }
+  // 开发环境生成随机临时密钥（每次重启不同，不持久化）
+  process.env.JWT_SECRET = crypto.randomBytes(48).toString('base64url')
+  console.warn('[warn] 开发环境未设置 JWT_SECRET，已生成随机临时密钥')
 }
+
+const JWT_SECRET = process.env.JWT_SECRET
 
 function auth(required = true) {
   return (req, res, next) => {
