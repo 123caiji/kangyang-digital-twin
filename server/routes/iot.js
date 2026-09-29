@@ -188,10 +188,8 @@ router.post('/report', deviceAuth, (req, res) => {
     if (!props) {
       props = {}
       for (const key of Object.keys(body)) {
-        if (TSL_MAP[key] || ['deviceName', 'deviceId', 'method', 'id', 'version', 'topic', 'bizCode', 'requestId'].includes(key) === false) {
-          if (TSL_MAP[key]) {
-            props[key] = body[key]
-          }
+        if (TSL_MAP[key]) {
+          props[key] = body[key]
         }
       }
     }
