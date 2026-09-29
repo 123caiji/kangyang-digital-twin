@@ -104,7 +104,7 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from '@/plugins/element'
 import MobileCardList from '@/components/MobileCardList.vue'
 import { createUser, deleteUser, getUsers, updateUser } from '@/api'
 import { useBreakpoint } from '@/composables/useBreakpoint'

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from '@/plugins/element'
 import router from '@/router'
 
 const http = axios.create({

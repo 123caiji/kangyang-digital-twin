@@ -1,7 +1,5 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import ElementPlus from 'element-plus'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import {
   Brush,
   Coin,
@@ -13,12 +11,14 @@ import {
   MagicStick,
   Menu,
   Monitor,
+  OfficeBuilding,
   PieChart,
   Share,
   SwitchButton,
   User
 } from '@element-plus/icons-vue'
-import 'element-plus/dist/index.css'
+// 按需注册，取代原先 app.use(ElementPlus) 全量注册。详见 plugins/element.js 头部说明。
+import ElementPlusLite from '@/plugins/element'
 import App from './App.vue'
 import router from './router'
 import './styles/global.scss'
@@ -40,6 +40,7 @@ const ICONS = {
   MagicStick,
   Menu,
   Monitor,
+  OfficeBuilding,
   PieChart,
   Share,
   SwitchButton,
@@ -52,5 +53,6 @@ for (const [name, component] of Object.entries(ICONS)) {
 }
 app.use(createPinia())
 app.use(router)
-app.use(ElementPlus, { locale: zhCn })
+// 文案本地化（"暂无数据"、分页 aria 等）改由 App.vue 的 <el-config-provider :locale> 承担
+app.use(ElementPlusLite)
 app.mount('#app')

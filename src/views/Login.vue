@@ -80,7 +80,7 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from '@/plugins/element'
 import { getCaptcha } from '@/api'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'

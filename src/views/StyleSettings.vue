@@ -68,7 +68,7 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from '@/plugins/element'
 import ParamSlider from '@/components/ParamSlider.vue'
 import { useBreakpoint } from '@/composables/useBreakpoint'
 import { useThemeStore } from '@/stores/theme'

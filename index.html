@@ -5,9 +5,11 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>康养数字孪生平台</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <!--
+      不引入 fonts.googleapis.com 外链样式：境内网络访问该域名会长时间挂起，
+      而它是渲染阻塞资源，会直接把首屏卡到几十秒。
+      字体统一走系统栈（--sc-font：Noto Sans SC → Microsoft YaHei → sans-serif）。
+    -->
   </head>
   <body>
     <div id="app"></div>

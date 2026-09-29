@@ -20,6 +20,13 @@ const routes = [
     redirect: '/dashboard',
     children: [
       {
+        path: 'overview',
+        name: 'Overview',
+        component: () => import('@/views/Overview.vue'),
+        // 挂在现有 dashboard 权限下，不新增权限项（避免改动用户权限逻辑）
+        meta: { title: '园区总览', perm: 'dashboard' }
+      },
+      {
         path: 'charts/ops',
         name: 'ChartsOps',
         component: () => import('@/views/charts/ChartsOps.vue'),

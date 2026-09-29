@@ -22,6 +22,40 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // 显式登记按需引入的深路径，让预构建在启动时一次做完。
+    // 否则 Vite 会在页面加载过程中"发现新依赖 → 重跑预构建 → 整页 reload"，
+    // 表现为改一次代码首屏连续刷新两三次。
+    // ⚠️ 与 Element Plus 组件清单同步维护，见 src/plugins/element.js。
+    optimizeDeps: {
+      include: [
+        'element-plus/es/components/button/index.mjs',
+        'element-plus/es/components/checkbox/index.mjs',
+        'element-plus/es/components/color-picker/index.mjs',
+        'element-plus/es/components/config-provider/index.mjs',
+        'element-plus/es/components/dialog/index.mjs',
+        'element-plus/es/components/drawer/index.mjs',
+        'element-plus/es/components/empty/index.mjs',
+        'element-plus/es/components/form/index.mjs',
+        'element-plus/es/components/icon/index.mjs',
+        'element-plus/es/components/input/index.mjs',
+        'element-plus/es/components/input-number/index.mjs',
+        'element-plus/es/components/menu/index.mjs',
+        'element-plus/es/components/option/index.mjs',
+        'element-plus/es/components/pagination/index.mjs',
+        'element-plus/es/components/select/index.mjs',
+        'element-plus/es/components/skeleton/index.mjs',
+        'element-plus/es/components/slider/index.mjs',
+        'element-plus/es/components/switch/index.mjs',
+        'element-plus/es/components/tabs/index.mjs',
+        'element-plus/es/components/table/index.mjs',
+        'element-plus/es/components/tag/index.mjs',
+        'element-plus/es/components/tooltip/index.mjs',
+        'element-plus/es/components/upload/index.mjs',
+        'element-plus/es/components/message/index.mjs',
+        'element-plus/es/components/message-box/index.mjs',
+        'element-plus/es/locale/lang/zh-cn'
+      ]
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:3001',

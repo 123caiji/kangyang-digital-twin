@@ -47,3 +47,10 @@ export const iotEnvByRoom = (roomNo, limit) => http.get(`/iot/environment/${room
 export const iotOutdoor = (limit) => http.get('/iot/outdoor', { params: { limit } })
 export const iotSoil = (limit) => http.get('/iot/soil', { params: { limit } })
 export const iotDashboard = () => http.get('/iot/dashboard')
+
+// 总览沙盘：空间树 + 按房间聚合的实时状态（新增，只读）
+export const getSpaceLayout = () => http.get('/overview/layout')
+export const getRoomOverview = () => http.get('/overview/rooms')
+export const getRoomDetail = (roomNo) => http.get(`/overview/rooms/${roomNo}`)
+/** 每位住户的最新一条健康记录（含房间号），供三维场景与按房间聚合使用 */
+export const getResidentsLatest = () => http.get('/overview/residents')

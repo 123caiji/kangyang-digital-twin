@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>康养模型导出（GLB）</title>
+  </head>
+  <body>
+    <p id="status">导出工具页：仅供脚本调用，不参与应用构建。</p>
+    <script type="module">
+      /**
+       * 把三维场景导出成标准 .glb 模型文件，供 Blender / 其他工具二次编辑。
+       *
+       * 为什么放在这里：现有 five 个场景是 three.js 程序化生成的，
+       * 想在 Blender 里改细节，就必须先落成标准资产文件（GLB 内嵌贴图、可再导入）。
+       * 这个页面只在开发服务器下由导出脚本打开，不进入 dist。
+       */
+      import * as THREE from 'three'
+      import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'
+      import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+      import { buildCareScene } from '/src/three/careScene.js'
+
+      const toBase64 = (buffer) => {
+        const bytes = new Uint8Array(buffer)
+        let binary = ''
+        const chunkSize = 0x8000
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize))
+        }
+        return btoa(binary)
+      }
+
+      /** 导出指定主题 → base64(GLB)。data 可传房间号与住户节点，用于“有人入住”的版本。 */
+      window.__exportCare = async (theme, data = {}) => {
+        const built = buildCareScene(theme, data)
+        const scene = new THREE.Scene()
+        scene.name = `care-${theme}`
+        scene.add(built.group)
+        const glb = await new Promise((resolve, reject) =>
+          new GLTFExporter().parse(scene, resolve, reject, { binary: true, onlyVisible: false })
+        )
+        const b64 = toBase64(glb)
+        built.dispose()
+        return b64
+      }
+
+      /** 回读校验：确认导出的文件能被标准加载器解析 */
+      window.__verifyGlb = async (b64) => {
+        const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0))
+        const gltf = await new GLTFLoader().parseAsync(bytes.buffer, '')
+        let meshes = 0
+        let triangles = 0
+        let bones = 0
+        gltf.scene.traverse((o) => {
+          if (o.isMesh) {
+            meshes++
+            const g = o.geometry
+            triangles += (g.index ? g.index.count : g.attributes.position.count) / 3
+          }
+          if (o.isBone) bones++
+        })
+        return { meshes, triangles: Math.round(triangles), bones, animations: gltf.animations.length }
+      }
+
+      window.__ready = true
+      document.getElementById('status').textContent = '导出工具就绪'
+    </script>
+  </body>
+</html>
