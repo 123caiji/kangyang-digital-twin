@@ -2,8 +2,9 @@
 """
 远程部署助手（SFTP + SSH 命令执行）
 
-凭据只从环境变量读取，绝不出现在命令行参数或磁盘文件里：
+凭据只从环境变量或本机 SSH 私钥读取，绝不出现在命令行参数或磁盘文件里：
     DEPLOY_HOST / DEPLOY_PORT / DEPLOY_USER / DEPLOY_PASSWORD
+    DEPLOY_KEY  —— 私钥路径（如 C:/Users/xxx/.ssh/kangyang_key），设置后免密码登录
 
 用法示例：
     python scripts/deploy.py exec "uname -a"
@@ -24,9 +25,10 @@ HOST = os.environ.get("DEPLOY_HOST", "")
 PORT = int(os.environ.get("DEPLOY_PORT", "22"))
 USER = os.environ.get("DEPLOY_USER", "root")
 PASSWORD = os.environ.get("DEPLOY_PASSWORD", "")
+KEY = os.environ.get("DEPLOY_KEY", "")
 
-if not HOST or not PASSWORD:
-    print("缺少环境变量 DEPLOY_HOST / DEPLOY_PASSWORD", file=sys.stderr)
+if not HOST or (not PASSWORD and not KEY):
+    print("缺少凭据：需要 DEPLOY_HOST 且（DEPLOY_PASSWORD 或 DEPLOY_KEY）", file=sys.stderr)
     sys.exit(2)
 
 
@@ -37,7 +39,8 @@ def connect() -> paramiko.SSHClient:
         hostname=HOST,
         port=PORT,
         username=USER,
-        password=PASSWORD,
+        password=PASSWORD or None,
+        key_filename=KEY or None,
         timeout=25,
         banner_timeout=25,
         auth_timeout=25,

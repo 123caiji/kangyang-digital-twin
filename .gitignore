@@ -3,6 +3,8 @@ server/node_modules/
 server/data/*.db
 server/data/*.db-shm
 server/data/*.db-wal
+# 迁移前的本地备份（含历史数据库快照，不入库）
+server/data/backups/
 server/uploads/
 dist/
 .DS_Store

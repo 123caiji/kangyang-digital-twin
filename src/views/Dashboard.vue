@@ -27,7 +27,10 @@
         <div class="mark"></div>
         <div>
           <h1>{{ themeStore.settings.headerTitle }}</h1>
-          <p>Kangyang Digital Twin · {{ currentTheme.label }}</p>
+          <p>
+            Kangyang Digital Twin · {{ currentTheme.label }}
+            <template v-if="activeRoom"> · <b class="room-tag">{{ activeRoom }}室</b></template>
+          </p>
         </div>
       </div>
 
@@ -60,7 +63,7 @@
     </header>
 
     <aside class="hud side glass-panel">
-      <div class="panel-title">{{ currentTheme.label }} · 场景数据</div>
+      <div class="panel-title">{{ currentTheme.label }} · {{ activeRoom ? `${activeRoom}室数据` : modelTheme === 'room' || modelTheme === 'nursing' ? '全楼数据' : '布局示意' }}</div>
       <div class="desc">{{ currentTheme.desc }}</div>
       <div class="kpis">
         <div class="kpi" v-for="k in summary" :key="k.label">
@@ -78,7 +81,7 @@
       <ul class="comp-list soft">
         <li v-for="e in currentTheme.effects" :key="e">{{ e }}</li>
       </ul>
-      <div class="panel-title mt" v-if="iotData">IoT实时数据</div>
+      <div class="panel-title mt" v-if="iotData">全楼 IoT 数据</div>
       <div class="iot-mini" v-if="iotData">
         <div class="iot-row" v-if="iotData.healthLatest?.length">
           <span>健康监测</span>
@@ -104,7 +107,7 @@
       <button class="iot-sim-btn" @click="simulateIoT" :disabled="simLoading">
         {{ simLoading ? '推送中...' : '模拟IoT数据上报' }}
       </button>
-      <p class="tip">鼠标拖拽或方向键/WASD 旋转俯仰 · Q/E 或滚轮缩放 · 点击模型查看数据</p>
+      <p class="tip">拖拽旋转 · 右键平移 · 滚轮缩放 · 点选后方向键/QE 控制 · 双击聚焦</p>
     </aside>
 
     <aside class="hud detail glass-panel" v-if="selected" :class="selected.status">
@@ -193,21 +196,27 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import dayjs from 'dayjs'
-import Room3D from '@/components/Room3D.vue'
-import { getOverview, getTableData, aiAnalyze, iotDashboard, iotSimulate } from '@/api'
+import Room3D from '@/components/CareRoom3D.vue'
+import { getOverview, getTableData, getResidentsLatest, aiAnalyze, iotDashboard, iotSimulate } from '@/api'
 import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
 import { useBreakpoint } from '@/composables/useBreakpoint'
 
 const router = useRouter()
+const route = useRoute()
 const themeStore = useThemeStore()
 const userStore = useUserStore()
 const { isCoarsePointer } = useBreakpoint()
 const roomRef = ref(null)
 const webglFailed = ref(false)
+/**
+ * 从园区总览下钻时带的房号（/dashboard?theme=room&room=101）。
+ * 有值时场景数据只显示该房间的住户，头部也会标出房号。
+ */
+const activeRoom = ref('')
 
 const modelTheme = ref('room')
 const selected = ref(null)
@@ -259,8 +268,8 @@ const themes = [
     key: 'room',
     label: '居室',
     color: '#ff8c42',
-    components: ['智能护理床', '生命体征监护仪', '跌倒检测仪', '智能手环', '床头柜'],
-    effects: ['设备高亮描边', '监护仪屏幕闪烁', '选中光柱与脉冲环'],
+    components: ['双床护理床', '床头呼叫按钮', '扶手座椅', '床头储物柜', '剖面墙窗'],
+    effects: ['双床居室剖面', '关节人物与骨架查看', '人物姿态仅为示意'],
     desc: '展示居室环境、床位设备与住户健康监测运行态势。',
     category: '起居'
   },
@@ -268,17 +277,17 @@ const themes = [
     key: 'corridor',
     label: '走廊',
     color: '#42d9b8',
-    components: ['紧急呼叫器', '走廊摄像头', '辅助扶手', '智能照明', '管理中枢'],
-    effects: ['呼叫器呼吸闪烁', '摄像头扫视', '灯具呼吸效果'],
-    desc: '走廊安全监控、紧急呼叫与通行辅助的实时孪生。',
+    components: ['居室通道门', '连续辅助扶手', '轮椅模型', '护理员示意人物'],
+    effects: ['连续扶手与通道门', '轮椅通行示意', '护理员关节动作'],
+    desc: '展示适老通行空间，人物与设施为布局示意，尚未接入实时定位。',
     category: '公共区域'
   },
   {
     key: 'dining',
     label: '餐厅',
     color: '#ffb627',
-    components: ['适老化餐桌', '餐具消毒柜', '送餐车', '智能饮水机', '管理中枢'],
-    effects: ['消毒柜脉冲发光', '选中光柱反馈', '中枢晶体旋转'],
+    components: ['适老化餐桌', '扶手座椅', '餐具储存柜', '示意餐具'],
+    effects: ['扶手座椅与餐桌', '用餐人物示意', '选中描边与双击聚焦'],
     desc: '膳食服务、餐具消毒与营养管理的餐饮场景。',
     category: '餐饮'
   },
@@ -286,8 +295,8 @@ const themes = [
     key: 'nursing',
     label: '护理站',
     color: '#4fb8d9',
-    components: ['护理工作站', '智能药品柜', '综合监护大屏', '管理中枢'],
-    effects: ['屏幕数据闪烁', '药品柜脉冲', '中枢晶体旋转'],
+    components: ['护理接待台', '药品收纳柜', '护理档案柜', '工作显示器'],
+    effects: ['护理接待台与档案柜', '护理员与轮椅人物', '左侧指标为全楼业务数据'],
     desc: '全楼层护理调度、健康监测与告警管理的核心枢纽。',
     category: '护理'
   },
@@ -295,14 +304,15 @@ const themes = [
     key: 'rehab',
     label: '康复室',
     color: '#6dd97a',
-    components: ['康复平行杠', '康复跑步机', '训练阶梯', '康复训练床', '管理中枢'],
-    effects: ['设备高亮描边', '跑步机摆动', '选中脉冲环'],
+    components: ['康复平行杠', '训练阶梯', '训练垫', '康复器具柜'],
+    effects: ['平行杠与训练阶梯', '康复活动示意', '可暂停动作与查看骨架'],
     desc: '康复训练计划、器材使用与进度跟踪的场景。',
     category: '康复'
   }
 ]
 
 const allMenus = [
+  { path: '/overview', title: '园区总览', perm: 'dashboard' },
   { path: '/dashboard', title: '3D孪生', perm: 'dashboard' },
   { path: '/charts/ops', title: '健康监测', perm: 'charts' },
   { path: '/charts/analysis', title: '护理分析', perm: 'charts' },
@@ -320,26 +330,69 @@ const roleLabel = computed(
   () => ({ admin: '管理员', editor: '编辑员', viewer: '访客' }[userStore.role] || userStore.role)
 )
 
-const themePayload = computed(() => {
-  if (modelTheme.value === 'corridor' || modelTheme.value === 'dining' || modelTheme.value === 'nursing' || modelTheme.value === 'rehab') {
-    return {
-      nodes: deviceRows.value.slice(0, 24).map((r) => ({
-        name: r.name,
-        value: r.battery ?? Math.round(60 + Math.random() * 40),
-        unit: '% 电量',
-        district: r.room_no || currentTheme.value.label,
-        status: r.status === 'online' ? 'normal' : 'warning',
-        remark: r.remark || `${currentTheme.value.label}设备`
-      }))
+/**
+ * 住户姓名 → 真实房间号。
+ * resident_health 表没有 room_no（只有 resident_id/name），而住户档案里房间号才是权威，
+ * 这里按姓名建立映射，取代原先写死的「101室」。
+ */
+const roomByName = computed(() => {
+  const map = new Map()
+  for (const r of residents.value) {
+    if (r.name) map.set(r.name, r.room_no)
+  }
+  return map
+})
+const roomOf = (residentName) => {
+  const room = roomByName.value.get(residentName)
+  return room ? `${room}室` : '—'
+}
+
+/**
+ * 每位住户只取最新一条健康记录。
+ *
+ * resident_health 里每人有 7 天以上的历史记录，直接拿列表渲染会让同一个人
+ * 在三维场景里出现多个节点（「监测住户」也会虚高成几十）。这里按住户去重取最新。
+ */
+const latestHealthRows = computed(() => {
+  const byResident = new Map()
+  for (const row of healthRows.value) {
+    const key = row.resident_name || `#${row.resident_id}`
+    const prev = byResident.get(key)
+    if (!prev || String(row.measured_at || '') > String(prev.measured_at || '')) {
+      byResident.set(key, row)
     }
   }
+  return [...byResident.values()]
+})
+
+/**
+ * 从园区总览下钻到某个房间时，场景里只保留该房间住户的健康记录。
+ * 空房保留空态，不能用其他房间住户填补，避免虚构入住信息。
+ */
+const scopedHealthRows = computed(() => {
+  const base = latestHealthRows.value
+  if (!activeRoom.value) return base
+  const names = new Set(
+    residents.value.filter((r) => r.room_no === activeRoom.value).map((r) => r.name)
+  )
+  return base.filter((r) => String(r.room_no || '') === activeRoom.value || (!r.room_no && names.has(r.resident_name)))
+})
+
+const themePayload = computed(() => {
+  if (modelTheme.value === 'corridor' || modelTheme.value === 'dining' || modelTheme.value === 'nursing' || modelTheme.value === 'rehab') {
+    // 设备档案尚无公共区域空间关联，不能将全楼设备冒充当前场景设施。
+    return { nodes: [] }
+  }
   return {
-    nodes: healthRows.value.slice(0, 20).map((r) => ({
+    roomNo: activeRoom.value,
+    nodes: scopedHealthRows.value.map((r) => ({
+      id: `resident-${r.id || r.resident_id}`,
+      bedNo: r.bed_no,
       name: r.resident_name,
-      value: r.heart_rate,
+      value: r.heart_rate ?? '—',
       unit: 'bpm',
-      district: '101室',
-      status: r.status === 'normal' ? 'normal' : r.status === 'attention' ? 'warning' : 'critical',
+      district: roomOf(r.resident_name),
+      status: r.status === 'normal' ? 'normal' : r.status === 'attention' ? 'warning' : r.status === 'critical' ? 'critical' : 'unknown',
       remark: `${r.resident_name} 心率${r.heart_rate} 呼吸${r.breathing_rate || '--'} SpO2 ${r.spo2 || '--'}% ${r.fall_status === 'detected' ? '·跌倒告警' : ''}`
     }))
   }
@@ -348,11 +401,13 @@ const themePayload = computed(() => {
 const summary = computed(() => {
   if (modelTheme.value === 'room') {
     const nodes = themePayload.value.nodes || []
-    const avgHR = nodes.length ? Math.round(nodes.reduce((s, i) => s + Number(i.value || 0), 0) / nodes.length) : '--'
-    const fallCount = iotData.value?.fallCount ?? healthRows.value.filter((r) => r.fall_status === 'detected').length
-    const avgSpO2 = healthRows.value.length
-      ? Math.round(healthRows.value.reduce((s, r) => s + Number(r.spo2 || 0), 0) / healthRows.value.length * 10) / 10
-      : '--'
+    const average = (key) => {
+      const values = scopedHealthRows.value.map(r => r[key]).filter(v => v != null && Number.isFinite(Number(v)))
+      return values.length ? Math.round(values.reduce((sum, v) => sum + Number(v), 0) / values.length * 10) / 10 : '—'
+    }
+    const avgHR = average('heart_rate')
+    const fallCount = scopedHealthRows.value.filter(r => r.fall_status === 'detected').length
+    const avgSpO2 = average('spo2')
     return [
       { label: '监测住户', value: nodes.length },
       { label: '平均心率', value: avgHR },
@@ -360,22 +415,12 @@ const summary = computed(() => {
       { label: '跌倒事件', value: fallCount }
     ]
   }
-  if (modelTheme.value === 'corridor') {
-    const nodes = themePayload.value.nodes || []
+  if (['corridor', 'dining', 'rehab'].includes(modelTheme.value)) {
     return [
-      { label: '在线设备', value: nodes.length },
-      { label: '呼叫器', value: 6 },
-      { label: '摄像头', value: 3 },
-      { label: '离线', value: nodes.filter((n) => n.status !== 'normal').length }
-    ]
-  }
-  if (modelTheme.value === 'dining') {
-    const nodes = themePayload.value.nodes || []
-    return [
-      { label: '设备数', value: nodes.length },
-      { label: '餐桌', value: 4 },
-      { label: '消毒中', value: 1 },
-      { label: '送餐车', value: 1 }
+      { label: '空间模型', value: '示意' },
+      { label: '人物动作', value: '演示' },
+      { label: '区域设备关联', value: '待接入' },
+      { label: '实时定位', value: '未接入' }
     ]
   }
   if (modelTheme.value === 'nursing') {
@@ -385,14 +430,6 @@ const summary = computed(() => {
       { label: '待处理告警', value: alarms.filter((a) => a.status === 'pending').length },
       { label: '处理中', value: alarms.filter((a) => a.status === 'processing').length },
       { label: '已解决', value: alarms.filter((a) => a.status === 'resolved').length }
-    ]
-  }
-  if (modelTheme.value === 'rehab') {
-    return [
-      { label: '器材数', value: 4 },
-      { label: '本周训练', value: 12 },
-      { label: '平均时长', value: '25min' },
-      { label: '状态', value: '空闲' }
     ]
   }
   return []
@@ -407,25 +444,24 @@ const barWidth = computed(() => {
 })
 
 function statusText(s) {
-  return { normal: '正常', warning: '预警', critical: '紧急', attention: '关注' }[s] || s || '正常'
+  return { normal: '正常', warning: '预警', critical: '紧急', attention: '关注', unknown: '暂无数据', demo: '示意模型' }[s] || s || '暂无数据'
 }
 
-function effectLabel(effect) {
-  return (
-    {
-      'device-glow': '设备高亮 + 光柱',
-      'device-pulse': '设备脉冲呼吸',
-      'core-pulse': '中枢脉冲 + 晶体辉光',
-      'camera-scan': '摄像头扫视'
-    }[effect] || '选中光效'
-  )
-}
+function effectLabel() { return '轮廓选中 · 双击聚焦' }
 
 function switchTheme(key) {
   modelTheme.value = key
+  if (key !== 'room') activeRoom.value = ''
   selected.value = null
   roomRef.value?.clearSelect?.()
+  router.replace({ query: { theme: key, ...(activeRoom.value ? { room: activeRoom.value } : {}) } })
 }
+
+watch(() => [route.query.theme, route.query.room], ([theme, room]) => {
+  if (themes.some(t => t.key === theme)) modelTheme.value = theme
+  activeRoom.value = modelTheme.value === 'room' && /^\d{3}$/.test(String(room || '')) ? String(room) : ''
+  selected.value = null
+})
 
 function onSelect(item) { selected.value = item }
 
@@ -466,12 +502,12 @@ async function simulateIoT() {
   simLoading.value = true
   try {
     await iotSimulate()
-    const [hlRows, evRows, dash] = await Promise.all([
-      getTableData('resident_health', { page: 1, pageSize: 40 }),
+    const [hlLatest, evRows, dash] = await Promise.all([
+      getResidentsLatest(),
       getTableData('room_environment', { page: 1, pageSize: 30 }),
       iotDashboard()
     ])
-    healthRows.value = hlRows.data.list || []
+    healthRows.value = hlLatest.data || []
     envRows.value = evRows.data.list || []
     iotData.value = dash.data
   } catch { /* ignore */ }
@@ -480,15 +516,24 @@ async function simulateIoT() {
 
 onMounted(async () => {
   await themeStore.load()
-  modelTheme.value = themeStore.settings.modelTheme || 'room'
+  // 支持从园区总览下钻：/dashboard?theme=room&room=101
+  const validThemes = themes.map((t) => t.key)
+  const qTheme = String(route.query.theme || '')
+  const qRoom = String(route.query.room || '')
+  modelTheme.value = validThemes.includes(qTheme)
+    ? qTheme
+    : themeStore.settings.modelTheme || 'room'
+  activeRoom.value = modelTheme.value === 'room' && /^\d{3}$/.test(qRoom) ? qRoom : ''
   timer = setInterval(() => {
     now.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
   }, 1000)
   try {
-    const [ov, resRows, hlRows, alRows, evRows, devRows, dash] = await Promise.all([
+    // 健康数据用「每位住户最新一条」的专用接口，而不是流水表分页 ——
+    // 流水表按分页取会覆盖不全住户，导致场景里少人、KPI 失真
+    const [ov, resRows, hlLatest, alRows, evRows, devRows, dash] = await Promise.all([
       getOverview(),
       getTableData('residents', { page: 1, pageSize: 50 }),
-      getTableData('resident_health', { page: 1, pageSize: 40 }),
+      getResidentsLatest(),
       getTableData('alarms', { page: 1, pageSize: 30 }),
       getTableData('room_environment', { page: 1, pageSize: 30 }),
       getTableData('devices', { page: 1, pageSize: 40 }),
@@ -496,7 +541,7 @@ onMounted(async () => {
     ])
     overview.value = ov.data
     residents.value = resRows.data.list || []
-    healthRows.value = hlRows.data.list || []
+    healthRows.value = hlLatest.data || []
     alarmRows.value = alRows.data.list || []
     envRows.value = evRows.data.list || []
     deviceRows.value = devRows.data.list || []
@@ -580,6 +625,12 @@ onBeforeUnmount(() => {
     margin: 4px 0 0;
     font-size: 12px;
     color: var(--sc-muted);
+  }
+  /* 从总览下钻时标出当前房号 */
+  .room-tag {
+    color: var(--sc-accent);
+    font-weight: 600;
+    letter-spacing: 1px;
   }
 }
 

@@ -291,27 +291,68 @@ body {
   }
 }
 
-/* 触控设备（手机 + 平板）：交互元素统一放大到 44px 最小触控尺寸
-   注意用 :root 保证与 Element Plus 的 :root 同特异性，靠引入顺序覆盖 */
+/* ============================================================
+   触控设备（手机 + 触屏平板）：交互元素一律放大到 44px 最小触控尺寸
+   ============================================================ */
+
+/* 用 :root 保证与 Element Plus 自身的 :root 同特异性，靠引入顺序覆盖 */
 @include below-desktop {
   @include coarse-pointer {
     :root {
       --el-component-size: #{$tap-min};
-      --el-component-size-small: 36px;
+      /* 原来取 36px，导致表格里 size="small" 的「编辑/删除」在触屏上只有 36px 高。
+         小号按钮在触屏设备上同样需要达标，这里一并提到 44px。 */
+      --el-component-size-small: #{$tap-min};
       --el-component-size-large: 52px;
     }
+  }
+}
 
+/* 最小触控尺寸的兜底。
+   为什么必须用 !important：Dashboard 的 .nav .link / .theme-switch button 和
+   SideNav 的 .logout-mini 都在各自 scoped 样式里显式写了 min-height: 36px，
+   带上 [data-v-*] 属性选择器后特异性高于这里的裸 button 规则，不加 !important 压不住。
+   作用域被限制在「桌面以下 + 触屏」，≥1024 的鼠标设备完全不受影响 —— 这是桌面零回归的前提。 */
+@include below-desktop {
+  @include coarse-pointer {
     .el-button,
     .el-menu-item,
     .el-pagination button,
     .el-pager li,
     .el-tabs__item,
+    .el-slider__button-wrapper,
     button,
     a[href],
     [role='button'] {
+      min-height: var(--tap-min) !important;
+    }
+
+    /* Element Plus 有两类控件不认 --el-component-size，尺寸是写死像素的：
+       el-select__wrapper 固定 min-height:32px，el-slider 固定 height:32px。
+       这里同为单类选择器，且本表在 Element Plus 之后引入，靠层叠顺序即可覆盖。 */
+    .el-select__wrapper {
       min-height: var(--tap-min);
     }
+
+    .el-slider {
+      height: var(--tap-min);
+      --el-slider-button-wrapper-size: var(--tap-min);
+      --el-slider-button-size: 24px;
+    }
   }
+}
+
+/* ============================================================
+   点击目标下限（全视口，含桌面）
+   ------------------------------------------------------------
+   链接式按钮默认 padding 只有 2px，实测高度 20px —— 低于 WCAG「目标尺寸（最小）」24×24 的下限。
+   本项目是养老/康养场景，操作者包含护理员与来访长者的可能性都存在，精度容错更差，
+   因此把 .is-link 按钮统一抬到 24px。
+   桌面是鼠标操作，不需要 44px（那是触屏的指标），补到 WCAG 下限即可，避免过度改变表格行高。
+   只加 min-height、不动 padding，以免改动文字四周的留白节奏。
+   ============================================================ */
+.el-button.is-link {
+  min-height: 24px;
 }
 
 /* ============================================================
