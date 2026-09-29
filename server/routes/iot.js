@@ -82,22 +82,43 @@ function validateTSL(identifier, value) {
 
 // ============================================================
 // 设备Token认证中间件
+// 支持3种认证方式（按优先级）：
+//   1. Authorization: Bearer <token>  （标准方式）
+//   2. ?token=xxx 查询参数            （阿里云规则引擎URL配置）
+//   3. body.deviceName 匹配设备ID     （最后兜底，弱认证）
 // ============================================================
 function deviceAuth(req, res, next) {
   const header = req.headers.authorization || ''
-  const token = header.startsWith('Bearer ') ? header.slice(7) : null
-  if (!token) return res.status(401).json({ code: 401, message: '设备未认证：缺少Token' })
+  let token = header.startsWith('Bearer ') ? header.slice(7) : null
 
-  const device = db.prepare('SELECT * FROM iot_devices WHERE device_token = ?').get(token)
-  if (!device || device.status !== 'online') {
-    return res.status(401).json({ code: 401, message: '设备未认证：Token无效或设备已禁用' })
+  // 方式2：查询参数
+  if (!token && req.query.token) {
+    token = req.query.token
   }
 
-  // 更新最后在线时间
-  db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
+  if (token) {
+    const device = db.prepare('SELECT * FROM iot_devices WHERE device_token = ?').get(token)
+    if (!device || device.status !== 'online') {
+      return res.status(401).json({ code: 401, message: '设备未认证：Token无效或设备已禁用' })
+    }
+    db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
+    req.device = device
+    return next()
+  }
 
-  req.device = device
-  next()
+  // 方式3：通过body中的deviceName/deviceId匹配（阿里云规则引擎兜底）
+  const body = req.body || {}
+  const devName = body.deviceName || body.deviceId || (body.params && body.params.ID) || body.ID
+  if (devName) {
+    const device = db.prepare('SELECT * FROM iot_devices WHERE device_id = ?').get(devName)
+    if (device && device.status === 'online') {
+      db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
+      req.device = device
+      return next()
+    }
+  }
+
+  res.status(401).json({ code: 401, message: '设备未认证：缺少Token或设备未注册' })
 }
 
 // ============================================================
@@ -145,10 +166,30 @@ function createAlarm(device, level, type, title, description) {
 // ============================================================
 router.post('/report', deviceAuth, (req, res) => {
   try {
-    const { properties, items } = req.body || {}
-    const props = properties || items || {}
-    if (!props || typeof props !== 'object') {
-      return res.status(400).json({ code: 400, message: '缺少 properties/items 字段' })
+    const body = req.body || {}
+
+    // 兼容阿里云IoT多种数据格式
+    // 格式1: { params: { Heartbeat: 75, ... } }          —— 阿里云thing.event.property.post
+    // 格式2: { items: { Heartbeat: { value: 75, time: xxx }, ... } }  —— 阿里云规则引擎
+    // 格式3: { properties: { Heartbeat: 75, ... } }        —— 自定义格式
+    // 格式4: { Heartbeat: 75, SPO2: 98, ... }              —— 扁平直传
+    // 格式5: { deviceName: 'xxx', items: {...} }          —— 规则引擎带设备名
+    let props = body.params || body.properties || body.items || null
+
+    // 格式4：扁平直传，将body中TSL_MAP有的字段挑出来
+    if (!props) {
+      props = {}
+      for (const key of Object.keys(body)) {
+        if (TSL_MAP[key] || ['deviceName', 'deviceId', 'method', 'id', 'version', 'topic', 'bizCode', 'requestId'].includes(key) === false) {
+          if (TSL_MAP[key]) {
+            props[key] = body[key]
+          }
+        }
+      }
+    }
+
+    if (!props || typeof props !== 'object' || Object.keys(props).length === 0) {
+      return res.status(400).json({ code: 400, message: '未识别到有效的属性数据，支持格式: params/items/properties/扁平' })
     }
 
     const device = req.device
@@ -158,7 +199,7 @@ router.post('/report', deviceAuth, (req, res) => {
     // 记录原始数据
     db.prepare(
       `INSERT INTO iot_raw_data (device_id, payload) VALUES (?, ?)`
-    ).run(device.device_id, JSON.stringify(req.body))
+    ).run(device.device_id, JSON.stringify(body))
 
     // 字段映射分组（按设备类型过滤目标表）
     const grouped = {}
@@ -169,10 +210,6 @@ router.post('/report', deviceAuth, (req, res) => {
       if (map.table === 'meta') continue
 
       // 设备类型与目标表的匹配规则
-      // health_monitor → resident_health（不产生环境记录）
-      // environment → room_environment（不产生健康记录）
-      // weather → outdoor_weather
-      // soil → soil_monitor
       if (devType === 'health_monitor' && map.table === 'room_environment') continue
       if (devType === 'environment' && map.table === 'resident_health') continue
 
