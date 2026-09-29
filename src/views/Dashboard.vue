@@ -262,6 +262,7 @@ async function askAI(question) {
   }
 }
 let timer
+let dataTimer
 
 const themes = [
   {
@@ -527,6 +528,21 @@ onMounted(async () => {
   timer = setInterval(() => {
     now.value = dayjs().format('YYYY-MM-DD HH:mm:ss')
   }, 1000)
+  // IoT数据每10秒自动刷新
+  dataTimer = setInterval(async () => {
+    try {
+      const [hlLatest, alRows, evRows, dash] = await Promise.all([
+        getResidentsLatest(),
+        getTableData('alarms', { page: 1, pageSize: 30 }),
+        getTableData('room_environment', { page: 1, pageSize: 30 }),
+        iotDashboard()
+      ])
+      healthRows.value = hlLatest.data || []
+      alarmRows.value = alRows.data.list || []
+      envRows.value = evRows.data.list || []
+      iotData.value = dash.data
+    } catch { /* ignore */ }
+  }, 10000)
   try {
     // 健康数据用「每位住户最新一条」的专用接口，而不是流水表分页 ——
     // 流水表按分页取会覆盖不全住户，导致场景里少人、KPI 失真
@@ -551,6 +567,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   clearInterval(timer)
+  clearInterval(dataTimer)
   try { roomRef.value?.destroy?.() } catch { /* ignore */ }
 })
 </script>
