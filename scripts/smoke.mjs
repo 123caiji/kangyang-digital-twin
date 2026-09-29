@@ -26,7 +26,9 @@ const ROUTES = [
   { path: '/users', name: '用户管理', expect: 'table, .card-list' },
   { path: '/style', name: '样式设置', expect: '.preview-box' },
   { path: '/db', name: '数据库设置', expect: 'table, .card-list' },
-  { path: '/predict', name: '健康预测', expect: '.layout' }
+  { path: '/predict', name: '健康预测', expect: '.layout' },
+  { path: '/devices', name: 'IoT设备管理', expect: 'table, .card-list' },
+  { path: '/audit', name: '安全审计日志', expect: 'table, .card-list' }
 ]
 
 const errors = []
@@ -133,6 +135,7 @@ const OVERLAYS = [
   { path: '/users', clickText: '新增用户', wait: '.el-dialog', name: '用户管理 · 新增弹窗' },
   { path: '/db', clickText: '新增连接', wait: '.el-dialog', name: '数据库设置 · 新增弹窗' },
   { path: '/data', clickText: '新增', wait: '.el-dialog', name: '数据管理 · 新增弹窗' },
+  { path: '/devices', clickText: '注册设备', wait: '.el-dialog', name: 'IoT设备 · 注册弹窗' },
   { path: '/users', viewport: 375, tap: '.hamburger', wait: '.el-drawer', name: '移动端导航抽屉' }
 ]
 

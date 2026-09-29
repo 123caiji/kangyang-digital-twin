@@ -41,7 +41,11 @@ const PAGES = [
   { path: '/users', name: 'user-manage' },
   { path: '/style', name: 'style-settings' },
   { path: '/db', name: 'db-settings' },
-  { path: '/predict', name: 'predict' }
+  { path: '/predict', name: 'predict' },
+  // 2026-09 新增页面：IoT 设备管理 / 安全审计日志。
+  // 它们是在二期审计（10 页）之后加进来的，此前从未进过任何视口的实测。
+  { path: '/devices', name: 'device-manage' },
+  { path: '/audit', name: 'audit-log' }
 ]
 
 const HEIGHTS = { 375: 812, 768: 1024, 1024: 768, 1440: 900 }
