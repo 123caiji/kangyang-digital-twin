@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端响应式与交互 · 第二期改造对比</title>
+    <style>
+      :root {
+        --bg: #16142a;
+        --panel: rgba(45, 35, 55, 0.55);
+        --primary: #ff8c42;
+        --accent: #ffb627;
+        --text: #f5e6d3;
+        --muted: #b8a095;
+        --border: rgba(255, 140, 66, 0.3);
+        --good: #42d97a;
+        --bad: #ff6b81;
+        --font: "Microsoft YaHei", "PingFang SC", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0 20px 60px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .wrap { max-width: 1180px; margin: 0 auto; }
+      header { padding: 40px 0 24px; border-bottom: 1px solid var(--border); }
+      h1 { margin: 0 0 8px; font-size: 26px; color: var(--primary); letter-spacing: 1px; }
+      .sub { color: var(--muted); font-size: 13px; }
+      h2 { margin: 44px 0 16px; font-size: 19px; color: var(--accent); letter-spacing: 1px; }
+      h3 { margin: 26px 0 10px; font-size: 15px; color: var(--primary); }
+
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 18px;
+      }
+      .card .label { color: var(--muted); font-size: 12px; letter-spacing: 1px; }
+      .card .value { font-size: 27px; color: var(--text); margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
+      .card .delta { font-size: 13px; color: var(--good); }
+      .card .note { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+      th, td { padding: 9px 12px; border-bottom: 1px solid rgba(255, 140, 66, 0.14); text-align: left; }
+      th { color: var(--primary); background: rgba(60, 40, 50, 0.5); font-weight: 500; }
+      td { color: var(--text); font-variant-numeric: tabular-nums; }
+      td.num { text-align: right; }
+      .ok { color: var(--good); }
+      .warn { color: var(--bad); }
+
+      .bar-row { margin: 12px 0; }
+      .bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+      .bar-track { height: 22px; background: rgba(60, 40, 50, 0.5); border-radius: 4px; overflow: hidden; }
+      .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: #1a1030; font-weight: 700; }
+      .bar-before { background: linear-gradient(90deg, #90506a, #c26b86); }
+      .bar-after { background: linear-gradient(90deg, var(--primary), var(--accent)); }
+
+      .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+      .tab {
+        padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px;
+        border: 1px solid var(--border); background: transparent; color: var(--muted);
+        font-family: var(--font);
+      }
+      .tab.on { background: rgba(255, 140, 66, 0.16); color: var(--primary); border-color: var(--primary); }
+      .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+      .shot { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px; }
+      .shot img { width: 100%; display: block; border-radius: 4px; background: #0f0d1c; }
+      .shot .cap { font-size: 12px; color: var(--muted); padding: 6px 4px 2px; }
+      .shot-group { display: none; }
+      .shot-group.on { display: block; }
+
+      ul.notes { padding-left: 20px; color: var(--text); }
+      ul.notes li { margin: 6px 0; }
+      code { background: rgba(255, 140, 66, 0.1); padding: 1px 5px; border-radius: 3px; color: var(--accent); font-size: 12px; }
+      .callout {
+        border-left: 3px solid var(--primary);
+        background: rgba(255, 140, 66, 0.07);
+        padding: 12px 16px; margin: 16px 0; border-radius: 0 6px 6px 0;
+      }
+      .footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>前端响应式与交互体验 · 第二期改造</h1>
+        <div class="sub">
+          康养数字孪生平台 · Vue 3 + Vite + Element Plus + ECharts + Three.js · 10 页 × 4 视口 = 40 组实测样本
+        </div>
+        <div class="sub">数据口径：无头 Edge 实测，非估算 · 2026-09-29</div>
+      </header>
+
+      <h2>一、核心收益</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="label">首屏体积（gzip）</div>
+          <div class="value">315.3 kB</div>
+          <div class="delta">↓ 35.5%　原 489.0 kB</div>
+          <div class="note">未压缩 1725 → 1061 kB</div>
+        </div>
+        <div class="card">
+          <div class="label">触屏小目标 (&lt;44px)</div>
+          <div class="value">0</div>
+          <div class="delta">↓ 100%　原 375px:35 / 768px:52</div>
+          <div class="note">触屏口径，10 页合计</div>
+        </div>
+        <div class="card">
+          <div class="label">桌面低于 24px 元素</div>
+          <div class="value">0</div>
+          <div class="delta">↓ 100%　原 36 处</div>
+          <div class="note">WCAG 目标尺寸下限</div>
+        </div>
+        <div class="card">
+          <div class="label">横向溢出 / 不可达内容</div>
+          <div class="value">0 / 0px</div>
+          <div class="delta">保持达标</div>
+          <div class="note">40 组样本均为 0</div>
+        </div>
+      </div>
+
+      <h2>二、体积是怎么砍下来的</h2>
+      <div class="callout">
+        <strong>踩过的坑：</strong>第一版只改「注册哪些组件」，保留
+        <code>import { ElButton } from 'element-plus'</code> 根路径导入 ——
+        JS 从 908.81 kB 只降到 906.98 kB，<strong>几乎没动</strong>。
+        根因是 <code>es/index.mjs</code> 是 301 行的 barrel，只要有一处根导入，整棵组件树就进图，
+        而组件顶层调用的 <code>withInstall()</code> 未标 <code>/*#__PURE__*/</code>，Rollup 摇不掉。
+        正解是<strong>两头收口</strong>：组件走自身深路径 + 所有业务引用统一到单一入口。
+      </div>
+
+      <h3>Element Plus 分包（未压缩 / gzip）</h3>
+      <div class="bar-row">
+        <div class="bar-label"><span>vendor-element.js　改前</span><span>908.81 kB　/　292.70 kB</span></div>
+        <div class="bar-track"><div class="bar-fill bar-before" style="width: 100%">100%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>vendor-element.js　改后</span><span>444.87 kB　/　146.94 kB</span></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width: 49%">49%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>vendor-element.css　改前</span><span>357.67 kB　/　47.85 kB</span></div>
+        <div class="bar-track"><div class="bar-fill bar-before" style="width: 100%">100%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>vendor-element.css　改后</span><span>167.59 kB　/　23.10 kB</span></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width: 47%">47%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>首屏合计（JS+CSS, gzip）改前</span><span>489.0 kB</span></div>
+        <div class="bar-track"><div class="bar-fill bar-before" style="width: 100%">100%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>首屏合计（JS+CSS, gzip）改后</span><span>315.3 kB</span></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width: 64%">64%</div></div>
+      </div>
+
+      <h2>三、实测明细</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>视口</th><th>指针</th><th class="num">小目标 &lt;44px</th>
+            <th class="num">低于 24px</th><th class="num">横向溢出</th><th class="num">不可达内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>375px</td><td>触屏</td><td class="num ok">35 → 0</td><td class="num ok">0</td><td class="num ok">0</td><td class="num ok">0px</td></tr>
+          <tr><td>768px</td><td>触屏</td><td class="num ok">52 → 0</td><td class="num ok">0</td><td class="num ok">0</td><td class="num ok">0px</td></tr>
+          <tr><td>1024px</td><td>鼠标</td><td class="num">166 <span style="color:var(--muted)">(见注)</span></td><td class="num ok">36 → 0</td><td class="num ok">0</td><td class="num ok">0px</td></tr>
+          <tr><td>1440px</td><td>鼠标</td><td class="num">166 <span style="color:var(--muted)">(见注)</span></td><td class="num ok">36 → 0</td><td class="num ok">0</td><td class="num ok">0px</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>桌面 166 不是缺陷。</strong>那是拿触屏 44px 标准去量鼠标界面的结果；
+        桌面已无任何低于 24px 的元素。桌面追求 44px 会显著撑高表格密度，属有意取舍。<br />
+        另外，本期<strong>修正了触控目标的测量口径</strong>（按真实命中祖先判定，不再把组件库内部零件单算），
+        因此桌面端前后数字不同源，不可直接相减。
+      </div>
+
+      <h2>四、为什么桌面没有回归</h2>
+      <p>
+        新增的 44px 规则整块包在
+        <code>(max-width: 1023.98px) ∩ (pointer: coarse)</code> 内。审计脚本每页都输出指针类型，
+        1024 / 1440 两档实测均报告 <strong>[鼠标]</strong> —— 媒体查询不匹配，新规则在桌面完全不参与级联。
+        这是可验证的事实，不是推断。
+      </p>
+
+      <h2>五、交互体验补强</h2>
+      <ul class="notes">
+        <li><strong>路由过渡</strong>：0.18s 纯透明度淡入淡出。刻意不做位移 —— canvas 与绝对定位图层下，transform 会促成额外合成层并让 ECharts 尺寸测量出现亚像素抖动。</li>
+        <li><strong>懒加载进度条</strong>：顶部 2px 渐变条，延迟 120ms 出现（命中缓存时不闪）。用无限动画表达「进行中」，不伪造 0→90% 的假进度 —— 真实下载进度本来就取不到。</li>
+        <li><strong>客户端路由实测</strong>：8 组侧栏点击跳转，逐项断言 DOM 节点数 / opacity / 标题 / 路径，全部正常且 0 错误。</li>
+        <li><strong>时钟重渲染下沉</strong>：拆分 <code>LiveClock.vue</code>，原先每秒触发整个 Layout（含 10 项侧栏）重渲染，现在只有叶子组件重渲染。</li>
+        <li><strong>链接按钮抬到 24px</strong>：原先 <code>el-button is-link</code> 仅 20px 高，低于 WCAG 下限，养老场景下对长者尤其不友好。</li>
+      </ul>
+
+      <h2>六、把口径固化成脚本</h2>
+      <table>
+        <thead><tr><th>脚本</th><th>作用</th></tr></thead>
+        <tbody>
+          <tr><td><code>check-element-imports.mjs</code></td><td>新增。静态比对模板用到的 el-* 与注册清单（含弹层内部的不渲染组件）；禁止绕过插件入口的根导入</td></tr>
+          <tr><td><code>smoke.mjs</code></td><td>增强。新增「未注册组件」检测（Vue 只发 warn 不发 error，原本抓不到）+ 弹层交互阶段（3 弹窗 1 抽屉）</td></tr>
+          <tr><td><code>responsive-audit.mjs</code></td><td>修正触控口径；每页输出指针类型，用于证明桌面未受新规则影响</td></tr>
+        </tbody>
+      </table>
+      <p style="color: var(--muted); font-size: 13px;">
+        弹层必须单独测：<code>el-dialog</code> / <code>el-drawer</code> 默认 Teleport 且不挂载，
+        遍历路由时压根没渲染 —— 按需引入漏注册这类组件，路由检查一个都抓不到。
+        这是「静态清单对得上、运行时却静默降级」的唯一盲区。
+      </p>
+
+      <h2>七、验收截图</h2>
+      <div class="tabs">
+        <button class="tab on" data-g="g375">375px 触屏</button>
+        <button class="tab" data-g="g768">768px 触屏</button>
+        <button class="tab" data-g="g1440">1440px 桌面</button>
+      </div>
+
+      <div class="shot-group on" id="g375">
+        <div class="shots">
+          <div class="shot"><img src="../.audit/final/375/overview.png" alt="园区总览 375" /><div class="cap">园区总览</div></div>
+          <div class="shot"><img src="../.audit/final/375/charts-ops.png" alt="健康监测 375" /><div class="cap">健康监测图表</div></div>
+          <div class="shot"><img src="../.audit/final/375/data-manage.png" alt="数据管理 375" /><div class="cap">数据管理</div></div>
+          <div class="shot"><img src="../.audit/final/375/user-manage.png" alt="用户管理 375" /><div class="cap">用户管理</div></div>
+          <div class="shot"><img src="../.audit/final/375/style-settings.png" alt="样式设置 375" /><div class="cap">样式设置</div></div>
+          <div class="shot"><img src="../.audit/final/375/predict.png" alt="健康预测 375" /><div class="cap">健康预测</div></div>
+        </div>
+      </div>
+      <div class="shot-group" id="g768">
+        <div class="shots">
+          <div class="shot"><img src="../.audit/final/768/dashboard.png" alt="康养大屏 768" /><div class="cap">康养孪生大屏</div></div>
+          <div class="shot"><img src="../.audit/final/768/overview.png" alt="园区总览 768" /><div class="cap">园区总览</div></div>
+          <div class="shot"><img src="../.audit/final/768/charts-analysis.png" alt="护理分析 768" /><div class="cap">护理分析图表</div></div>
+          <div class="shot"><img src="../.audit/final/768/data-manage.png" alt="数据管理 768" /><div class="cap">数据管理</div></div>
+          <div class="shot"><img src="../.audit/final/768/db-settings.png" alt="数据库设置 768" /><div class="cap">数据库设置</div></div>
+          <div class="shot"><img src="../.audit/final/768/predict.png" alt="健康预测 768" /><div class="cap">健康预测</div></div>
+        </div>
+      </div>
+      <div class="shot-group" id="g1440">
+        <div class="shots">
+          <div class="shot"><img src="../.audit/final/1440/dashboard.png" alt="康养大屏 1440" /><div class="cap">康养孪生大屏</div></div>
+          <div class="shot"><img src="../.audit/final/1440/overview.png" alt="园区总览 1440" /><div class="cap">园区总览</div></div>
+          <div class="shot"><img src="../.audit/final/1440/charts-ops.png" alt="健康监测 1440" /><div class="cap">健康监测图表</div></div>
+          <div class="shot"><img src="../.audit/final/1440/charts-advanced.png" alt="空间关系 1440" /><div class="cap">空间关系图谱</div></div>
+          <div class="shot"><img src="../.audit/final/1440/user-manage.png" alt="用户管理 1440" /><div class="cap">用户管理</div></div>
+          <div class="shot"><img src="../.audit/final/1440/db-settings.png" alt="数据库设置 1440" /><div class="cap">数据库设置</div></div>
+        </div>
+      </div>
+
+      <h2>八、验收结果</h2>
+      <table>
+        <thead><tr><th>检查项</th><th>结果</th></tr></thead>
+        <tbody>
+          <tr><td>样式语言守卫</td><td class="ok">通过（无纯 CSS 块误用 SCSS 语法）</td></tr>
+          <tr><td>按需注册守卫</td><td class="ok">28/28 组件对齐，无绕过引用</td></tr>
+          <tr><td>端到端冒烟</td><td class="ok">路由 10/10、弹层 4/4、控制台错误 0、未注册组件 0</td></tr>
+          <tr><td>响应式实测</td><td class="ok">40 组样本：溢出 0、不可达 0、触屏小目标 0</td></tr>
+          <tr><td>构建</td><td class="ok">成功，首屏 gzip 315.3 kB</td></tr>
+        </tbody>
+      </table>
+
+      <h2>九、已知限制与建议</h2>
+      <ul class="notes">
+        <li><strong>桌面 44px 未追求</strong>，属有意取舍（点击精度 vs 表格密度），维持 24px 下限。</li>
+        <li><code>vendor-echarts</code> 1.48MB 仍是最大 chunk。若继续优化，建议改 <code>echarts/core</code> 按需注册，预估同样接近一半下降空间 —— 本期未动，因涉及 6 个页面 import 方式改动，风险量不同。</li>
+        <li><strong>尚未发布线上</strong>。<code>dist/</code> 仍是旧产物，新构建在 <code>dist-after-element/</code>。发布前建议上线比对一轮公网首屏（此前记录约 10.3s）确认收益。</li>
+        <li>触控口径本期已变更，<strong>历史报告不可与新报告直接相减</strong>，跨期对比请统一用 [触屏]/[鼠标] 标注后的数据。</li>
+      </ul>
+
+      <div class="footer">完整报告见 <code>docs/前端响应式与交互二期报告.md</code>　·　原始实测数据见 <code>.audit/final/report.json</code></div>
+    </div>
+
+    <script>
+      document.querySelectorAll('.tab').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('on') })
+          document.querySelectorAll('.shot-group').forEach(function (g) { g.classList.remove('on') })
+          btn.classList.add('on')
+          document.getElementById(btn.dataset.g).classList.add('on')
+        })
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "blender": "5.2.2 LTS",
+  "durationSeconds": 12.71,
+  "assets": [
+    {
+      "theme": "room",
+      "blend": "outputs\\blender-models\\care-room.blend",
+      "glb": "public\\models\\care-room.glb",
+      "bytes": 1513968,
+      "triangles": 36928,
+      "meshes": 9
+    },
+    {
+      "theme": "corridor",
+      "blend": "outputs\\blender-models\\care-corridor.blend",
+      "glb": "public\\models\\care-corridor.glb",
+      "bytes": 1054616,
+      "triangles": 24784,
+      "meshes": 6
+    },
+    {
+      "theme": "dining",
+      "blend": "outputs\\blender-models\\care-dining.blend",
+      "glb": "public\\models\\care-dining.glb",
+      "bytes": 1118196,
+      "triangles": 26664,
+      "meshes": 9
+    },
+    {
+      "theme": "nursing",
+      "blend": "outputs\\blender-models\\care-nursing.blend",
+      "glb": "public\\models\\care-nursing.glb",
+      "bytes": 1222396,
+      "triangles": 30668,
+      "meshes": 6
+    },
+    {
+      "theme": "rehab",
+      "blend": "outputs\\blender-models\\care-rehab.blend",
+      "glb": "public\\models\\care-rehab.glb",
+      "bytes": 1009140,
+      "triangles": 23292,
+      "meshes": 5
+    }
+  ]
+}

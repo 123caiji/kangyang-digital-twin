@@ -1,13 +1,25 @@
 {
-  "at": "2026-09-28T15:37:57.884Z",
+  "at": "2026-09-29T07:00:01.582Z",
   "base": "http://127.0.0.1:5173",
   "results": [
+    {
+      "path": "/overview",
+      "name": "园区总览",
+      "expect": "canvas",
+      "rendered": true,
+      "elCount": 156,
+      "title": "园区总览",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
     {
       "path": "/dashboard",
       "name": "康养孪生大屏",
       "expect": "canvas",
       "rendered": true,
-      "elCount": 91,
+      "elCount": 99,
       "title": "",
       "overflow": 0,
       "webgl": true,
@@ -19,7 +31,7 @@
       "name": "健康监测",
       "expect": "canvas",
       "rendered": true,
-      "elCount": 174,
+      "elCount": 188,
       "title": "健康监测图表",
       "overflow": 0,
       "webgl": false,
@@ -31,7 +43,7 @@
       "name": "护理分析",
       "expect": "canvas",
       "rendered": true,
-      "elCount": 131,
+      "elCount": 145,
       "title": "护理分析图表",
       "overflow": 0,
       "webgl": false,
@@ -43,7 +55,7 @@
       "name": "空间关系",
       "expect": "canvas",
       "rendered": true,
-      "elCount": 131,
+      "elCount": 145,
       "title": "空间关系图谱",
       "overflow": 0,
       "webgl": false,
@@ -55,7 +67,7 @@
       "name": "数据管理",
       "expect": "table, .card-list",
       "rendered": true,
-      "elCount": 543,
+      "elCount": 557,
       "title": "数据管理",
       "overflow": 0,
       "webgl": false,
@@ -67,7 +79,7 @@
       "name": "用户管理",
       "expect": "table, .card-list",
       "rendered": true,
-      "elCount": 224,
+      "elCount": 238,
       "title": "用户管理",
       "overflow": 0,
       "webgl": false,
@@ -79,7 +91,7 @@
       "name": "样式设置",
       "expect": ".preview-box",
       "rendered": true,
-      "elCount": 191,
+      "elCount": 205,
       "title": "系统样式",
       "overflow": 0,
       "webgl": false,
@@ -91,7 +103,7 @@
       "name": "数据库设置",
       "expect": "table, .card-list",
       "rendered": true,
-      "elCount": 161,
+      "elCount": 175,
       "title": "数据库连接",
       "overflow": 0,
       "webgl": false,
@@ -103,13 +115,121 @@
       "name": "健康预测",
       "expect": ".layout",
       "rendered": true,
-      "elCount": 312,
+      "elCount": 326,
       "title": "健康预测",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/devices",
+      "name": "IoT设备管理",
+      "expect": "table, .card-list",
+      "rendered": true,
+      "elCount": 526,
+      "title": "IoT设备管理",
+      "overflow": 0,
+      "webgl": false,
+      "ok": true,
+      "newErrors": []
+    },
+    {
+      "path": "/audit",
+      "name": "安全审计日志",
+      "expect": "table, .card-list",
+      "rendered": true,
+      "elCount": 327,
+      "title": "安全审计日志",
       "overflow": 0,
       "webgl": false,
       "ok": true,
       "newErrors": []
     }
   ],
-  "errors": []
+  "overlays": [
+    {
+      "path": "/users",
+      "clickText": "新增用户",
+      "wait": ".el-dialog",
+      "name": "用户管理 · 新增弹窗",
+      "ok": true,
+      "inner": {
+        "width": 560,
+        "height": 466,
+        "inputs": 6,
+        "formItems": 6,
+        "menuItems": 0,
+        "buttons": 2
+      },
+      "unsatisfied": []
+    },
+    {
+      "path": "/db",
+      "clickText": "新增连接",
+      "wait": ".el-dialog",
+      "name": "数据库设置 · 新增弹窗",
+      "ok": true,
+      "inner": {
+        "width": 560,
+        "height": 538,
+        "inputs": 12,
+        "formItems": 8,
+        "menuItems": 0,
+        "buttons": 2
+      },
+      "unsatisfied": []
+    },
+    {
+      "path": "/data",
+      "clickText": "新增",
+      "wait": ".el-dialog",
+      "name": "数据管理 · 新增弹窗",
+      "ok": true,
+      "inner": {
+        "width": 560,
+        "height": 694,
+        "inputs": 22,
+        "formItems": 11,
+        "menuItems": 0,
+        "buttons": 2
+      },
+      "unsatisfied": []
+    },
+    {
+      "path": "/devices",
+      "clickText": "注册设备",
+      "wait": ".el-dialog",
+      "name": "IoT设备 · 注册弹窗",
+      "ok": true,
+      "inner": {
+        "width": 520,
+        "height": 434,
+        "inputs": 10,
+        "formItems": 6,
+        "menuItems": 0,
+        "buttons": 2
+      },
+      "unsatisfied": []
+    },
+    {
+      "path": "/users",
+      "viewport": 375,
+      "tap": ".hamburger",
+      "wait": ".el-drawer",
+      "name": "移动端导航抽屉",
+      "ok": true,
+      "inner": {
+        "width": 268,
+        "height": 812,
+        "inputs": 0,
+        "formItems": 0,
+        "menuItems": 12,
+        "buttons": 1
+      },
+      "unsatisfied": []
+    }
+  ],
+  "errors": [],
+  "missingComponents": []
 }

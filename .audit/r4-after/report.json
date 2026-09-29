@@ -1,0 +1,2496 @@
+{
+  "tag": "r4-after",
+  "base": "http://127.0.0.1:5173",
+  "at": "2026-09-29T06:45:42.390Z",
+  "results": [
+    {
+      "viewport": 375,
+      "page": "/overview",
+      "name": "overview",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 411,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 375,
+        "h": 422,
+        "ctxOk": true
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/dashboard",
+      "name": "dashboard",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 664,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 7,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": true,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 375,
+        "h": 356,
+        "ctxOk": true
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 3196,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 329,
+        "h": 232,
+        "ctxOk": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 2360,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 329,
+        "h": 252,
+        "ctxOk": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 2880,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 329,
+        "h": 292,
+        "ctxOk": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/data",
+      "name": "data-manage",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 4900,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/users",
+      "name": "user-manage",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 360,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/style",
+      "name": "style-settings",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 333,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/db",
+      "name": "db-settings",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/predict",
+      "name": "predict",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 503,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/devices",
+      "name": "device-manage",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 4493,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 375,
+      "page": "/audit",
+      "name": "audit-log",
+      "vp": {
+        "w": 375,
+        "h": 812
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 545,
+      "scrollerCount": 1,
+      "docScrollWidth": 375,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/overview",
+      "name": "overview",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": true,
+        "w": 704,
+        "h": 972,
+        "ctxOk": true
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/dashboard",
+      "name": "dashboard",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 566,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": true,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 768,
+        "h": 470,
+        "ctxOk": true
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 3394,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": true,
+        "w": 641,
+        "h": 272,
+        "ctxOk": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 2772,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": true,
+        "w": 641,
+        "h": 312,
+        "ctxOk": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 3092,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": true,
+        "w": 641,
+        "h": 332,
+        "ctxOk": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/data",
+      "name": "data-manage",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 183,
+      "clippedOverflowCount": 29,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/users",
+      "name": "user-manage",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 28,
+      "clippedOverflowCount": 11,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/style",
+      "name": "style-settings",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 224,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/db",
+      "name": "db-settings",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 16,
+      "clippedOverflowCount": 14,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/predict",
+      "name": "predict",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 255,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/devices",
+      "name": "device-manage",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 649,
+      "scrollerCount": 1,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 85,
+      "clippedOverflowCount": 11,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 768,
+      "page": "/audit",
+      "name": "audit-log",
+      "vp": {
+        "w": 768,
+        "h": 1024
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 768,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 21,
+      "clippedOverflowCount": 13,
+      "smallTapTargets": 0,
+      "smallTapSample": [],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 64,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": true,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/overview",
+      "name": "overview",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 11,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.active",
+          "w": 47,
+          "h": 32
+        },
+        {
+          "sel": "button",
+          "w": 44,
+          "h": 32
+        },
+        {
+          "sel": "button.floor-row",
+          "w": 238,
+          "h": 31
+        },
+        {
+          "sel": "button.floor-row",
+          "w": 238,
+          "h": 31
+        },
+        {
+          "sel": "button.floor-row",
+          "w": 238,
+          "h": 31
+        },
+        {
+          "sel": "button.watch-row",
+          "w": 238,
+          "h": 28
+        },
+        {
+          "sel": "button.watch-row",
+          "w": 238,
+          "h": 28
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 804,
+        "h": 716,
+        "ctxOk": true
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/dashboard",
+      "name": "dashboard",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 674,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 6,
+      "smallTapSample": [
+        {
+          "sel": "button.active",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button.link",
+          "w": 66,
+          "h": 36
+        },
+        {
+          "sel": "button.link.active",
+          "w": 57,
+          "h": 36
+        },
+        {
+          "sel": "button.link.danger",
+          "w": 42,
+          "h": 36
+        },
+        {
+          "sel": "button.iot-sim-btn",
+          "w": 970,
+          "h": 35
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": true,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 1024,
+        "h": 352,
+        "ctxOk": true
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 3635,
+      "scrollerCount": 2,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 3,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.active",
+          "w": 74,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 91,
+          "h": 31
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 738,
+        "h": 272,
+        "ctxOk": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 3026,
+      "scrollerCount": 2,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 738,
+        "h": 312,
+        "ctxOk": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 3346,
+      "scrollerCount": 2,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 738,
+        "h": 332,
+        "ctxOk": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/data",
+      "name": "data-manage",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 162,
+      "clippedOverflowCount": 26,
+      "smallTapTargets": 36,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-select.filter-select",
+          "w": 180,
+          "h": 32
+        },
+        {
+          "sel": "div.el-select__wrapper.el-tooltip__trigger",
+          "w": 180,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-6011-5.el-select__input",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "sel": "div.el-input.el-input--suffix",
+          "w": 220,
+          "h": 32
+        },
+        {
+          "sel": "div.el-input__wrapper",
+          "w": 220,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-6011-6.el-input__inner",
+          "w": 176,
+          "h": 30
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 60,
+          "h": 32
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/users",
+      "name": "user-manage",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 15,
+      "clippedOverflowCount": 8,
+      "smallTapTargets": 8,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/style",
+      "name": "style-settings",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 29,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-input",
+          "w": 359,
+          "h": 32
+        },
+        {
+          "sel": "div.el-input__wrapper",
+          "w": 359,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-3444-27.el-input__inner",
+          "w": 337,
+          "h": 30
+        },
+        {
+          "sel": "div.el-input",
+          "w": 359,
+          "h": 32
+        },
+        {
+          "sel": "div.el-input__wrapper",
+          "w": 359,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-3444-28.el-input__inner",
+          "w": 337,
+          "h": 30
+        },
+        {
+          "sel": "div#el-id-3444-30.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/db",
+      "name": "db-settings",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 13,
+      "clippedOverflowCount": 11,
+      "smallTapTargets": 5,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.is-link",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/predict",
+      "name": "predict",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 28,
+      "scrollerCount": 2,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 1,
+      "clippedOverflowCount": 13,
+      "smallTapTargets": 66,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-select.full",
+          "w": 410,
+          "h": 32
+        },
+        {
+          "sel": "div.el-select__wrapper.el-tooltip__trigger",
+          "w": 410,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-2642-30.el-select__input",
+          "w": 188,
+          "h": 24
+        },
+        {
+          "sel": "div.el-slider.el-slider--with-input",
+          "w": 410,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-2642-32.el-slider__button-wrapper",
+          "w": 36,
+          "h": 36
+        },
+        {
+          "sel": "div.el-input-number.is-center",
+          "w": 130,
+          "h": 32
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/devices",
+      "name": "device-manage",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 402,
+      "scrollerCount": 2,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 45,
+      "clippedOverflowCount": 8,
+      "smallTapTargets": 42,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 100,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--warning",
+          "w": 71,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--warning",
+          "w": 71,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1024,
+      "page": "/audit",
+      "name": "audit-log",
+      "vp": {
+        "w": 1024,
+        "h": 768
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 1,
+      "docScrollWidth": 1024,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 21,
+      "clippedOverflowCount": 13,
+      "smallTapTargets": 11,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-select.filter-select",
+          "w": 168,
+          "h": 32
+        },
+        {
+          "sel": "div.el-select__wrapper.el-tooltip__trigger",
+          "w": 168,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-1168-10.el-select__input",
+          "w": 124,
+          "h": 24
+        },
+        {
+          "sel": "input#el-id-1168-11.el-select__input",
+          "w": 84,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.caret-wrapper",
+          "w": 24,
+          "h": 14
+        },
+        {
+          "sel": "li.is-active.number",
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/overview",
+      "name": "overview",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 11,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.active",
+          "w": 47,
+          "h": 32
+        },
+        {
+          "sel": "button",
+          "w": 44,
+          "h": 32
+        },
+        {
+          "sel": "button.floor-row",
+          "w": 238,
+          "h": 31
+        },
+        {
+          "sel": "button.floor-row",
+          "w": 238,
+          "h": 31
+        },
+        {
+          "sel": "button.floor-row",
+          "w": 238,
+          "h": 31
+        },
+        {
+          "sel": "button.watch-row",
+          "w": 238,
+          "h": 28
+        },
+        {
+          "sel": "button.watch-row",
+          "w": 238,
+          "h": 28
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 1220,
+        "h": 848,
+        "ctxOk": true
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/dashboard",
+      "name": "dashboard",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 23,
+      "scrollerCount": 1,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 7,
+      "smallTapSample": [
+        {
+          "sel": "button.active",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 66,
+          "h": 31
+        },
+        {
+          "sel": "button.link",
+          "w": 66,
+          "h": 27
+        },
+        {
+          "sel": "button.link.active",
+          "w": 57,
+          "h": 27
+        },
+        {
+          "sel": "button.link",
+          "w": 66,
+          "h": 27
+        },
+        {
+          "sel": "button.link.danger",
+          "w": 42,
+          "h": 27
+        },
+        {
+          "sel": "button.iot-sim-btn",
+          "w": 270,
+          "h": 35
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": true,
+      "sidebarVisible": false,
+      "sidebarWidth": 0,
+      "webglCanvas": {
+        "present": true,
+        "w": 1440,
+        "h": 900,
+        "ctxOk": true
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 1,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/charts/ops",
+      "name": "charts-ops",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 1376,
+      "scrollerCount": 1,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 3,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.active",
+          "w": 74,
+          "h": 31
+        },
+        {
+          "sel": "button",
+          "w": 91,
+          "h": 31
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 557,
+        "h": 272,
+        "ctxOk": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 12,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/charts/analysis",
+      "name": "charts-analysis",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 1024,
+      "scrollerCount": 1,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 557,
+        "h": 312,
+        "ctxOk": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 15,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/charts/advanced",
+      "name": "charts-advanced",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 2032,
+      "scrollerCount": 1,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 1,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": true,
+        "w": 557,
+        "h": 332,
+        "ctxOk": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 14,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/data",
+      "name": "data-manage",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 99,
+      "clippedOverflowCount": 17,
+      "smallTapTargets": 35,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-select.filter-select",
+          "w": 180,
+          "h": 32
+        },
+        {
+          "sel": "div.el-select__wrapper.el-tooltip__trigger",
+          "w": 180,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-1532-5.el-select__input",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "sel": "div.el-input.el-input--suffix",
+          "w": 220,
+          "h": 32
+        },
+        {
+          "sel": "div.el-input__wrapper",
+          "w": 220,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-1532-6.el-input__inner",
+          "w": 176,
+          "h": 30
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 60,
+          "h": 32
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/users",
+      "name": "user-manage",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 8,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/style",
+      "name": "style-settings",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 29,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-input",
+          "w": 577,
+          "h": 32
+        },
+        {
+          "sel": "div.el-input__wrapper",
+          "w": 577,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-3723-27.el-input__inner",
+          "w": 555,
+          "h": 30
+        },
+        {
+          "sel": "div.el-input",
+          "w": 577,
+          "h": 32
+        },
+        {
+          "sel": "div.el-input__wrapper",
+          "w": 577,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-3723-28.el-input__inner",
+          "w": 555,
+          "h": 30
+        },
+        {
+          "sel": "div#el-id-3723-30.el-color-picker.el-tooltip__trigger",
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/db",
+      "name": "db-settings",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 5,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 88,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.is-link",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/predict",
+      "name": "predict",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 66,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-select.full",
+          "w": 410,
+          "h": 32
+        },
+        {
+          "sel": "div.el-select__wrapper.el-tooltip__trigger",
+          "w": 410,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-7982-30.el-select__input",
+          "w": 188,
+          "h": 24
+        },
+        {
+          "sel": "div.el-slider.el-slider--with-input",
+          "w": 410,
+          "h": 32
+        },
+        {
+          "sel": "div#el-id-7982-32.el-slider__button-wrapper",
+          "w": 36,
+          "h": 36
+        },
+        {
+          "sel": "div.el-input-number.is-center",
+          "w": 130,
+          "h": 32
+        },
+        {
+          "sel": "span.el-input-number__decrease",
+          "w": 32,
+          "h": 30
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/devices",
+      "name": "device-manage",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 270,
+      "scrollerCount": 1,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 42,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 100,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--warning",
+          "w": 71,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--danger",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button.el-button--warning",
+          "w": 71,
+          "h": 24
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    },
+    {
+      "viewport": 1440,
+      "page": "/audit",
+      "name": "audit-log",
+      "vp": {
+        "w": 1440,
+        "h": 900
+      },
+      "unreachableUnlocked": 0,
+      "unreachableLocked": 0,
+      "scrollerCount": 0,
+      "docScrollWidth": 1440,
+      "hOverflow": 0,
+      "bodyOverflowY": "hidden",
+      "overflowers": [],
+      "overflowCount": 0,
+      "scrollableOverflowCount": 0,
+      "clippedOverflowCount": 0,
+      "smallTapTargets": 11,
+      "smallTapSample": [
+        {
+          "sel": "button.el-button.el-button--primary",
+          "w": 34,
+          "h": 24
+        },
+        {
+          "sel": "div.el-select.filter-select",
+          "w": 168,
+          "h": 32
+        },
+        {
+          "sel": "div.el-select__wrapper.el-tooltip__trigger",
+          "w": 168,
+          "h": 32
+        },
+        {
+          "sel": "input#el-id-9191-10.el-select__input",
+          "w": 124,
+          "h": 24
+        },
+        {
+          "sel": "input#el-id-9191-11.el-select__input",
+          "w": 84,
+          "h": 24
+        },
+        {
+          "sel": "button.el-button",
+          "w": 60,
+          "h": 32
+        },
+        {
+          "sel": "button.caret-wrapper",
+          "w": 24,
+          "h": 14
+        },
+        {
+          "sel": "li.is-active.number",
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "coveredCount": 0,
+      "coveredSample": [],
+      "contentScrollable": false,
+      "hasHamburger": false,
+      "sidebarVisible": true,
+      "sidebarWidth": 220,
+      "webglCanvas": {
+        "present": false
+      },
+      "pointerCoarse": false,
+      "reducedMotion": false,
+      "chartCount": 0,
+      "elDialogWidths": [],
+      "ok": true
+    }
+  ]
+}

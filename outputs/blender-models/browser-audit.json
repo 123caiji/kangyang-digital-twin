@@ -1,0 +1,75 @@
+{
+  "results": [
+    {
+      "test": "theme",
+      "theme": "room",
+      "source": "blender-glb",
+      "actors": 2,
+      "triangles": 81584,
+      "calls": 160,
+      "pickables": 71
+    },
+    {
+      "test": "theme",
+      "theme": "corridor",
+      "source": "blender-glb",
+      "actors": 2,
+      "triangles": 58976,
+      "calls": 166,
+      "pickables": 55
+    },
+    {
+      "test": "theme",
+      "theme": "dining",
+      "source": "blender-glb",
+      "actors": 2,
+      "triangles": 61104,
+      "calls": 158,
+      "pickables": 70
+    },
+    {
+      "test": "theme",
+      "theme": "nursing",
+      "source": "blender-glb",
+      "actors": 2,
+      "triangles": 70744,
+      "calls": 174,
+      "pickables": 59
+    },
+    {
+      "test": "theme",
+      "theme": "rehab",
+      "source": "blender-glb",
+      "actors": 2,
+      "triangles": 54360,
+      "calls": 126,
+      "pickables": 54
+    },
+    {
+      "test": "empty-room",
+      "ok": true
+    },
+    {
+      "test": "pause-skeleton",
+      "ok": true
+    },
+    {
+      "test": "glb-pick",
+      "ok": true,
+      "name": "1号电动护理床"
+    },
+    {
+      "test": "mobile",
+      "overflow": false
+    },
+    {
+      "test": "rapid-theme-switch",
+      "ok": true
+    },
+    {
+      "test": "asset-failure-fallback",
+      "ok": true
+    }
+  ],
+  "errors": []
+}

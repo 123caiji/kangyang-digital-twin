@@ -1,0 +1,37 @@
+[
+  {
+    "file": "care-corridor.blend",
+    "editableObjects": 99,
+    "embeddedImages": 4,
+    "semanticNodes": 5,
+    "generator": "Khronos glTF Blender I/O v5.2.40"
+  },
+  {
+    "file": "care-dining.blend",
+    "editableObjects": 136,
+    "embeddedImages": 4,
+    "semanticNodes": 8,
+    "generator": "Khronos glTF Blender I/O v5.2.40"
+  },
+  {
+    "file": "care-nursing.blend",
+    "editableObjects": 129,
+    "embeddedImages": 4,
+    "semanticNodes": 5,
+    "generator": "Khronos glTF Blender I/O v5.2.40"
+  },
+  {
+    "file": "care-rehab.blend",
+    "editableObjects": 99,
+    "embeddedImages": 4,
+    "semanticNodes": 4,
+    "generator": "Khronos glTF Blender I/O v5.2.40"
+  },
+  {
+    "file": "care-room.blend",
+    "editableObjects": 168,
+    "embeddedImages": 5,
+    "semanticNodes": 8,
+    "generator": "Khronos glTF Blender I/O v5.2.40"
+  }
+]

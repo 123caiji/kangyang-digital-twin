@@ -28,6 +28,7 @@ export default defineConfig({
     // ⚠️ 与 Element Plus 组件清单同步维护，见 src/plugins/element.js。
     optimizeDeps: {
       include: [
+        'element-plus/es/components/alert/index.mjs',
         'element-plus/es/components/button/index.mjs',
         'element-plus/es/components/checkbox/index.mjs',
         'element-plus/es/components/color-picker/index.mjs',

@@ -24,6 +24,7 @@
 // ============================================================
 
 // ---- 组件 --------------------------------------------------------------
+import ElAlert from 'element-plus/es/components/alert/index.mjs'
 import ElButton from 'element-plus/es/components/button/index.mjs'
 import { ElCheckbox, ElCheckboxGroup } from 'element-plus/es/components/checkbox/index.mjs'
 import ElColorPicker from 'element-plus/es/components/color-picker/index.mjs'
@@ -52,6 +53,7 @@ import ElMessage from 'element-plus/es/components/message/index.mjs'
 import ElMessageBox from 'element-plus/es/components/message-box/index.mjs'
 
 // ---- 逐组件样式 --------------------------------------------------------
+import 'element-plus/es/components/alert/style/css'
 import 'element-plus/es/components/button/style/css'
 import 'element-plus/es/components/checkbox/style/css'
 import 'element-plus/es/components/color-picker/style/css'
@@ -80,6 +82,7 @@ import 'element-plus/es/components/message/style/css'
 import 'element-plus/es/components/message-box/style/css'
 
 const COMPONENTS = [
+  ElAlert,
   ElButton,
   ElCheckbox,
   ElCheckboxGroup,

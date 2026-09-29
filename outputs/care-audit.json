@@ -1,0 +1,250 @@
+{
+  "at": "2026-09-29T00:36:04.931Z",
+  "base": "http://127.0.0.1:5173",
+  "results": [
+    {
+      "width": 1440,
+      "theme": "room",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 122,
+      "triangles": 12732,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "theme": "corridor",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 150,
+      "triangles": 12244,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "theme": "nursing",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 154,
+      "triangles": 12248,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "theme": "dining",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 12172,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "theme": "rehab",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 10636,
+      "overflow": 0
+    },
+    {
+      "width": 1024,
+      "theme": "room",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 122,
+      "triangles": 12732,
+      "overflow": 0
+    },
+    {
+      "width": 1024,
+      "theme": "corridor",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 150,
+      "triangles": 12244,
+      "overflow": 0
+    },
+    {
+      "width": 1024,
+      "theme": "nursing",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 154,
+      "triangles": 12248,
+      "overflow": 0
+    },
+    {
+      "width": 1024,
+      "theme": "dining",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 12172,
+      "overflow": 0
+    },
+    {
+      "width": 1024,
+      "theme": "rehab",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 10636,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "theme": "room",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 122,
+      "triangles": 12732,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "theme": "corridor",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 150,
+      "triangles": 12244,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "theme": "nursing",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 154,
+      "triangles": 12248,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "theme": "dining",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 12172,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "theme": "rehab",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 10636,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "theme": "room",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 122,
+      "triangles": 12732,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "theme": "corridor",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 150,
+      "triangles": 12244,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "theme": "nursing",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 154,
+      "triangles": 12248,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "theme": "dining",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 12172,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "theme": "rehab",
+      "actors": 2,
+      "bones": 32,
+      "particles": 0,
+      "calls": 112,
+      "triangles": 10636,
+      "overflow": 0
+    },
+    {
+      "test": "empty102",
+      "actors": 0
+    },
+    {
+      "test": "pause-skeleton-virtual-control",
+      "ok": true
+    },
+    {
+      "test": "reduced-motion",
+      "ok": true
+    },
+    {
+      "test": "overview-floor-reset-drag",
+      "ok": true
+    },
+    {
+      "test": "overview-panel-floor",
+      "ok": true,
+      "calls": 117
+    },
+    {
+      "test": "overview-watch-focus",
+      "room": "101",
+      "focused": 26
+    },
+    {
+      "test": "touch-toolbar",
+      "ok": true
+    },
+    {
+      "test": "pick-doubleclick",
+      "selected": "张桂芳",
+      "cameraMoved": true
+    },
+    {
+      "test": "theme-switch-room-scope-clear",
+      "ok": true
+    },
+    {
+      "test": "webgl-fallback",
+      "ok": true
+    }
+  ],
+  "errors": []
+}
