@@ -81,44 +81,52 @@ function validateTSL(identifier, value) {
 }
 
 // ============================================================
-// 设备Token认证中间件
-// 支持3种认证方式（按优先级）：
-//   1. Authorization: Bearer <token>  （标准方式）
-//   2. ?token=xxx 查询参数            （阿里云规则引擎URL配置）
-//   3. body.deviceName 匹配设备ID     （最后兜底，弱认证）
+// 设备识别（无需预注册，自动识别）
+// 优先级：token → body.deviceName → body.params.ID → body.ID → 自动注册
 // ============================================================
 function deviceAuth(req, res, next) {
   const header = req.headers.authorization || ''
   let token = header.startsWith('Bearer ') ? header.slice(7) : null
-
-  // 方式2：查询参数
-  if (!token && req.query.token) {
-    token = req.query.token
-  }
+  if (!token && req.query.token) token = req.query.token
 
   if (token) {
     const device = db.prepare('SELECT * FROM iot_devices WHERE device_token = ?').get(token)
-    if (!device || device.status !== 'online') {
-      return res.status(401).json({ code: 401, message: '设备未认证：Token无效或设备已禁用' })
-    }
-    db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
-    req.device = device
-    return next()
-  }
-
-  // 方式3：通过body中的deviceName/deviceId匹配（阿里云规则引擎兜底）
-  const body = req.body || {}
-  const devName = body.deviceName || body.deviceId || (body.params && body.params.ID) || body.ID
-  if (devName) {
-    const device = db.prepare('SELECT * FROM iot_devices WHERE device_id = ?').get(devName)
-    if (device && device.status === 'online') {
+    if (device) {
       db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
       req.device = device
       return next()
     }
   }
 
-  res.status(401).json({ code: 401, message: '设备未认证：缺少Token或设备未注册' })
+  // 通过body中的设备标识匹配
+  const body = req.body || {}
+  const devName = body.deviceName || body.deviceId || (body.params && body.params.ID) || body.ID
+
+  if (devName) {
+    let device = db.prepare('SELECT * FROM iot_devices WHERE device_id = ?').get(devName)
+    if (!device) {
+      // 自动注册设备
+      const device_token = 'dev_' + crypto.randomBytes(24).toString('hex')
+      const info = db.prepare(
+        `INSERT INTO iot_devices (device_id, product_key, device_token, device_name, device_type, status)
+         VALUES (?, ?, ?, ?, ?, 'online')`
+      ).run(devName, PRODUCT_KEY, device_token, devName, 'auto')
+      device = db.prepare('SELECT * FROM iot_devices WHERE id = ?').get(info.lastInsertRowid)
+    }
+    db.prepare('UPDATE iot_devices SET last_seen = datetime(\'now\',\'localtime\') WHERE id = ?').run(device.id)
+    req.device = device
+    return next()
+  }
+
+  // 无任何标识，创建临时设备
+  const tempId = 'auto-' + Date.now()
+  const device_token = 'dev_' + crypto.randomBytes(24).toString('hex')
+  const info = db.prepare(
+    `INSERT INTO iot_devices (device_id, product_key, device_token, device_name, device_type, status)
+     VALUES (?, ?, ?, ?, ?, 'online')`
+  ).run(tempId, PRODUCT_KEY, device_token, tempId, 'auto')
+  req.device = db.prepare('SELECT * FROM iot_devices WHERE id = ?').get(info.lastInsertRowid)
+  next()
 }
 
 // ============================================================
