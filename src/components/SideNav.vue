@@ -61,10 +61,12 @@ const allMenus = [
   { path: '/charts/analysis', title: '护理分析', icon: 'PieChart', perm: 'charts' },
   { path: '/charts/advanced', title: '空间关系', icon: 'Share', perm: 'charts' },
   { path: '/data', title: '数据管理', icon: 'Grid', perm: 'data' },
+  { path: '/devices', title: 'IoT设备管理', icon: 'Cpu', perm: 'users' },
   { path: '/users', title: '用户管理', icon: 'User', perm: 'users' },
+  { path: '/audit', title: '安全审计日志', icon: 'Lock', perm: 'users' },
+  { path: '/predict', title: '健康预测', icon: 'MagicStick', perm: 'predict' },
   { path: '/style', title: '样式设置', icon: 'Brush', perm: 'settings' },
-  { path: '/db', title: '数据库设置', icon: 'Coin', perm: 'db' },
-  { path: '/predict', title: '健康预测', icon: 'MagicStick', perm: 'predict' }
+  { path: '/db', title: '数据库设置', icon: 'Coin', perm: 'db' }
 ]
 
 const menus = computed(() => allMenus.filter((m) => userStore.hasPerm(m.perm)))

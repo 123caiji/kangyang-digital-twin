@@ -73,6 +73,18 @@ const routes = [
         name: 'Predict',
         component: () => import('@/views/Predict.vue'),
         meta: { title: '健康预测', perm: 'predict' }
+      },
+      {
+        path: 'devices',
+        name: 'DeviceManage',
+        component: () => import('@/views/DeviceManage.vue'),
+        meta: { title: 'IoT设备管理', perm: 'users' }
+      },
+      {
+        path: 'audit',
+        name: 'AuditLog',
+        component: () => import('@/views/AuditLog.vue'),
+        meta: { title: '安全审计日志', perm: 'users' }
       }
     ]
   }
