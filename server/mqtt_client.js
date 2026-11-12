@@ -1,3 +1,4 @@
+require('./env') // 加载 server/.env，凭据从环境变量读取
 const mqtt = require('mqtt')
 const crypto = require('crypto')
 const http = require('http')
