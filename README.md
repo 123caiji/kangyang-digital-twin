@@ -59,6 +59,16 @@ npm run dev
 
 ## 环境变量
 
+阿里云 IoT 接入（`server/mqtt_client.js` / `server/routes/iot.js`）额外需要三项：
+
+| 变量 | 说明 |
+| --- | --- |
+| `ALIYUN_IOT_PRODUCT_KEY` | 阿里云 IoT 产品 ProductKey |
+| `ALIYUN_IOT_DEVICE_NAME` | 设备名 |
+| `ALIYUN_IOT_DEVICE_SECRET` | 设备密钥（一机一密） |
+
+这三项不再硬编码在代码里；历史版本里出现过的旧凭据请在阿里云控制台作废。
+
 所有配置集中在 `server/.env`（**该文件已被 .gitignore 忽略，不会进入仓库**）。
 `server/env.js` 是一个零依赖的 .env 加载器，在 `server/index.js` 首行执行；
 已存在的进程环境变量优先级更高，因此部署时可用 systemd / pm2 直接注入而不改文件。
