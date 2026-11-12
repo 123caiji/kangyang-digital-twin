@@ -4,7 +4,7 @@ const db = require('../db')
 const { auth, requireRole, requirePerm } = require('../middleware/auth')
 
 const router = express.Router()
-const PRODUCT_KEY = 'REDACTED_PRODUCT_KEY'
+const PRODUCT_KEY = process.env.ALIYUN_IOT_PRODUCT_KEY || ''
 
 // ============================================================
 // TSL 物模型字段映射 + 范围校验规则（来自真实物模型 specs）
