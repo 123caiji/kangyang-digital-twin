@@ -554,7 +554,7 @@ function seed() {
     for (let i = 0; i < residents.length; i++) {
       const r = residents[i]
       ins.run(
-        `health-${i + 1}`, 'REDACTED_PRODUCT_KEY', genToken(),
+        `health-${i + 1}`, process.env.ALIYUN_IOT_PRODUCT_KEY || '', genToken(),
         `${r.name}健康监测仪`, 'health_monitor', r.room_no, r.id, null, 'online'
       )
     }
@@ -562,20 +562,20 @@ function seed() {
     // 室内环境设备（绑定房间）
     for (let i = 0; i < rooms.length; i++) {
       ins.run(
-        `room-env-${i + 1}`, 'REDACTED_PRODUCT_KEY', genToken(),
+        `room-env-${i + 1}`, process.env.ALIYUN_IOT_PRODUCT_KEY || '', genToken(),
         `${rooms[i].room_no}环境监测`, 'environment', rooms[i].room_no, null, null, 'online'
       )
     }
 
     // 室外气象站
     ins.run(
-      'weather-station-1', 'REDACTED_PRODUCT_KEY', genToken(),
+      'weather-station-1', process.env.ALIYUN_IOT_PRODUCT_KEY || '', genToken(),
       '室外气象站', 'weather', null, null, null, 'online'
     )
 
     // 土壤监测设备
     ins.run(
-      'soil-monitor-a', 'REDACTED_PRODUCT_KEY', genToken(),
+      'soil-monitor-a', process.env.ALIYUN_IOT_PRODUCT_KEY || '', genToken(),
       '康养花园A区土壤监测', 'soil', null, null, '康养花园A区', 'online'
     )
   }
