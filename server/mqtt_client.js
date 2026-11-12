@@ -5,10 +5,12 @@ const http = require('http')
 // ============================
 // 配置
 // ============================
+// 凭据一律从环境变量读取，不要写进仓库。
+// 本地请在 server/.env 里配置 ALIYUN_IOT_PRODUCT_KEY / ALIYUN_IOT_DEVICE_NAME / ALIYUN_IOT_DEVICE_SECRET
 const CONFIG = {
-  productKey: 'product-key-0001',
-  deviceName: 'device-001',
-  deviceSecret: 'REPLACED_SECRET',
+  productKey: process.env.ALIYUN_IOT_PRODUCT_KEY || '',
+  deviceName: process.env.ALIYUN_IOT_DEVICE_NAME || '',
+  deviceSecret: process.env.ALIYUN_IOT_DEVICE_SECRET || '',
   apiHost: '127.0.0.1',
   apiPort: 3001,
   apiPath: '/api/iot/report',
